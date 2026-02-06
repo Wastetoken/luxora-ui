@@ -1,29 +1,32 @@
 import { HorizonHero } from "@/components/repo/horizon-hero-section";
 
 const horizonStyles = `
-  .hero-container {
+  .horizon-demo-wrapper {
     position: relative;
     width: 100%;
-    height: 300vh;
+    height: 100%;
+    overflow: auto;
+  }
+  .horizon-demo-wrapper .hero-container {
+    position: relative;
+    width: 100%;
+    min-height: 300vh;
     overflow: hidden;
-    background: #000;
+    background: linear-gradient(180deg, #000 0%, #0a0a1a 100%);
     color: white;
   }
-  .hero-container.cosmos-style {
-    background: linear-gradient(180deg, #000 0%, #0a0a1a 100%);
-  }
-  .hero-canvas {
+  .horizon-demo-wrapper .hero-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
+    pointer-events: none;
   }
-  .hero-content {
-    position: fixed;
+  .horizon-demo-wrapper .hero-content {
+    position: sticky;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -33,11 +36,11 @@ const horizonStyles = `
     z-index: 10;
     pointer-events: none;
   }
-  .hero-content.cosmos-content {
+  .horizon-demo-wrapper .hero-content.cosmos-content {
     text-align: center;
   }
-  .hero-title {
-    font-size: clamp(3rem, 10vw, 8rem);
+  .horizon-demo-wrapper .hero-title {
+    font-size: clamp(2rem, 8vw, 6rem);
     font-weight: 900;
     letter-spacing: -0.03em;
     line-height: 0.9;
@@ -45,22 +48,22 @@ const horizonStyles = `
     text-transform: uppercase;
     color: white;
   }
-  .title-char {
+  .horizon-demo-wrapper .title-char {
     display: inline-block;
   }
-  .hero-subtitle {
+  .horizon-demo-wrapper .hero-subtitle {
     margin-top: 1.5rem;
     opacity: 0.7;
   }
-  .hero-subtitle.cosmos-subtitle {
+  .horizon-demo-wrapper .hero-subtitle.cosmos-subtitle {
     text-align: center;
   }
-  .subtitle-line {
-    font-size: clamp(0.875rem, 2vw, 1.25rem);
+  .horizon-demo-wrapper .subtitle-line {
+    font-size: clamp(0.75rem, 1.5vw, 1rem);
     margin: 0.25rem 0;
     color: rgba(255, 255, 255, 0.6);
   }
-  .side-menu {
+  .horizon-demo-wrapper .side-menu {
     position: fixed;
     left: 2rem;
     top: 50%;
@@ -71,18 +74,18 @@ const horizonStyles = `
     align-items: center;
     gap: 1.5rem;
   }
-  .menu-icon {
+  .horizon-demo-wrapper .menu-icon {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
-  .menu-icon span {
+  .horizon-demo-wrapper .menu-icon span {
     display: block;
     width: 20px;
     height: 2px;
     background: rgba(255, 255, 255, 0.6);
   }
-  .vertical-text {
+  .horizon-demo-wrapper .vertical-text {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     font-size: 0.65rem;
@@ -90,7 +93,7 @@ const horizonStyles = `
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
   }
-  .scroll-progress {
+  .horizon-demo-wrapper .scroll-progress {
     position: fixed;
     bottom: 2rem;
     left: 50%;
@@ -104,26 +107,26 @@ const horizonStyles = `
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.5);
   }
-  .progress-track {
+  .horizon-demo-wrapper .progress-track {
     width: 100px;
     height: 2px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 1px;
     overflow: hidden;
   }
-  .progress-fill {
+  .horizon-demo-wrapper .progress-fill {
     height: 100%;
     background: rgba(255, 255, 255, 0.6);
     transition: width 0.1s ease;
   }
-  .section-counter {
+  .horizon-demo-wrapper .section-counter {
     font-variant-numeric: tabular-nums;
   }
-  .scroll-sections {
+  .horizon-demo-wrapper .scroll-sections {
     position: relative;
     z-index: 5;
   }
-  .content-section {
+  .horizon-demo-wrapper .content-section {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -139,7 +142,7 @@ const horizonStyles = `
 
 const HorizonHeroDemo = () => {
   return (
-    <div className="w-full h-full bg-black overflow-auto relative">
+    <div className="horizon-demo-wrapper">
       <style>{horizonStyles}</style>
       <HorizonHero />
     </div>

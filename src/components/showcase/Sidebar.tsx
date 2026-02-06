@@ -1,9 +1,10 @@
-import { Search } from "lucide-react";
+import { Search, ArrowLeft } from "lucide-react";
 
 interface SidebarProps {
   components: { id: string; name: string; category: string }[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onDeselect: () => void;
   searchQuery: string;
   onSearch: (query: string) => void;
 }
@@ -23,6 +24,7 @@ export const Sidebar = ({
   components,
   selectedId,
   onSelect,
+  onDeselect,
   searchQuery,
   onSearch,
 }: SidebarProps) => {
@@ -42,9 +44,20 @@ export const Sidebar = ({
   return (
     <aside className="w-64 h-screen flex flex-col bg-sidebar border-r border-sidebar-border shrink-0">
       <div className="p-4 border-b border-sidebar-border">
-        <h2 className="text-sm font-semibold text-foreground tracking-wide mb-3">
-          Component Library
-        </h2>
+        <div className="flex items-center gap-2 mb-3">
+          {selectedId && (
+            <button
+              onClick={onDeselect}
+              className="p-1 rounded-md hover:bg-sidebar-accent text-muted-foreground hover:text-foreground transition-colors"
+              title="Back to home"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+          )}
+          <h2 className="text-sm font-semibold text-foreground tracking-wide">
+            Component Library
+          </h2>
+        </div>
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
           <input

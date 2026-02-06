@@ -30,6 +30,10 @@ const Index = () => {
           setSelectedId(id);
           setShowCode(false);
         }}
+        onDeselect={() => {
+          setSelectedId(null);
+          setShowCode(false);
+        }}
         searchQuery={searchQuery}
         onSearch={setSearchQuery}
       />
