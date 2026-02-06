@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { Code, Eye } from "lucide-react";
 import { CodeViewer } from "./CodeViewer";
+import { ComponentErrorBoundary } from "./ErrorBoundary";
 import type { ComponentEntry } from "@/lib/component-registry";
 
 interface ComponentDisplayProps {
@@ -64,9 +65,11 @@ export const ComponentDisplay = ({
                 </div>
               }
             >
-              <div key={entry.id} className="w-full h-full relative">
-                <Component />
-              </div>
+              <ComponentErrorBoundary componentName={entry.name}>
+                <div key={entry.id} className="w-full h-full relative">
+                  <Component />
+                </div>
+              </ComponentErrorBoundary>
             </Suspense>
           </div>
         )}
