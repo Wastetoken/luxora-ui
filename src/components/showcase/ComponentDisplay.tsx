@@ -57,7 +57,15 @@ export const ComponentDisplay = ({
         {showCode ? (
           <CodeViewer sourceFile={entry.sourceFile} onClose={onCloseCode} />
         ) : (
-          <div className="h-full rounded-lg border border-showcase-border bg-showcase-surface overflow-auto">
+          <div
+            className="h-full rounded-lg border border-showcase-border bg-showcase-surface overflow-auto"
+            style={{
+              /* transform creates a new containing block for position:fixed children,
+                 keeping them trapped inside this container instead of going fullscreen */
+              transform: "translateZ(0)",
+              isolation: "isolate",
+            }}
+          >
             <Suspense
               fallback={
                 <div className="flex items-center justify-center h-full">
