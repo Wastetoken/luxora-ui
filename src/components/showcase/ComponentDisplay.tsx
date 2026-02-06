@@ -54,7 +54,7 @@ export const ComponentDisplay = ({
       {/* Content */}
       <div className="flex-1 overflow-hidden p-6">
         {showCode ? (
-          <CodeViewer code={entry.code} onClose={onCloseCode} />
+          <CodeViewer sourceFile={entry.sourceFile} onClose={onCloseCode} />
         ) : (
           <div className="h-full rounded-lg border border-showcase-border bg-showcase-surface overflow-auto">
             <Suspense

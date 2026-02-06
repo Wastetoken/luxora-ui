@@ -1,7 +1,8 @@
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
 interface CodeViewerProps {
-  code: string;
+  sourceFile: string;
   onClose: () => void;
 }
 
@@ -72,12 +73,36 @@ const highlightSyntax = (code: string): string => {
   return highlighted;
 };
 
-export const CodeViewer = ({ code, onClose }: CodeViewerProps) => {
+export const CodeViewer = ({ sourceFile, onClose }: CodeViewerProps) => {
+  const [code, setCode] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Load the raw source file content
+    const loadSource = async () => {
+      setLoading(true);
+      try {
+        const modules = import.meta.glob("/src/components/repo/*.tsx", { query: "?raw", import: "default" });
+        const key = `/src/components/repo/${sourceFile}`;
+        if (modules[key]) {
+          const content = await modules[key]() as string;
+          setCode(content);
+        } else {
+          setCode(`// Source: src/components/repo/${sourceFile}\n// File not found in glob`);
+        }
+      } catch {
+        setCode(`// Source: src/components/repo/${sourceFile}\n// Could not load source`);
+      }
+      setLoading(false);
+    };
+    loadSource();
+  }, [sourceFile]);
+
   return (
     <div className="h-full flex flex-col bg-code-bg rounded-lg border border-border overflow-hidden">
       <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-secondary/30">
         <span className="text-xs font-mono text-muted-foreground">
-          component.tsx
+          {sourceFile}
         </span>
         <button
           onClick={onClose}
@@ -88,9 +113,15 @@ export const CodeViewer = ({ code, onClose }: CodeViewerProps) => {
         </button>
       </div>
       <div className="flex-1 overflow-auto scrollbar-thin p-4">
-        <pre className="text-sm leading-relaxed font-mono">
-          <code dangerouslySetInnerHTML={{ __html: highlightSyntax(code) }} />
-        </pre>
+        {loading ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : (
+          <pre className="text-sm leading-relaxed font-mono">
+            <code dangerouslySetInnerHTML={{ __html: highlightSyntax(code) }} />
+          </pre>
+        )}
       </div>
     </div>
   );
