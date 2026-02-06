@@ -4,12 +4,13 @@ import * as React from "react"
 
 import {
   HTMLMotionProps,
-  MotionValue,
+  motionValue,
   Variants,
   motion,
   useScroll,
   useTransform,
 } from "motion/react"
+import type { MotionValue } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
@@ -42,12 +43,7 @@ const ContainerScrollContext = React.createContext<
 function useContainerScrollContext() {
   const context = React.useContext(ContainerScrollContext)
   if (!context) {
-    // Return a fallback context value if provider is missing, or throw error.
-    // For robustness in demos, we can allow it or throw.
-    // Let's assume usage is correct but provide safety.
-    // throw new Error("useContainerScrollContext must be used within a ContainerScroll Component")
-    // Temporary fallback to prevent crash if context is missing during init render
-    return { scrollYProgress: new MotionValue(0) } as ContainerScrollContextValue
+    return { scrollYProgress: motionValue(0) } as ContainerScrollContextValue
   }
   return context
 }

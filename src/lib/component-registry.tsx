@@ -1,7 +1,7 @@
 import { ComponentType } from "react";
 
 // Real component imports from the repo
-import { HorizonHero } from "@/components/repo/horizon-hero-section";
+import HorizonHeroDemo from "@/components/demos/HorizonHeroDemo";
 import { Component as HeroSection } from "@/components/repo/hero-section";
 import MilHardware from "@/components/repo/mil-hardware";
 import Bloodlines from "@/components/repo/bloodlines";
@@ -15,7 +15,7 @@ import { CircleAnimationsGrid as CircleAnimations1 } from "@/components/repo/cir
 import { CircleAnimationsGrid as CircleAnimations3 } from "@/components/repo/circle-animations-collection-3";
 import { CircleAnimationsGrid as CircleAnimations4 } from "@/components/repo/circle-animations-collection-4";
 import { VelocityText } from "@/components/repo/parallax-scrolling-text-effect";
-import { TextRoll } from "@/components/repo/text-roll-navigation";
+import TextRollDemo from "@/components/demos/TextRollDemo";
 import { Skiper19 as SvgFollowScroll } from "@/components/repo/svg-follow-scroll";
 
 // Demo wrappers for components needing props/children
@@ -68,7 +68,7 @@ export interface ComponentEntry {
 
 export const componentRegistry: ComponentEntry[] = [
   // Heroes & Sections
-  { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHero, sourceFile: "horizon-hero-section.tsx" },
+  { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx" },
   { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx" },
 
   // Shaders & Effects
@@ -84,7 +84,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx" },
 
   // Text Effects
-  { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRoll, sourceFile: "text-roll-navigation.tsx" },
+  { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx" },
   { id: "wavy-text-block", name: "Wavy Text Block", category: "Text Effects", component: WavyTextDemo, sourceFile: "wavy-text-block.tsx" },
   { id: "parallax-text", name: "Parallax Text", category: "Text Effects", component: VelocityText, sourceFile: "parallax-scrolling-text-effect.tsx" },
   { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx" },
