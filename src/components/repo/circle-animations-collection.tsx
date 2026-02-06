@@ -31,13 +31,19 @@ const CornerIcon = () => (
 export const CircleAnimation: React.FC<CircleAnimationProps> = ({ title, animationId, className }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [foregroundColor, setForegroundColor] = useState('0 0% 98%');
+  const [foregroundColor, setForegroundColor] = useState('0, 0%, 98%');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && containerRef.current) {
       const fgColor = getComputedStyle(containerRef.current).getPropertyValue('--foreground').trim();
       if (fgColor) {
-        setForegroundColor(fgColor);
+        // Convert space-separated HSL (e.g. "0 0% 98%") to comma-separated for canvas hsla()
+        const parts = fgColor.split(/\s+/);
+        if (parts.length >= 3) {
+          setForegroundColor(parts.join(', '));
+        } else {
+          setForegroundColor(fgColor);
+        }
       }
     }
   }, []);
