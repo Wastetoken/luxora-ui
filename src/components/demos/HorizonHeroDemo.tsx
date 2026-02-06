@@ -1,34 +1,27 @@
 import { HorizonHero } from "@/components/repo/horizon-hero-section";
 
 const horizonStyles = `
-  .horizon-demo-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  }
-  .horizon-demo-wrapper .hero-container {
+  .hero-container {
     position: relative;
     width: 100%;
     min-height: 300vh;
-    overflow: hidden;
     background: linear-gradient(180deg, #000 0%, #0a0a1a 100%);
     color: white;
   }
-  .horizon-demo-wrapper .hero-canvas {
+  .hero-canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0;
+  }
+  .hero-content {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .horizon-demo-wrapper .hero-content {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,10 +29,10 @@ const horizonStyles = `
     z-index: 10;
     pointer-events: none;
   }
-  .horizon-demo-wrapper .hero-content.cosmos-content {
+  .hero-content.cosmos-content {
     text-align: center;
   }
-  .horizon-demo-wrapper .hero-title {
+  .hero-title {
     font-size: clamp(2rem, 8vw, 6rem);
     font-weight: 900;
     letter-spacing: -0.03em;
@@ -48,22 +41,22 @@ const horizonStyles = `
     text-transform: uppercase;
     color: white;
   }
-  .horizon-demo-wrapper .title-char {
+  .title-char {
     display: inline-block;
   }
-  .horizon-demo-wrapper .hero-subtitle {
+  .hero-subtitle {
     margin-top: 1.5rem;
     opacity: 0.7;
   }
-  .horizon-demo-wrapper .hero-subtitle.cosmos-subtitle {
+  .hero-subtitle.cosmos-subtitle {
     text-align: center;
   }
-  .horizon-demo-wrapper .subtitle-line {
+  .subtitle-line {
     font-size: clamp(0.75rem, 1.5vw, 1rem);
     margin: 0.25rem 0;
     color: rgba(255, 255, 255, 0.6);
   }
-  .horizon-demo-wrapper .side-menu {
+  .side-menu {
     position: fixed;
     left: 2rem;
     top: 50%;
@@ -74,18 +67,18 @@ const horizonStyles = `
     align-items: center;
     gap: 1.5rem;
   }
-  .horizon-demo-wrapper .menu-icon {
+  .menu-icon {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
-  .horizon-demo-wrapper .menu-icon span {
+  .menu-icon span {
     display: block;
     width: 20px;
     height: 2px;
     background: rgba(255, 255, 255, 0.6);
   }
-  .horizon-demo-wrapper .vertical-text {
+  .vertical-text {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     font-size: 0.65rem;
@@ -93,7 +86,7 @@ const horizonStyles = `
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
   }
-  .horizon-demo-wrapper .scroll-progress {
+  .scroll-progress {
     position: fixed;
     bottom: 2rem;
     left: 50%;
@@ -107,26 +100,26 @@ const horizonStyles = `
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.5);
   }
-  .horizon-demo-wrapper .progress-track {
+  .progress-track {
     width: 100px;
     height: 2px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 1px;
     overflow: hidden;
   }
-  .horizon-demo-wrapper .progress-fill {
+  .progress-fill {
     height: 100%;
     background: rgba(255, 255, 255, 0.6);
     transition: width 0.1s ease;
   }
-  .horizon-demo-wrapper .section-counter {
+  .section-counter {
     font-variant-numeric: tabular-nums;
   }
-  .horizon-demo-wrapper .scroll-sections {
+  .scroll-sections {
     position: relative;
     z-index: 5;
   }
-  .horizon-demo-wrapper .content-section {
+  .content-section {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -134,18 +127,14 @@ const horizonStyles = `
     justify-content: center;
     pointer-events: none;
   }
-  @keyframes word-appear {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 `;
 
 const HorizonHeroDemo = () => {
   return (
-    <div className="horizon-demo-wrapper">
+    <>
       <style>{horizonStyles}</style>
       <HorizonHero />
-    </div>
+    </>
   );
 };
 
