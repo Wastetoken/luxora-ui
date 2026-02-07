@@ -639,41 +639,33 @@ export const HorizonHero = () => {
       </div>
 
       {/* Additional sections for scrolling */}
-      <div className="scroll-sections">
+      <div className="scroll-sections" style={{ paddingTop: '100vh' }}>
        {[...Array(2)].map((_, i) => {
-          const titles = {
-            0: 'HORIZON',
-            1: 'COSMOS',
-            2: 'INFINITY'
-          };
-          
-          const subtitles = {
-            0: {
-              line1: 'Where vision meets reality,',
-              line2: 'we shape the future of tomorrow'
-            },
-            1: {
-              line1: 'Beyond the boundaries of imagination,',
-              line2: 'lies the universe of possibilities'
-            },
-            2: {
-              line1: 'In the space between thought and creation,',
-              line2: 'we find the essence of true innovation'
-            }
-          };
+          const titles = ['COSMOS', 'INFINITY'];
+          const subtitles = [
+            { line1: 'Beyond the boundaries of imagination,', line2: 'lies the universe of possibilities' },
+            { line1: 'In the space between thought and creation,', line2: 'we find the essence of true innovation' }
+          ];
+
+          // Calculate per-section opacity based on scroll
+          const sectionStart = (i + 1) / (totalSections + 1);
+          const sectionEnd = (i + 2) / (totalSections + 1);
+          const fadeIn = Math.min(1, Math.max(0, (scrollProgress - sectionStart) * 8));
+          const fadeOut = Math.min(1, Math.max(0, (sectionEnd - scrollProgress) * 8));
+          const sectionOpacity = Math.min(fadeIn, fadeOut);
           
           return (
-            <section key={i} className="content-section">
-              <h1 ref={titleRef} className="hero-title">
-                {titles[i+1] || 'DEFAULT'}
+            <section key={i} className="content-section" style={{ opacity: sectionOpacity }}>
+              <h1 className="hero-title">
+                {titles[i]}
               </h1>
           
-              <div ref={subtitleRef} className="hero-subtitle cosmos-subtitle">
+              <div className="hero-subtitle cosmos-subtitle">
                 <p className="subtitle-line">
-                  {subtitles[i+1].line1}
+                  {subtitles[i].line1}
                 </p>
                 <p className="subtitle-line">
-                  {subtitles[i+1].line2}
+                  {subtitles[i].line2}
                 </p>
               </div>
             </section>
