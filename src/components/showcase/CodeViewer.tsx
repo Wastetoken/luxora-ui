@@ -11,53 +11,47 @@ interface CodeViewerProps {
 const repoModules = import.meta.glob("/src/components/repo/*.tsx", { query: "?raw", import: "default" });
 
 const highlightSyntax = (code: string): string => {
-  let highlighted = code
+  let text = code
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  // Comments
-  highlighted = highlighted.replace(
-    /(\/\/.*$)/gm,
-    '<span style="color: hsl(220, 10%, 40%)">$1</span>'
-  );
-  highlighted = highlighted.replace(
-    /(\/\*[\s\S]*?\*\/)/g,
-    '<span style="color: hsl(220, 10%, 40%)">$1</span>'
-  );
+  // Token-based approach: replace matches with placeholders to prevent
+  // later regexes from corrupting already-highlighted spans
+  const tokens: string[] = [];
+  const store = (html: string): string => {
+    const idx = tokens.length;
+    tokens.push(html);
+    return `\x00T${idx}T\x00`;
+  };
+
+  // Comments (must run before strings/keywords so they take priority)
+  text = text.replace(/(\/\/.*$)/gm, (m) => store(`<span style="color:#6a737d">${m}</span>`));
+  text = text.replace(/(\/\*[\s\S]*?\*\/)/g, (m) => store(`<span style="color:#6a737d">${m}</span>`));
 
   // Strings
-  highlighted = highlighted.replace(
-    /(&quot;[^&]*?&quot;|'[^']*?'|`[^`]*?`)/g,
-    '<span style="color: hsl(150, 60%, 55%)">$1</span>'
-  );
+  text = text.replace(/(&quot;[^&]*?&quot;|'[^']*?'|`[^`]*?`)/g, (m) => store(`<span style="color:#85e89d">${m}</span>`));
 
   // Keywords
-  const keywords = [
-    "const", "let", "var", "function", "return", "import", "export",
-    "from", "default", "if", "else", "for", "while", "new", "class",
-    "extends", "interface", "type", "async", "await",
-  ];
-  keywords.forEach((kw) => {
-    highlighted = highlighted.replace(
-      new RegExp(`\\b(${kw})\\b`, "g"),
-      '<span style="color: hsl(280, 65%, 68%)">$1</span>'
-    );
-  });
+  text = text.replace(
+    /\b(const|let|var|function|return|import|export|from|default|if|else|for|while|new|class|extends|interface|type|async|await)\b/g,
+    (m) => store(`<span style="color:#b392f0">${m}</span>`)
+  );
 
   // JSX tags
-  highlighted = highlighted.replace(
-    /(&lt;\/?)([\w.]+)/g,
-    '$1<span style="color: hsl(38, 92%, 60%)">$2</span>'
+  text = text.replace(/(&lt;\/?)([\w.]+)/g, (_, bracket, tag) =>
+    `${bracket}${store(`<span style="color:#e3b341">${tag}</span>`)}`
   );
 
   // Numbers
-  highlighted = highlighted.replace(
-    /\b(\d+\.?\d*)\b/g,
-    '<span style="color: hsl(30, 90%, 65%)">$1</span>'
-  );
+  text = text.replace(/\b(\d+\.?\d*)\b/g, (m) => store(`<span style="color:#f8a544">${m}</span>`));
 
-  return highlighted;
+  // Restore all tokens
+  for (let i = 0; i < tokens.length; i++) {
+    text = text.replace(`\x00T${i}T\x00`, tokens[i]);
+  }
+
+  return text;
 };
 
 const useCopyToClipboard = () => {
