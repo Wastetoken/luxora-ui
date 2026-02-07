@@ -15,11 +15,18 @@ const initializeGsap = () => {
 };
 
 // --- RENDERERS FOR EACH ANIMATION TYPE ---
+// Grid positions for 3x3 dot grid (60x60 container, 8px dots)
+const dotPositions = [
+  { top: 6, left: 6 },   { top: 6, left: 26 },  { top: 6, left: 46 },
+  { top: 26, left: 6 },  { top: 26, left: 26 }, { top: 26, left: 46 },
+  { top: 46, left: 6 },  { top: 46, left: 26 }, { top: 46, left: 46 },
+];
+
 const animationRenderers: Record<string, React.FC> = {
   "dots-grid": () => (
     <div className="dots-grid relative h-[60px] w-[60px]">
-      {Array.from({ length: 9 }).map((_, i) => (
-        <div key={i} className="dot absolute h-2 w-2 rounded-full bg-foreground" />
+      {dotPositions.map((pos, i) => (
+        <div key={i} className="dot absolute h-2 w-2 rounded-full bg-foreground" style={{ top: pos.top, left: pos.left }} />
       ))}
     </div>
   ),
@@ -53,20 +60,20 @@ const animationRenderers: Record<string, React.FC> = {
   "cube-spin": () => (
     <div className="cube-spin flex h-[60px] w-[60px] items-center justify-center" style={{ perspective: '200px' }}>
       <div className="cube absolute h-10 w-10" style={{ transformStyle: 'preserve-3d' }}>
-        <div className="face front absolute flex h-10 w-10 items-center justify-center border-2 border-foreground/60">
+        <div className="face front absolute flex h-10 w-10 items-center justify-center border-2 border-foreground/60" style={{ transform: 'translateZ(20px)' }}>
           <div className="plus-symbol relative h-[26px] w-[26px]">
             <div className="horizontal absolute left-1/2 top-1/2 h-1 w-full -translate-x-1/2 -translate-y-1/2 bg-foreground" />
             <div className="vertical absolute left-1/2 top-1/2 h-full w-1 -translate-x-1/2 -translate-y-1/2 bg-foreground" />
           </div>
         </div>
-        <div className="face right absolute flex h-10 w-10 items-center justify-center border-2 border-foreground/60">
+        <div className="face right absolute flex h-10 w-10 items-center justify-center border-2 border-foreground/60" style={{ transform: 'rotateY(90deg) translateZ(20px)' }}>
           <div className="x-symbol relative h-[26px] w-[26px]">
             <div className="absolute left-1/2 top-1/2 h-1 w-[30px] origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 bg-foreground" />
             <div className="absolute left-1/2 top-1/2 h-1 w-[30px] origin-center -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-foreground" />
           </div>
         </div>
-        <div className="face back absolute h-10 w-10 border-2 border-foreground/60" />
-        <div className="face left absolute h-10 w-10 border-2 border-foreground/60" />
+        <div className="face back absolute h-10 w-10 border-2 border-foreground/60" style={{ transform: 'rotateY(180deg) translateZ(20px)' }} />
+        <div className="face left absolute h-10 w-10 border-2 border-foreground/60" style={{ transform: 'rotateY(-90deg) translateZ(20px)' }} />
       </div>
     </div>
   ),
@@ -80,43 +87,48 @@ const animationRenderers: Record<string, React.FC> = {
   "rotating-circles": () => (
     <div className="rotating-circles relative flex h-[60px] w-[60px] items-center justify-center">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="circle absolute h-[10px] w-[10px] rounded-full bg-foreground" />
+        <div key={i} className="circle absolute h-[10px] w-[10px] rounded-full bg-foreground" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />
       ))}
     </div>
   ),
-  "isometric-cube": () => (
-    <div className="isometric-cube flex h-[60px] w-[60px] items-center justify-center" style={{ perspective: '1200px' }}>
-      <div className="cube absolute h-[30px] w-[30px]" style={{ transformStyle: 'preserve-3d' }}>
-        <div className="face front absolute flex h-full w-full items-center justify-center border border-foreground/50 bg-[#222] [box-shadow:0_0_10px_rgba(0,0,0,0.5)_inset]">
-          <div className="plus-symbol relative h-3 w-3">
-             <div className="horizontal absolute left-1/2 top-1/2 h-[2px] w-full -translate-x-1/2 -translate-y-1/2 bg-foreground" />
-             <div className="vertical absolute left-1/2 top-1/2 h-full w-[2px] -translate-x-1/2 -translate-y-1/2 bg-foreground" />
+  "isometric-cube": () => {
+    const cubeSize = 15; // half of 30px
+    return (
+      <div className="isometric-cube flex h-[60px] w-[60px] items-center justify-center" style={{ perspective: '1200px' }}>
+        <div className="cube absolute h-[30px] w-[30px]" style={{ transformStyle: 'preserve-3d', transform: `rotateX(35.264deg) rotateY(45deg)` }}>
+          <div className="face front absolute flex h-full w-full items-center justify-center border border-foreground/50 bg-[#222]" style={{ transform: `translateZ(${cubeSize}px)`, boxShadow: '0 0 10px rgba(0,0,0,0.5) inset' }}>
+            <div className="plus-symbol relative h-3 w-3">
+              <div className="horizontal absolute left-1/2 top-1/2 h-[2px] w-full -translate-x-1/2 -translate-y-1/2 bg-foreground" />
+              <div className="vertical absolute left-1/2 top-1/2 h-full w-[2px] -translate-x-1/2 -translate-y-1/2 bg-foreground" />
+            </div>
           </div>
+          <div className="face back absolute flex h-full w-full items-center justify-center border border-foreground/50 bg-[#222]" style={{ transform: `rotateY(180deg) translateZ(${cubeSize}px)`, boxShadow: '0 0 10px rgba(0,0,0,0.5) inset' }}>
+            <div className="x-symbol relative h-3 w-3">
+              <div className="absolute left-1/2 top-1/2 h-[2px] w-full origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 bg-foreground" />
+              <div className="absolute left-1/2 top-1/2 h-[2px] w-full origin-center -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-foreground" />
+            </div>
+          </div>
+          <div className="face right absolute h-full w-full border border-foreground/50 bg-[#222]" style={{ transform: `rotateY(90deg) translateZ(${cubeSize}px)`, boxShadow: '0 0 10px rgba(0,0,0,0.5) inset' }} />
+          <div className="face left absolute h-full w-full border border-foreground/50 bg-[#222]" style={{ transform: `rotateY(-90deg) translateZ(${cubeSize}px)`, boxShadow: '0 0 10px rgba(0,0,0,0.5) inset' }} />
+          <div className="face top absolute h-full w-full border border-foreground/50 bg-[#222]" style={{ transform: `rotateX(90deg) translateZ(${cubeSize}px)`, boxShadow: '0 0 10px rgba(0,0,0,0.5) inset' }} />
+          <div className="face bottom absolute h-full w-full border border-foreground/50 bg-[#222]" style={{ transform: `rotateX(-90deg) translateZ(${cubeSize}px)`, boxShadow: '0 0 10px rgba(0,0,0,0.5) inset' }} />
         </div>
-        <div className="face back absolute flex h-full w-full items-center justify-center border border-foreground/50 bg-[#222] [box-shadow:0_0_10px_rgba(0,0,0,0.5)_inset]">
-           <div className="x-symbol relative h-3 w-3">
-             <div className="absolute left-1/2 top-1/2 h-[2px] w-full origin-center -translate-x-1/2 -translate-y-1/2 rotate-45 bg-foreground" />
-             <div className="absolute left-1/2 top-1/2 h-[2px] w-full origin-center -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-foreground" />
-           </div>
-        </div>
-        <div className="face right absolute h-full w-full border border-foreground/50 bg-[#222] [box-shadow:0_0_10px_rgba(0,0,0,0.5)_inset]" />
-        <div className="face left absolute h-full w-full border border-foreground/50 bg-[#222] [box-shadow:0_0_10px_rgba(0,0,0,0.5)_inset]" />
-        <div className="face top absolute h-full w-full border border-foreground/50 bg-[#222] [box-shadow:0_0_10px_rgba(0,0,0,0.5)_inset]" />
-        <div className="face bottom absolute h-full w-full border border-foreground/50 bg-[#222] [box-shadow:0_0_10px_rgba(0,0,0,0.5)_inset]" />
       </div>
-    </div>
-  ),
+    );
+  },
   "expanding-circles": () => (
     <div className="expanding-circles relative flex h-[60px] w-[60px] items-center justify-center">
+      {Array.from({ length: 12 }).map((_, i) => {
+        const angle = (i * 30) * (Math.PI / 180);
+        return <div key={`extra-${i}`} className="circle extra absolute h-2 w-2 rounded-full bg-foreground" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />;
+      })}
       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={`extra-${i}`} className="circle extra absolute h-2 w-2 rounded-full bg-foreground" />
+        <div key={`micro-${i}`} className="circle micro absolute h-1 w-1 rounded-full bg-foreground" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} />
       ))}
-       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={`micro-${i}`} className="circle micro absolute h-1 w-1 rounded-full bg-foreground" />
-      ))}
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div key={`main-${i}`} className="circle absolute h-2 w-2 rounded-full bg-foreground" />
-      ))}
+      {Array.from({ length: 6 }).map((_, i) => {
+        const angle = (i * 60) * (Math.PI / 180);
+        return <div key={`main-${i}`} className="circle absolute h-2 w-2 rounded-full bg-foreground" style={{ left: `calc(50% + ${Math.cos(angle) * 15}px)`, top: `calc(50% + ${Math.sin(angle) * 15}px)`, transform: 'translate(-50%, -50%)' }} />;
+      })}
     </div>
   ),
 };
