@@ -31,71 +31,58 @@ const Landing = () => {
       <LiquidCursor />
 
       {/* Content layer */}
-      <div className="relative z-20 w-full h-full flex flex-col pointer-events-none">
+      <div className="relative z-20 w-full h-full flex flex-col justify-between p-8 md:p-14 pointer-events-none">
         {/* Header */}
-        <header className="p-6 md:p-10 lg:p-14 flex justify-between items-start pointer-events-auto">
-          <span className="font-clash text-lg font-bold tracking-tight">LUXORA</span>
-          <div className="flex flex-col items-end gap-1">
-            <Link
-              to="/showcase"
-              className="nav-item text-sm uppercase tracking-widest text-white/60 hover:text-white transition-all duration-300 hover:pr-2.5 relative"
-            >
-              &gt;&gt;BROWSE LIBRARY
-            </Link>
-            <span className="text-white/50 font-mono text-[10px] uppercase tracking-widest">
-              {time} LOCAL
-            </span>
+        <header className="flex justify-between items-start pointer-events-auto">
+          <div className="font-clash font-bold text-3xl md:text-5xl tracking-tight uppercase leading-none hover:text-white/80 transition-colors">
+            LUXORA
           </div>
+          <nav className="flex flex-col text-right gap-1 md:gap-2 text-xs md:text-sm font-medium tracking-widest uppercase">
+            <Link to="/showcase" className="nav-item">
+              BROWSE LIBRARY
+            </Link>
+          </nav>
         </header>
 
-        {/* Center hero — "FAVORITE COMPONENTS" */}
-        <main className="flex-1 flex flex-col items-center justify-center pointer-events-none px-4">
-          <h1 className="text-center select-none mix-blend-difference">
-            <span className="block font-clash font-bold text-[12vw] md:text-[11vw] lg:text-[10vw] leading-[0.9] tracking-tight">
-              FAVORITE
-            </span>
-            <span className="block font-clash font-light italic text-[12vw] md:text-[11vw] lg:text-[10vw] leading-[0.9] tracking-tight text-white/70">
-              COMPONENTS
-            </span>
+        {/* Dynamic Time — absolute positioned */}
+        <div className="absolute top-14 right-40 hidden lg:block text-right pointer-events-none">
+          <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</div>
+          <div className="font-mono text-xs text-white/70">{time} LOCAL</div>
+        </div>
+
+        {/* Hero Text */}
+        <div className="flex-1 flex flex-col justify-center items-center relative z-20">
+          <h1 className="font-clash font-medium text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
+            FAVORITE<br />
+            <span className="italic font-light opacity-80 backdrop-blur-sm">COMPONENTS</span>
           </h1>
-          <p className="text-white/50 text-sm md:text-base mt-8 text-center">
+          <p className="mt-8 text-center max-w-md text-sm md:text-base text-white/50 leading-relaxed font-light">
             A collection of react components.
           </p>
-          <p className="text-white/50 text-sm mt-3 text-center italic">
+          <p className="mt-8 text-center max-w-md text-sm md:text-base text-white/50 leading-relaxed font-light">
             Good taste by default
           </p>
-        </main>
+        </div>
 
-        {/* Bottom bar */}
-        <footer className="p-6 md:p-10 lg:p-14 pt-0 flex items-end justify-between border-t border-white/10 mx-6 md:mx-10 lg:mx-14 pb-6 md:pb-10 lg:pb-14 pointer-events-auto">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-white/80 font-bold mb-1">
-              PLAYGROUND
-            </p>
-            <p className="text-[10px] uppercase tracking-widest text-white/40 max-w-[220px] leading-relaxed">
-              COMPONENTS BUILT BY MANY,<br />COMPILED BY LUXORA.
-            </p>
+        {/* Footer */}
+        <footer className="flex justify-between items-end border-t border-white/10 pt-8 pointer-events-auto">
+          <div className="flex flex-col gap-1">
+            <h3 className="font-clash text-lg font-medium">PLAYGROUND</h3>
+            <p className="text-xs text-white/40 max-w-[200px]">COMPONENTS BUILT BY MANY, COMPILED BY LUXORA.</p>
           </div>
 
-          <div className="flex items-end gap-12">
-            <div className="flex gap-8">
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-white/40">Status</p>
-                <p className="font-mono text-sm text-white">Online</p>
-              </div>
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-white/40">Year</p>
-                <p className="font-mono text-sm text-white">2026</p>
-              </div>
+          <div className="flex gap-12">
+            <div className="hidden md:block">
+              <h3 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Status</h3>
+              <p className="text-sm">Online</p>
             </div>
-
-            <Link
-              to="/showcase"
-              className="font-mono text-lg text-white/50 hover:text-white/80 transition-colors"
-            >
-              ↓
-            </Link>
+            <div>
+              <h3 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Year</h3>
+              <p className="text-sm">2026</p>
+            </div>
           </div>
+
+          <Link to="/showcase" className="text-3xl animate-bounce opacity-50">↓</Link>
         </footer>
       </div>
     </div>

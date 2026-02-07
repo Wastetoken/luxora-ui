@@ -2,14 +2,20 @@ import { useEffect, useRef } from 'react';
 
 export default function LiquidCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const pos = useRef({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
+    // Initialize to center
+    pos.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    target.current = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
     const handleMouseMove = (e: MouseEvent) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
+      target.current.x = e.clientX;
+      target.current.y = e.clientY;
       cursor.style.opacity = '1';
     };
 
@@ -17,11 +23,23 @@ export default function LiquidCursor() {
       cursor.style.opacity = '0';
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    // Smooth lerp animation loop
+    let animId: number;
+    const animate = () => {
+      pos.current.x += (target.current.x - pos.current.x) * 0.1;
+      pos.current.y += (target.current.y - pos.current.y) * 0.1;
+      cursor.style.left = pos.current.x + 'px';
+      cursor.style.top = pos.current.y + 'px';
+      animId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animId);
+      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
@@ -29,11 +47,19 @@ export default function LiquidCursor() {
   return (
     <>
       {/* SVG filter for liquid distortion */}
-      <svg className="absolute w-0 h-0" aria-hidden="true">
-        <filter id="liquid-distortion">
-          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" />
-        </filter>
+      <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
+        <defs>
+          <filter id="liquid-distortion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves={4} result="noise" seed={4} />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale={35} xChannelSelector="R" yChannelSelector="G" />
+            <feGaussianBlur stdDeviation={0.8} />
+            <feSpecularLighting surfaceScale={2} specularConstant={1} specularExponent={20} lightingColor="#ffffff" in="noise" result="specular">
+              <fePointLight x={-5000} y={-10000} z={20000} />
+            </feSpecularLighting>
+            <feComposite in="specular" in2="SourceGraphic" operator="in" result="specularComposite" />
+            <feComposite in="SourceGraphic" in2="specularComposite" operator="arithmetic" k1={0} k2={1} k3={1} k4={0} />
+          </filter>
+        </defs>
       </svg>
 
       <div

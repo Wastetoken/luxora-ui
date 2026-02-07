@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const vertexShaderSource = `
   attribute vec2 position;
@@ -7,100 +7,83 @@ const vertexShaderSource = `
   }
 `;
 
-const getFragmentShader = (invert: boolean) => `
+const fragmentShaderSource = `
   precision highp float;
-  uniform vec2 iResolution;
+  uniform vec3 iResolution;
   uniform float iTime;
-  uniform vec3 iMouse;
-  uniform vec2 iClickPos;
-  uniform float iClickTime;
 
-  float noise(vec2 p) {
-    return smoothstep(-0.5, 0.9, sin((p.x - p.y) * 555.0) * sin(p.y * 1444.0)) - 0.4;
+  #define RESOLUTION 0.025
+  #define MAX_STEPS 80
+  #define TIME_SCALE 0.15
+
+  struct ComplexFrame {
+    vec3 real_ux, real_uy, real_uz;
+    vec3 imag_ux, imag_uy, imag_uz;
+    float scalar_part;
+  };
+
+  ComplexFrame get_complex_frame(vec3 p, float t) {
+    ComplexFrame cf;
+    float r = length(p);
+    cf.real_ux = normalize(vec3(p.z, 0.0, -p.x));
+    cf.real_uy = normalize(cross(cf.real_ux, vec3(0.0, 1.0, 0.0)));
+    cf.real_uz = normalize(cross(cf.real_ux, cf.real_uy));
+    float phase = t * 0.3 + r * 1.5;
+    cf.imag_ux = vec3(sin(phase), 0.0, cos(phase)) * 0.4;
+    cf.imag_uy = vec3(0.0, sin(phase * 1.2), 0.0) * 0.4;
+    cf.imag_uz = vec3(cos(phase * 0.8), 0.0, sin(phase * 0.8)) * 0.4;
+    cf.scalar_part = 0.6 / (r * r + 0.01);
+    return cf;
   }
 
-  float fabric(vec2 p) {
-    mat2 m = mat2(0.06, 0.02, -0.02, -0.01);
-    float f = 0.62 * noise(p);
-    f += -0.43 * noise(p = m * p);
-    f += -0.12 * noise(p = m * p);
-    return f + 0.1 / noise(m * p);
-  }
-
-  float silk(vec2 uv, float t) {
-    float s = sin(-15.0 * (uv.x + uv.y + cos(26.0 * uv.x + 5.0 * uv.y)) + sin(19.0 * (uv.x + uv.y)) - t);
-    s = 1.17 + 0.01 * (s * s * 20.5 + s);
-    s *= 0.8 + 0.91 * fabric(uv * min(iResolution.x, iResolution.y) * 0.5999);
-    return s * 0.1009 + 0.8100;
-  }
-
-  float silkd(vec2 uv, float t) {
-    float xy = uv.x + uv.y;
-    float d = (1.001 * (1.0 - 80.0 * sin(2.0 * uv.x + -7.0 * uv.y)) + 999.0 * cos(1.0 * xy)) * 
-              cos(5.0 * (cos(2.0 * uv.x + 5.0 * uv.y) + xy) + sin(12.0 * xy) - t);
-    return 0.005 * d * (sign(d) + 3.0);
+  vec3 artistic_color_transform(vec3 color, vec3 p, float t) {
+    vec3 wave = sin(color * 3.14159 * 2.0 - t * 0.3);
+    color = mix(color, wave, 0.25);
+    float glow = exp(-length(p) * 0.4) * 0.35;
+    color += vec3(glow * sin(t) * 0.8, glow * cos(t * 0.8) * 0.6, glow * sin(t * 1.2) * 1.0);
+    return clamp(color, 0.0, 1.0);
   }
 
   void main() {
-    float mr = min(iResolution.x, iResolution.y);
-    vec2 uv = gl_FragCoord.xy / mr;
-    float t = iTime;
+    vec2 fragCoord = gl_FragCoord.xy;
+    vec2 uv = (fragCoord * 2.0 - iResolution.xy) / min(iResolution.x, iResolution.y);
+    float t = iTime * TIME_SCALE;
     
-    uv.y += 0.03 * sin(8.0 * uv.x - t);
+    vec3 cam_pos = vec3(3.5 * sin(t * 0.15), 2.5, 3.5 * cos(t * 0.15));
+    vec3 cam_dir = normalize(-cam_pos);
+    vec3 cam_up = vec3(0.0, 1.0, 0.0);
+    vec3 cam_right = normalize(cross(cam_dir, cam_up));
+    vec3 ray_dir = normalize(cam_dir + uv.x * cam_right + uv.y * cam_up);
+    vec3 ray_pos = cam_pos;
+    vec3 total_color = vec3(0.0);
+    float step_size = RESOLUTION;
     
-    float timeSinceClick = t - iClickTime;
-    
-    if (timeSinceClick < 3.0 && iClickTime > 0.0) {
-      vec2 clickUv = iClickPos.xy / mr;
-      float dist = distance(clickUv, uv);
-      float ripple = sin(dist * 50.0 - timeSinceClick * 12.0) * exp(-dist * 5.0 - timeSinceClick * 2.0);
-      uv += normalize(uv - clickUv) * ripple * 0.08;
+    for(int i = 0; i < MAX_STEPS; i++) {
+      ComplexFrame cf = get_complex_frame(ray_pos, t);
+      vec3 dir_color = abs(cf.real_ux) * vec3(1.0, 0.3, 0.2) +
+                       abs(cf.real_uy) * vec3(0.2, 0.4, 1.0) +
+                       abs(cf.real_uz) * vec3(0.9, 0.5, 0.2);
+      float blend = 0.5 + 0.5 * sin(t * 1.5);
+      vec3 complex_color = mix(dir_color, abs(cf.imag_ux + cf.imag_uy + cf.imag_uz), blend);
+      complex_color *= (0.6 + cf.scalar_part * 0.8);
+      complex_color = artistic_color_transform(complex_color, ray_pos, t);
+      float alpha = 0.12;
+      total_color = total_color * (1.0 - alpha) + complex_color * alpha;
+      ray_pos += ray_dir * step_size;
     }
     
-    float s = sqrt(silk(uv, t));
-    float d = silkd(uv, t);
-    
-    vec3 c = vec3(s);
-    c += 0.7 * vec3(1.0, 0.83, 0.6) * d;
-    c *= 1.0 - max(0.0, 0.8 * d);
-    
-    ${invert ? `
-      c = pow(c, 0.3 / vec3(0.52, 0.5, 0.4));
-      c = 1.0 - c;
-    ` : `
-      c = pow(c, vec3(0.52, 0.5, 0.4));
-    `}
-    
-    gl_FragColor = vec4(c, 1.0);
+    gl_FragColor = vec4(total_color, 1.0);
   }
 `;
 
 export default function ShaderBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isDark, setIsDark] = useState(true);
-
-  useEffect(() => {
-    const checkTheme = () => {
-      const isDarkMode = document.documentElement.classList.contains('dark') ||
-                         window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDark(isDarkMode);
-    };
-    checkTheme();
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', checkTheme);
-    return () => {
-      observer.disconnect();
-      mediaQuery.removeEventListener('change', checkTheme);
-    };
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const gl = canvas.getContext('webgl');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     if (!gl) return;
 
     const createShader = (type: number, source: string) => {
@@ -117,7 +100,7 @@ export default function ShaderBackground() {
     };
 
     const vs = createShader(gl.VERTEX_SHADER, vertexShaderSource);
-    const fs = createShader(gl.FRAGMENT_SHADER, getFragmentShader(isDark));
+    const fs = createShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
     if (!vs || !fs) return;
 
     const program = gl.createProgram();
@@ -133,62 +116,41 @@ export default function ShaderBackground() {
 
     gl.useProgram(program);
 
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-
     const posLoc = gl.getAttribLocation(program, 'position');
-    gl.enableVertexAttribArray(posLoc);
-    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
     const resLoc = gl.getUniformLocation(program, 'iResolution');
     const timeLoc = gl.getUniformLocation(program, 'iTime');
-    const mouseLoc = gl.getUniformLocation(program, 'iMouse');
-    const clickPosLoc = gl.getUniformLocation(program, 'iClickPos');
-    const clickTimeLoc = gl.getUniformLocation(program, 'iClickTime');
 
-    const mouse = { x: 0, y: 0, z: 0 };
-    const clickPos = { x: 0, y: 0 };
-    let clickTime = 0;
-    const startTime = Date.now();
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1
+    ]), gl.STATIC_DRAW);
 
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = canvas.clientWidth * dpr;
-      canvas.height = canvas.clientHeight * dpr;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      gl.viewport(0, 0, canvas.width, canvas.height);
     };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      mouse.x = (e.clientX - rect.left) * dpr;
-      mouse.y = canvas.height - (e.clientY - rect.top) * dpr;
-    };
-
-    const handleMouseDown = () => {
-      mouse.z = 2;
-      clickPos.x = mouse.x;
-      clickPos.y = mouse.y;
-      clickTime = (Date.now() - startTime) / 1000;
-    };
-
-    const handleMouseUp = () => { mouse.z = 0; };
 
     handleResize();
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
 
+    const startTime = Date.now();
     let animId: number;
+
     const render = () => {
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.uniform2f(resLoc, canvas.width, canvas.height);
-      gl.uniform1f(timeLoc, (Date.now() - startTime) / 1000);
-      gl.uniform3f(mouseLoc, mouse.x, mouse.y, mouse.z);
-      gl.uniform2f(clickPosLoc, clickPos.x, clickPos.y);
-      gl.uniform1f(clickTimeLoc, clickTime);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      const currentTime = (Date.now() - startTime) / 1000;
+
+      gl.useProgram(program);
+      gl.uniform3f(resLoc, canvas.width, canvas.height, 1.0);
+      gl.uniform1f(timeLoc, currentTime);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.enableVertexAttribArray(posLoc);
+      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+
       animId = requestAnimationFrame(render);
     };
 
@@ -197,11 +159,8 @@ export default function ShaderBackground() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDark]);
+  }, []);
 
   return (
     <canvas
