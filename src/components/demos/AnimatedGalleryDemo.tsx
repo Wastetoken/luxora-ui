@@ -10,23 +10,35 @@ const AnimatedGalleryDemo = () => {
         </div>
         <GalleryContainer className="h-[500px]">
           <GalleryCol yRange={["0%", "-20%"]}>
-            {[1, 2, 3].map(i => (
-              <div key={i} className="h-64 w-full rounded-xl bg-neutral-800 border border-neutral-700 overflow-hidden flex items-center justify-center">
-                <span className="text-4xl font-bold text-neutral-600">{i}</span>
+            {[
+              "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/18-fractal-glass-hero-bg.jpg",
+              "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/17-fractal-glass-texture-light-gradients.jpg",
+              "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/13-green-fractal-light-background.jpg",
+            ].map((src, i) => (
+              <div key={i} className="h-64 w-full rounded-xl overflow-hidden">
+                <img src={src} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" />
               </div>
             ))}
           </GalleryCol>
           <GalleryCol yRange={["-20%", "0%"]} style={{ marginTop: '-50px' }}>
-            {[4, 5, 6].map(i => (
-              <div key={i} className="h-64 w-full rounded-xl bg-neutral-800 border border-neutral-700 overflow-hidden flex items-center justify-center">
-                <span className="text-4xl font-bold text-neutral-600">{i}</span>
+            {[
+              "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+              "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+              "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/47-fractal-phantom-gradient-stripes.jpg",
+            ].map((src, i) => (
+              <div key={i} className="h-64 w-full rounded-xl overflow-hidden">
+                <img src={src} alt={`Gallery ${i + 4}`} className="w-full h-full object-cover" />
               </div>
             ))}
           </GalleryCol>
           <GalleryCol yRange={["0%", "-20%"]}>
-            {[7, 8, 9].map(i => (
-              <div key={i} className="h-64 w-full rounded-xl bg-neutral-800 border border-neutral-700 overflow-hidden flex items-center justify-center">
-                <span className="text-4xl font-bold text-neutral-600">{i}</span>
+            {[
+              "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/48-cool-tone-spatial-gradient.jpg",
+              "https://pub-391b349e64bf41c79cbb737e77691d35.r2.dev/Blue-Energy-Beam.jpg",
+              "https://pub-391b349e64bf41c79cbb737e77691d35.r2.dev/Dusk-Amber-Gradient.png",
+            ].map((src, i) => (
+              <div key={i} className="h-64 w-full rounded-xl overflow-hidden">
+                <img src={src} alt={`Gallery ${i + 7}`} className="w-full h-full object-cover" />
               </div>
             ))}
           </GalleryCol>
