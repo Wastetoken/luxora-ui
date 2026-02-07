@@ -124,11 +124,12 @@ export const WavyBlockItem: React.FC<WavyBlockItemProps> = ({
 
 export function WavyBlock({
   offset = ['start end', 'end start'],
+  progress,
   children,
   className,
   ...props
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}: React.ComponentPropsWithRef<'div'> & { offset?: any }) {
+}: React.ComponentPropsWithRef<'div'> & { offset?: any; progress?: MotionValue<number> }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const { current } = containerRef;
 
@@ -144,8 +145,11 @@ export function WavyBlock({
     target: containerRef,
     offset: offset,
   });
+
+  const activeProgress = progress || scrollYProgress;
+
   return (
-    <WavyBlockContext.Provider value={{ scrollYProgress, maxLen }}>
+    <WavyBlockContext.Provider value={{ scrollYProgress: activeProgress, maxLen }}>
       <div ref={containerRef} className={cn(className)} {...props}>
         {children}
       </div>

@@ -44,7 +44,7 @@ const Skiper41 = () => {
       <ProgressiveBlur position="top" backgroundColor="#f5f4f3" />
       <ProgressiveBlur position="bottom" backgroundColor="#f5f4f3" />
 
-      <div className="flex h-[calc(100vh-1rem)] w-full flex-col items-center overflow-scroll">
+      <div className="flex h-full w-full flex-col items-center overflow-auto">
         <div className="mt-42 grid content-start justify-items-center gap-6 text-center text-black pt-20">
           <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-white after:to-black after:content-['']">
             Scroll down to see the effect
