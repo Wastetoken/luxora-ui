@@ -1,117 +1,100 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-const vertexShader = `
+const vertexShaderSource = `
   attribute vec2 position;
   void main() {
     gl_Position = vec4(position, 0.0, 1.0);
   }
 `;
 
-const fragmentShader = `
+const getFragmentShader = (invert: boolean) => `
   precision highp float;
   uniform vec2 iResolution;
   uniform float iTime;
-  uniform vec2 iMouse;
-
-  float hash(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-  }
+  uniform vec3 iMouse;
+  uniform vec2 iClickPos;
+  uniform float iClickTime;
 
   float noise(vec2 p) {
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    f = f * f * (3.0 - 2.0 * f);
-    float a = hash(i);
-    float b = hash(i + vec2(1.0, 0.0));
-    float c = hash(i + vec2(0.0, 1.0));
-    float d = hash(i + vec2(1.0, 1.0));
-    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+    return smoothstep(-0.5, 0.9, sin((p.x - p.y) * 555.0) * sin(p.y * 1444.0)) - 0.4;
   }
 
-  float fbm(vec2 p) {
-    float f = 0.0;
-    float amp = 0.5;
-    for (int i = 0; i < 5; i++) {
-      f += amp * noise(p);
-      p = p * 2.1 + vec2(1.7, 9.2);
-      amp *= 0.5;
-    }
-    return f;
+  float fabric(vec2 p) {
+    mat2 m = mat2(0.06, 0.02, -0.02, -0.01);
+    float f = 0.62 * noise(p);
+    f += -0.43 * noise(p = m * p);
+    f += -0.12 * noise(p = m * p);
+    return f + 0.1 / noise(m * p);
   }
 
-  float pattern(vec2 p, float t) {
-    vec2 q = vec2(
-      fbm(p + vec2(0.0, 0.0) + 0.15 * t),
-      fbm(p + vec2(5.2, 1.3) + 0.12 * t)
-    );
-    vec2 r = vec2(
-      fbm(p + 4.0 * q + vec2(1.7, 9.2) + 0.126 * t),
-      fbm(p + 4.0 * q + vec2(8.3, 2.8) + 0.13 * t)
-    );
-    return fbm(p + 4.0 * r);
+  float silk(vec2 uv, float t) {
+    float s = sin(-15.0 * (uv.x + uv.y + cos(26.0 * uv.x + 5.0 * uv.y)) + sin(19.0 * (uv.x + uv.y)) - t);
+    s = 1.17 + 0.01 * (s * s * 20.5 + s);
+    s *= 0.8 + 0.91 * fabric(uv * min(iResolution.x, iResolution.y) * 0.5999);
+    return s * 0.1009 + 0.8100;
+  }
+
+  float silkd(vec2 uv, float t) {
+    float xy = uv.x + uv.y;
+    float d = (1.001 * (1.0 - 80.0 * sin(2.0 * uv.x + -7.0 * uv.y)) + 999.0 * cos(1.0 * xy)) * 
+              cos(5.0 * (cos(2.0 * uv.x + 5.0 * uv.y) + xy) + sin(12.0 * xy) - t);
+    return 0.005 * d * (sign(d) + 3.0);
   }
 
   void main() {
-    vec2 uv = gl_FragCoord.xy / iResolution.xy;
-    float aspect = iResolution.x / iResolution.y;
-    vec2 p = uv * 3.0 - 1.5;
-    p.x *= aspect;
-
-    float t = iTime * 0.25;
-
-    // Mouse influence
-    vec2 mouseNorm = iMouse / iResolution;
-    p += (mouseNorm - 0.5) * 0.2;
-
-    float f = pattern(p, t);
-
-    // Base: olive/sage green
-    vec3 sage = vec3(0.52, 0.56, 0.42);
-    vec3 olive = vec3(0.45, 0.50, 0.38);
-    vec3 col = mix(sage, olive, f);
-
-    // Central radial glow — pink/magenta orb
-    vec2 center = uv - 0.5;
-    center.x *= aspect;
-    float dist = length(center);
-
-    // Concentric ring distortion
-    float rings = sin(dist * 18.0 - t * 1.5) * 0.5 + 0.5;
-    rings *= exp(-dist * 3.0);
-
-    // Pink/magenta gradient from center
-    vec3 pink = vec3(0.82, 0.32, 0.62);
-    vec3 magenta = vec3(0.72, 0.22, 0.58);
-    vec3 hotPink = vec3(0.90, 0.40, 0.70);
-
-    // Strong central glow
-    float glow = exp(-dist * 2.2);
-    col = mix(col, pink, glow * 0.85);
-    col = mix(col, magenta, glow * rings * 0.4);
-    col = mix(col, hotPink, exp(-dist * 4.0) * 0.5);
-
-    // Purple transition zone between pink and green
-    vec3 purple = vec3(0.55, 0.35, 0.55);
-    float purpleZone = smoothstep(0.2, 0.5, dist) * smoothstep(0.7, 0.4, dist);
-    col = mix(col, purple, purpleZone * 0.3);
-
-    // Subtle pattern-based color variation
-    col += vec3(0.05, -0.02, 0.03) * f;
-
-    // Gentle vignette
-    float vig = 1.0 - 0.25 * length(uv - 0.5);
-    col *= vig;
-
-    // Subtle grain
-    float grain = hash(uv * iTime) * 0.025;
-    col += grain;
-
-    gl_FragColor = vec4(col, 1.0);
+    float mr = min(iResolution.x, iResolution.y);
+    vec2 uv = gl_FragCoord.xy / mr;
+    float t = iTime;
+    
+    uv.y += 0.03 * sin(8.0 * uv.x - t);
+    
+    float timeSinceClick = t - iClickTime;
+    
+    if (timeSinceClick < 3.0 && iClickTime > 0.0) {
+      vec2 clickUv = iClickPos.xy / mr;
+      float dist = distance(clickUv, uv);
+      float ripple = sin(dist * 50.0 - timeSinceClick * 12.0) * exp(-dist * 5.0 - timeSinceClick * 2.0);
+      uv += normalize(uv - clickUv) * ripple * 0.08;
+    }
+    
+    float s = sqrt(silk(uv, t));
+    float d = silkd(uv, t);
+    
+    vec3 c = vec3(s);
+    c += 0.7 * vec3(1.0, 0.83, 0.6) * d;
+    c *= 1.0 - max(0.0, 0.8 * d);
+    
+    ${invert ? `
+      c = pow(c, 0.3 / vec3(0.52, 0.5, 0.4));
+      c = 1.0 - c;
+    ` : `
+      c = pow(c, vec3(0.52, 0.5, 0.4));
+    `}
+    
+    gl_FragColor = vec4(c, 1.0);
   }
 `;
 
 export default function ShaderBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    const checkTheme = () => {
+      const isDarkMode = document.documentElement.classList.contains('dark') ||
+                         window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setIsDark(isDarkMode);
+    };
+    checkTheme();
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', checkTheme);
+    return () => {
+      observer.disconnect();
+      mediaQuery.removeEventListener('change', checkTheme);
+    };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -133,8 +116,8 @@ export default function ShaderBackground() {
       return shader;
     };
 
-    const vs = createShader(gl.VERTEX_SHADER, vertexShader);
-    const fs = createShader(gl.FRAGMENT_SHADER, fragmentShader);
+    const vs = createShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const fs = createShader(gl.FRAGMENT_SHADER, getFragmentShader(isDark));
     if (!vs || !fs) return;
 
     const program = gl.createProgram();
@@ -161,8 +144,12 @@ export default function ShaderBackground() {
     const resLoc = gl.getUniformLocation(program, 'iResolution');
     const timeLoc = gl.getUniformLocation(program, 'iTime');
     const mouseLoc = gl.getUniformLocation(program, 'iMouse');
+    const clickPosLoc = gl.getUniformLocation(program, 'iClickPos');
+    const clickTimeLoc = gl.getUniformLocation(program, 'iClickTime');
 
-    const mouse = { x: 0, y: 0 };
+    const mouse = { x: 0, y: 0, z: 0 };
+    const clickPos = { x: 0, y: 0 };
+    let clickTime = 0;
     const startTime = Date.now();
 
     const handleResize = () => {
@@ -178,16 +165,29 @@ export default function ShaderBackground() {
       mouse.y = canvas.height - (e.clientY - rect.top) * dpr;
     };
 
+    const handleMouseDown = () => {
+      mouse.z = 2;
+      clickPos.x = mouse.x;
+      clickPos.y = mouse.y;
+      clickTime = (Date.now() - startTime) / 1000;
+    };
+
+    const handleMouseUp = () => { mouse.z = 0; };
+
     handleResize();
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
 
     let animId: number;
     const render = () => {
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(resLoc, canvas.width, canvas.height);
       gl.uniform1f(timeLoc, (Date.now() - startTime) / 1000);
-      gl.uniform2f(mouseLoc, mouse.x, mouse.y);
+      gl.uniform3f(mouseLoc, mouse.x, mouse.y, mouse.z);
+      gl.uniform2f(clickPosLoc, clickPos.x, clickPos.y);
+      gl.uniform1f(clickTimeLoc, clickTime);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       animId = requestAnimationFrame(render);
     };
@@ -198,8 +198,10 @@ export default function ShaderBackground() {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, []);
+  }, [isDark]);
 
   return (
     <canvas
