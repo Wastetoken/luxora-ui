@@ -123,4 +123,8 @@
   .font-satoshi {
     font-family: 'Satoshi', sans-serif;
   }
+
+  .js-custom-cursor.active {
+    opacity: 1;
+  }
 }
