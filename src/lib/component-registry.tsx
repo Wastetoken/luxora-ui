@@ -67,76 +67,78 @@ export interface ComponentEntry {
   needsFullscreen?: boolean;
   /** NPM packages required by this component */
   dependencies?: string[];
-  /** Demo wrapper filename in src/components/demos/ (if any) */
-  demoFile?: string;
+  /** The actual export name(s) from the source file. Used to generate correct import code. */
+  exportName: string;
+  /** True if the component uses `export default` instead of named export */
+  isDefaultExport?: boolean;
 }
 
 export const componentRegistry: ComponentEntry[] = [
   // Heroes & Sections
-  { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx", needsFullscreen: true, dependencies: ["three", "gsap"], demoFile: "HorizonHeroDemo.tsx" },
-  { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx" },
+  { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx", needsFullscreen: true, dependencies: ["three", "gsap"], exportName: "HorizonHero" },
+  { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx", exportName: "Component" },
 
   // Shaders & Effects
-  { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx" },
-  { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx" },
-  { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx" },
+  { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "SilkShader", isDefaultExport: true },
+  { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx", exportName: "SilkShader", isDefaultExport: true },
+  { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx", exportName: "SilkShader", isDefaultExport: true },
 
   // Animations
-  { id: "fluid-blob", name: "Fluid Blob", category: "Animations", component: LavaLamp, sourceFile: "fluid-blob.tsx", dependencies: ["three", "@react-three/fiber"] },
-  { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx" },
-  { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx" },
-  { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx" },
-  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["framer-motion"], demoFile: "AnimatedGalleryDemo.tsx" },
+  { id: "fluid-blob", name: "Fluid Blob", category: "Animations", component: LavaLamp, sourceFile: "fluid-blob.tsx", dependencies: ["three", "@react-three/fiber"], exportName: "LavaLamp" },
+  { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx", exportName: "CircleAnimationsGrid" },
+  { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx", exportName: "CircleAnimationsGrid" },
+  { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx", exportName: "CircleAnimationsGrid" },
+  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "ContainerScroll, GalleryContainer, GalleryCol" },
 
   // Text Effects
-  { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx", dependencies: ["framer-motion"], demoFile: "TextRollDemo.tsx" },
-  { id: "wavy-text-block", name: "Wavy Text Block", category: "Text Effects", component: WavyTextDemo, sourceFile: "wavy-text-block.tsx", dependencies: ["framer-motion"], demoFile: "WavyTextDemo.tsx" },
-  { id: "parallax-text", name: "Parallax Text", category: "Text Effects", component: VelocityText, sourceFile: "parallax-scrolling-text-effect.tsx", needsFullscreen: true, dependencies: ["framer-motion"] },
-  { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"] },
+  { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx", dependencies: ["framer-motion"], exportName: "TextRoll" },
+  { id: "wavy-text-block", name: "Wavy Text Block", category: "Text Effects", component: WavyTextDemo, sourceFile: "wavy-text-block.tsx", dependencies: ["framer-motion"], exportName: "WavyBlock, WavyBlockItem" },
+  { id: "parallax-text", name: "Parallax Text", category: "Text Effects", component: VelocityText, sourceFile: "parallax-scrolling-text-effect.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "VelocityText" },
+  { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper31" },
 
   // Scroll Effects
-  { id: "flyby-scroll", name: "Flyby Scroll", category: "Scroll Effects", component: FlybyScroll, sourceFile: "flyby-scroll.tsx" },
-  { id: "svg-follow-scroll", name: "SVG Path Scroll", category: "Scroll Effects", component: SvgFollowScroll, sourceFile: "svg-follow-scroll.tsx", needsFullscreen: true, dependencies: ["framer-motion"] },
-  { id: "image-trail-effect", name: "Image Trail Effect", category: "Scroll Effects", component: ImageTrailDemo, sourceFile: "image-trail-effect.tsx", dependencies: ["gsap"], demoFile: "ImageTrailDemo.tsx" },
+  { id: "flyby-scroll", name: "Flyby Scroll", category: "Scroll Effects", component: FlybyScroll, sourceFile: "flyby-scroll.tsx", exportName: "Component" },
+  { id: "svg-follow-scroll", name: "SVG Path Scroll", category: "Scroll Effects", component: SvgFollowScroll, sourceFile: "svg-follow-scroll.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "Skiper19" },
+  { id: "image-trail-effect", name: "Image Trail Effect", category: "Scroll Effects", component: ImageTrailDemo, sourceFile: "image-trail-effect.tsx", dependencies: ["gsap"], exportName: "TrailWrapper", isDefaultExport: true },
 
   // Interactive
-  { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"] },
-  { id: "menu-animations", name: "Menu Animations", category: "Interactive", component: MenuAnimationsDemo, sourceFile: "menu-animations.tsx", dependencies: ["gsap"], demoFile: "MenuAnimationsDemo.tsx" },
+  { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "Component" },
+  { id: "menu-animations", name: "Menu Animations", category: "Interactive", component: MenuAnimationsDemo, sourceFile: "menu-animations.tsx", dependencies: ["gsap"], exportName: "MenuAnimation" },
 
   // Cards & Layout
-  { id: "display-cards", name: "Display Cards", category: "Cards & Layout", component: DisplayCards, sourceFile: "display-cards.tsx" },
-  { id: "mil-hardware", name: "Military Hardware", category: "Cards & Layout", component: MilHardware, sourceFile: "mil-hardware.tsx" },
+  { id: "display-cards", name: "Display Cards", category: "Cards & Layout", component: DisplayCards, sourceFile: "display-cards.tsx", exportName: "DisplayCards", isDefaultExport: true },
+  { id: "mil-hardware", name: "Military Hardware", category: "Cards & Layout", component: MilHardware, sourceFile: "mil-hardware.tsx", exportName: "MilHardware", isDefaultExport: true },
 
   // Skiper Collection
-  { id: "skiper3", name: "Skiper 3", category: "Skiper Collection", component: Skiper3, sourceFile: "skiper3.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper4", name: "Skiper 4", category: "Skiper Collection", component: Skiper4, sourceFile: "skiper4.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper16", name: "Skiper 16", category: "Skiper Collection", component: Skiper16, sourceFile: "skiper16.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"] },
-  { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx", needsFullscreen: true, dependencies: ["gsap", "lenis"] },
-  { id: "skiper25", name: "Skiper 25", category: "Skiper Collection", component: Skiper25, sourceFile: "skiper25.tsx", dependencies: ["framer-motion", "use-sound"] },
-  { id: "skiper26", name: "Skiper 26", category: "Skiper Collection", component: Skiper26, sourceFile: "skiper26.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"] },
-  { id: "skiper30", name: "Skiper 30", category: "Skiper Collection", component: Skiper30, sourceFile: "skiper30.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"] },
-  { id: "skiper31", name: "Skiper 31", category: "Skiper Collection", component: Skiper31, sourceFile: "skiper31.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"] },
-  { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"] },
-  { id: "skiper37", name: "Skiper 37", category: "Skiper Collection", component: Skiper37, sourceFile: "skiper37.tsx", dependencies: ["framer-motion", "@number-flow/react", "react-intersection-observer"] },
-  { id: "skiper39", name: "Skiper 39", category: "Skiper Collection", component: Skiper39, sourceFile: "skiper39.tsx", needsFullscreen: true, dependencies: ["gsap"] },
-  { id: "skiper40", name: "Skiper 40", category: "Skiper Collection", component: Skiper40, sourceFile: "skiper40.tsx" },
-  { id: "skiper41", name: "Skiper 41", category: "Skiper Collection", component: Skiper41, sourceFile: "skiper41.tsx", needsFullscreen: true },
-  { id: "skiper47", name: "Skiper 47", category: "Skiper Collection", component: Skiper47, sourceFile: "skiper47.tsx", dependencies: ["framer-motion", "swiper"] },
-  { id: "skiper48", name: "Skiper 48", category: "Skiper Collection", component: Skiper48, sourceFile: "skiper48.tsx", dependencies: ["framer-motion", "swiper"] },
-  { id: "skiper49", name: "Skiper 49", category: "Skiper Collection", component: Skiper49, sourceFile: "skiper49.tsx", dependencies: ["framer-motion", "swiper"] },
-  { id: "skiper50", name: "Skiper 50", category: "Skiper Collection", component: Skiper50, sourceFile: "skiper50.tsx", dependencies: ["framer-motion", "swiper"] },
-  { id: "skiper51", name: "Skiper 51", category: "Skiper Collection", component: Skiper51, sourceFile: "skiper51.tsx", dependencies: ["framer-motion", "swiper"] },
-  { id: "skiper52", name: "Skiper 52", category: "Skiper Collection", component: Skiper52, sourceFile: "skiper52.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper53", name: "Skiper 53", category: "Skiper Collection", component: Skiper53, sourceFile: "skiper53.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper54", name: "Skiper 54", category: "Skiper Collection", component: Skiper54, sourceFile: "skiper54.tsx", dependencies: ["framer-motion", "embla-carousel-autoplay"] },
-  { id: "skiper58", name: "Skiper 58", category: "Skiper Collection", component: Skiper58, sourceFile: "skiper58.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper61", name: "Skiper 61", category: "Skiper Collection", component: Skiper61, sourceFile: "skiper61.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper62", name: "Skiper 62", category: "Skiper Collection", component: Skiper62, sourceFile: "skiper62.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper63", name: "Skiper 63", category: "Skiper Collection", component: Skiper63, sourceFile: "skiper63.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper64", name: "Skiper 64", category: "Skiper Collection", component: Skiper64, sourceFile: "skiper64.tsx", dependencies: ["framer-motion"] },
-  { id: "skiper65", name: "Skiper 65", category: "Skiper Collection", component: Skiper65, sourceFile: "skiper65.tsx" },
-  { id: "skiper66", name: "Skiper 66", category: "Skiper Collection", component: Skiper66, sourceFile: "skiper66.tsx" },
-  { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: VideoPlayerDemo, sourceFile: "skiper67.tsx", dependencies: ["media-chrome"], demoFile: "VideoPlayerDemo.tsx" },
-  { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx" },
+  { id: "skiper3", name: "Skiper 3", category: "Skiper Collection", component: Skiper3, sourceFile: "skiper3.tsx", dependencies: ["framer-motion"], exportName: "Skiper3" },
+  { id: "skiper4", name: "Skiper 4", category: "Skiper Collection", component: Skiper4, sourceFile: "skiper4.tsx", dependencies: ["framer-motion"], exportName: "Skiper4" },
+  { id: "skiper16", name: "Skiper 16", category: "Skiper Collection", component: Skiper16, sourceFile: "skiper16.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper16" },
+  { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx", needsFullscreen: true, dependencies: ["gsap", "lenis"], exportName: "Skiper17" },
+  { id: "skiper25", name: "Skiper 25", category: "Skiper Collection", component: Skiper25, sourceFile: "skiper25.tsx", dependencies: ["framer-motion", "use-sound"], exportName: "Skiper25" },
+  { id: "skiper26", name: "Skiper 26", category: "Skiper Collection", component: Skiper26, sourceFile: "skiper26.tsx", dependencies: ["framer-motion"], exportName: "Skiper26" },
+  { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper28" },
+  { id: "skiper30", name: "Skiper 30", category: "Skiper Collection", component: Skiper30, sourceFile: "skiper30.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper30" },
+  { id: "skiper31", name: "Skiper 31", category: "Skiper Collection", component: Skiper31, sourceFile: "skiper31.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper31" },
+  { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper34" },
+  { id: "skiper37", name: "Skiper 37", category: "Skiper Collection", component: Skiper37, sourceFile: "skiper37.tsx", dependencies: ["framer-motion", "@number-flow/react", "react-intersection-observer"], exportName: "Skiper37" },
+  { id: "skiper39", name: "Skiper 39", category: "Skiper Collection", component: Skiper39, sourceFile: "skiper39.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "Skiper39" },
+  { id: "skiper40", name: "Skiper 40", category: "Skiper Collection", component: Skiper40, sourceFile: "skiper40.tsx", exportName: "Skiper40" },
+  { id: "skiper41", name: "Skiper 41", category: "Skiper Collection", component: Skiper41, sourceFile: "skiper41.tsx", needsFullscreen: true, exportName: "Skiper41" },
+  { id: "skiper47", name: "Skiper 47", category: "Skiper Collection", component: Skiper47, sourceFile: "skiper47.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper47" },
+  { id: "skiper48", name: "Skiper 48", category: "Skiper Collection", component: Skiper48, sourceFile: "skiper48.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper48" },
+  { id: "skiper49", name: "Skiper 49", category: "Skiper Collection", component: Skiper49, sourceFile: "skiper49.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper49" },
+  { id: "skiper50", name: "Skiper 50", category: "Skiper Collection", component: Skiper50, sourceFile: "skiper50.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper50" },
+  { id: "skiper51", name: "Skiper 51", category: "Skiper Collection", component: Skiper51, sourceFile: "skiper51.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper51" },
+  { id: "skiper52", name: "Skiper 52", category: "Skiper Collection", component: Skiper52, sourceFile: "skiper52.tsx", dependencies: ["framer-motion"], exportName: "Skiper52" },
+  { id: "skiper53", name: "Skiper 53", category: "Skiper Collection", component: Skiper53, sourceFile: "skiper53.tsx", dependencies: ["framer-motion"], exportName: "Skiper53" },
+  { id: "skiper54", name: "Skiper 54", category: "Skiper Collection", component: Skiper54, sourceFile: "skiper54.tsx", dependencies: ["framer-motion", "embla-carousel-autoplay"], exportName: "Skiper54" },
+  { id: "skiper58", name: "Skiper 58", category: "Skiper Collection", component: Skiper58, sourceFile: "skiper58.tsx", dependencies: ["framer-motion"], exportName: "Skiper58" },
+  { id: "skiper61", name: "Skiper 61", category: "Skiper Collection", component: Skiper61, sourceFile: "skiper61.tsx", dependencies: ["framer-motion"], exportName: "Skiper61" },
+  { id: "skiper62", name: "Skiper 62", category: "Skiper Collection", component: Skiper62, sourceFile: "skiper62.tsx", dependencies: ["framer-motion"], exportName: "Skiper62" },
+  { id: "skiper63", name: "Skiper 63", category: "Skiper Collection", component: Skiper63, sourceFile: "skiper63.tsx", dependencies: ["framer-motion"], exportName: "Skiper63" },
+  { id: "skiper64", name: "Skiper 64", category: "Skiper Collection", component: Skiper64, sourceFile: "skiper64.tsx", dependencies: ["framer-motion"], exportName: "Skiper64" },
+  { id: "skiper65", name: "Skiper 65", category: "Skiper Collection", component: Skiper65, sourceFile: "skiper65.tsx", exportName: "Skiper65" },
+  { id: "skiper66", name: "Skiper 66", category: "Skiper Collection", component: Skiper66, sourceFile: "skiper66.tsx", exportName: "Skiper66" },
+  { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: VideoPlayerDemo, sourceFile: "skiper67.tsx", dependencies: ["media-chrome"], exportName: "VideoPlayer" },
+  { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx", exportName: "Skiper87" },
 ];

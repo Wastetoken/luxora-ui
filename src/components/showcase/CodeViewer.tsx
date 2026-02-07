@@ -72,13 +72,29 @@ const useCopyToClipboard = () => {
   return { copied, copy };
 };
 
-// Generate usage snippet for a component
+// Generate correct, working usage snippet for a component
 const generateUsageCode = (entry: ComponentEntry): string => {
   const baseName = entry.sourceFile.replace(".tsx", "");
-  return `import { Component } from "@/components/ui/${baseName}";
+  const importPath = `@/components/ui/${baseName}`;
+
+  if (entry.isDefaultExport) {
+    return `import ${entry.exportName} from "${importPath}";
 
 const DemoOne = () => {
-  return <Component />;
+  return <${entry.exportName} />;
+};
+
+export { DemoOne };`;
+  }
+
+  // For multi-export components, use the first export as the main component
+  const exports = entry.exportName.split(",").map(e => e.trim());
+  const mainExport = exports[0];
+
+  return `import { ${entry.exportName} } from "${importPath}";
+
+const DemoOne = () => {
+  return <${mainExport} />;
 };
 
 export { DemoOne };`;
@@ -86,10 +102,11 @@ export { DemoOne };`;
 
 // Generate a copy-paste prompt for AI assistants
 const generatePrompt = (entry: ComponentEntry): string => {
+  const baseName = entry.sourceFile.replace(".tsx", "");
   const deps = entry.dependencies?.length
     ? `\nRequired dependencies: ${entry.dependencies.join(", ")}`
     : "";
-  return `Create a page using the ${entry.name} component from "@/components/ui/${entry.sourceFile.replace(".tsx", "")}".${deps}`;
+  return `Create a page using the ${entry.name} component from "@/components/ui/${baseName}".${deps}\n\nImport: ${entry.isDefaultExport ? `import ${entry.exportName} from "@/components/ui/${baseName}"` : `import { ${entry.exportName} } from "@/components/ui/${baseName}"`}`;
 };
 
 export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
