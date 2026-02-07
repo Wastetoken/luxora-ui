@@ -107,7 +107,7 @@ const Index = () => {
             </div>
           </div>
           <div className="flex-1 overflow-hidden p-6">
-            <CodeViewer sourceFile={selectedComponent.sourceFile} onClose={() => setShowCode(false)} />
+            <CodeViewer entry={selectedComponent} onClose={() => setShowCode(false)} />
           </div>
         </main>
       </div>

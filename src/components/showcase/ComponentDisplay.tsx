@@ -55,13 +55,11 @@ export const ComponentDisplay = ({
       {/* Content */}
       <div className="flex-1 overflow-hidden p-6">
         {showCode ? (
-          <CodeViewer sourceFile={entry.sourceFile} onClose={onCloseCode} />
+          <CodeViewer entry={entry} onClose={onCloseCode} />
         ) : (
           <div
             className="h-full rounded-lg border border-showcase-border bg-showcase-surface overflow-auto"
             style={{
-              /* transform creates a new containing block for position:fixed children,
-                 keeping them trapped inside this container instead of going fullscreen */
               transform: "translateZ(0)",
               isolation: "isolate",
             }}
