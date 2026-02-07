@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <div 
-      className="w-screen h-screen flex items-center justify-center p-4 md:p-8"
+      className="w-full h-full flex items-center justify-center p-4 md:p-8 overflow-hidden"
       style={{
         background: "radial-gradient(ellipse at center, #1a1a1a 0%, #000000 100%)",
       }}

@@ -64,7 +64,8 @@ const Skiper54 = () => {
     },
   ];
   return (
-    <div className="flex h-full w-screen items-center justify-center overflow-hidden bg-[#f5f4f3] min-h-[500px]">
+    <div className="relative flex h-full w-screen items-center justify-center overflow-hidden bg-[#f5f4f3] min-h-[500px]">
+      <span className="absolute top-6 z-10 text-[10px] uppercase tracking-widest text-black/30">Click and Drag</span>
       <Carousel_006
         images={images}
         className=""

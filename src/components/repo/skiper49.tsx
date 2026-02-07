@@ -24,7 +24,8 @@ const Skiper49 = () => {
   ];
 
   return (
-    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-[#f5f4f3] min-h-[500px]">
+    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-[#f5f4f3] min-h-[500px]">
+      <span className="absolute top-6 z-10 text-[10px] uppercase tracking-widest text-black/30">Click and Drag</span>
       <Carousel_003 className="" images={images} showPagination loop />
     </div>
   );
