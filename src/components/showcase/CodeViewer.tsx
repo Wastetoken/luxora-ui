@@ -7,9 +7,8 @@ interface CodeViewerProps {
   onClose: () => void;
 }
 
-// Glob loaders for raw source
+// Glob loader for raw source
 const repoModules = import.meta.glob("/src/components/repo/*.tsx", { query: "?raw", import: "default" });
-const demoModules = import.meta.glob("/src/components/demos/*.tsx", { query: "?raw", import: "default" });
 
 const highlightSyntax = (code: string): string => {
   let highlighted = code
@@ -95,19 +94,14 @@ const generatePrompt = (entry: ComponentEntry): string => {
 
 export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
   const [sourceCode, setSourceCode] = useState<string>("");
-  const [demoCode, setDemoCode] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [showSource, setShowSource] = useState(false);
   const [activeTab, setActiveTab] = useState<"demo" | "source">("demo");
   const { copied, copy } = useCopyToClipboard();
 
-  const hasDemoFile = !!entry.demoFile;
-
   useEffect(() => {
-    const loadSources = async () => {
+    const loadSource = async () => {
       setLoading(true);
-
-      // Load main source file
       const sourceKey = `/src/components/repo/${entry.sourceFile}`;
       if (repoModules[sourceKey]) {
         const content = await repoModules[sourceKey]() as string;
@@ -115,25 +109,16 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
       } else {
         setSourceCode(`// Source: src/components/repo/${entry.sourceFile}\n// File not found`);
       }
-
-      // Load demo file if exists
-      if (entry.demoFile) {
-        const demoKey = `/src/components/demos/${entry.demoFile}`;
-        if (demoModules[demoKey]) {
-          const content = await demoModules[demoKey]() as string;
-          setDemoCode(content);
-        }
-      }
-
       setLoading(false);
     };
-    loadSources();
-  }, [entry.sourceFile, entry.demoFile]);
+    loadSource();
+  }, [entry.sourceFile]);
 
-  // Auto-select the right tab when entering source view
+  // Reset tab when switching components
   useEffect(() => {
-    setActiveTab(hasDemoFile ? "demo" : "source");
-  }, [hasDemoFile, entry.id]);
+    setActiveTab("demo");
+    setShowSource(false);
+  }, [entry.id]);
 
   const usageCode = generateUsageCode(entry);
   const prompt = generatePrompt(entry);
@@ -147,7 +132,7 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
   }
 
   return (
-    <div className="h-full flex flex-col bg-code-bg rounded-lg border border-border overflow-hidden">
+    <div className="h-full flex flex-col bg-code-bg rounded-lg border border-border overflow-hidden relative">
       {/* Close button */}
       <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
         <button
@@ -159,7 +144,7 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
         </button>
       </div>
 
-      <div className="flex-1 overflow-auto scrollbar-thin relative">
+      <div className="flex-1 overflow-auto scrollbar-thin">
         {/* How to use section */}
         {!showSource && (
           <div className="p-6 space-y-6">
@@ -235,7 +220,7 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
                 </button>
               </div>
               <button
-                onClick={() => copy(activeTab === "demo" && hasDemoFile ? demoCode : sourceCode, "source")}
+                onClick={() => copy(activeTab === "demo" ? usageCode : sourceCode, "source")}
                 className="p-1.5 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
                 title="Copy source code"
               >
@@ -243,20 +228,18 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
               </button>
             </div>
 
-            {/* Tabs */}
+            {/* Tabs — always show demo.tsx + component file */}
             <div className="flex border-b border-border">
-              {hasDemoFile && (
-                <button
-                  onClick={() => setActiveTab("demo")}
-                  className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 ${
-                    activeTab === "demo"
-                      ? "border-primary text-primary"
-                      : "border-transparent text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  demo.tsx
-                </button>
-              )}
+              <button
+                onClick={() => setActiveTab("demo")}
+                className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 ${
+                  activeTab === "demo"
+                    ? "border-primary text-primary"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                demo.tsx
+              </button>
               <button
                 onClick={() => setActiveTab("source")}
                 className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 ${
@@ -275,7 +258,7 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
                 <code
                   dangerouslySetInnerHTML={{
                     __html: highlightSyntax(
-                      activeTab === "demo" && hasDemoFile ? demoCode : sourceCode
+                      activeTab === "demo" ? usageCode : sourceCode
                     ),
                   }}
                 />
