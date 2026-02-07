@@ -71,23 +71,30 @@ const fragmentShader = `
 
     float f = pattern(p, t);
 
-    // Amber/gold palette on dark charcoal
-    vec3 colA = vec3(0.04, 0.04, 0.06);   // deep charcoal
-    vec3 colB = vec3(0.12, 0.08, 0.02);   // dark amber
-    vec3 colC = vec3(0.85, 0.55, 0.1);    // bright amber
-    vec3 colD = vec3(0.95, 0.75, 0.3);    // gold highlight
+    // Pink / Magenta / Green / Olive palette
+    vec3 colA = vec3(0.55, 0.60, 0.45);  // muted olive/sage
+    vec3 colB = vec3(0.75, 0.40, 0.60);  // dusty pink/mauve
+    vec3 colC = vec3(0.85, 0.35, 0.70);  // vivid magenta/pink
+    vec3 colD = vec3(0.50, 0.65, 0.50);  // sage green highlight
 
     vec3 col = colA;
     col = mix(col, colB, smoothstep(0.0, 0.4, f));
-    col = mix(col, colC, smoothstep(0.4, 0.8, f) * 0.15);
-    col = mix(col, colD, smoothstep(0.75, 1.0, f) * 0.08);
+    col = mix(col, colC, smoothstep(0.3, 0.7, f) * 0.8);
+    col = mix(col, colD, smoothstep(0.6, 1.0, f) * 0.5);
+
+    // Radial glow from center (the bright pink orb)
+    vec2 center = uv - 0.5;
+    center.x *= iResolution.x / iResolution.y;
+    float dist = length(center);
+    vec3 glow = vec3(0.85, 0.30, 0.65); // magenta glow
+    col += glow * 0.6 * exp(-dist * 2.5);
 
     // Subtle vignette
-    float vig = 1.0 - 0.4 * length(uv - 0.5);
+    float vig = 1.0 - 0.3 * length(uv - 0.5);
     col *= vig;
 
-    // Add very subtle noise grain
-    float grain = hash(uv * iTime) * 0.02;
+    // Subtle grain
+    float grain = hash(uv * iTime) * 0.03;
     col += grain;
 
     gl_FragColor = vec4(col, 1.0);
