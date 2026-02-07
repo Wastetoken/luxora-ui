@@ -12,7 +12,10 @@ const Skiper87 = () => {
         </span>
       </div>
       <div className="rounded-xl border">
-        <ScrollArea className="w-62 h-72 rounded-xl">
+        <ScrollArea className="w-62 h-72 rounded-xl" style={{
+          maskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
+        }}>
           <div className="space-y-1 p-1">
             {Array.from({ length: 11 }).map((_, index) => (
               <div

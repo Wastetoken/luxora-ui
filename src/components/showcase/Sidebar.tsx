@@ -70,7 +70,7 @@ export const Sidebar = ({
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto scrollbar-thin p-2">
+      <nav className="flex-1 min-h-0 overflow-y-auto scrollbar-thin p-2">
         {sortedCategories.map((category) => (
           <div key={category} className="mb-3">
             <h3 className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium px-2 mb-1">

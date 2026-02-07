@@ -69,10 +69,12 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
   const displayCards = cards || defaultCards;
 
   return (
-    <div className="grid [grid-template-areas:'stack'] place-items-center opacity-100 animate-in fade-in-0 duration-700 pointer-events-auto">
-      {displayCards.map((cardProps, index) => (
-        <DisplayCard key={index} {...cardProps} />
-      ))}
+    <div className="flex items-center justify-center w-full h-full min-h-[400px]">
+      <div className="grid [grid-template-areas:'stack'] place-items-center opacity-100 animate-in fade-in-0 duration-700 pointer-events-auto">
+        {displayCards.map((cardProps, index) => (
+          <DisplayCard key={index} {...cardProps} />
+        ))}
+      </div>
     </div>
   );
 }

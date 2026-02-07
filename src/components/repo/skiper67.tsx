@@ -172,7 +172,7 @@ export const Skiper67 = () => {
           loop
           className="h-full w-full object-cover"
         >
-          <source src="/showreel/skiper-ui-showreel.mp4" />
+          <source src="https://stream.mux.com/A3VXy02VoUinw01pwyomEO3bHnG00gFiqki04cUqCMtlJA4/low.mp4" />
         </video>
       </div>
     </section>
@@ -218,7 +218,7 @@ const VideoPopOver = ({
       >
         <VideoPlayer style={{ width: "100%", height: "100%" }}>
           <VideoPlayerContent
-            src="/showreel/skiper-ui-showreel.mp4"
+            src="https://stream.mux.com/A3VXy02VoUinw01pwyomEO3bHnG00gFiqki04cUqCMtlJA4/low.mp4"
             autoPlay
             slot="media"
             className="w-full object-cover"

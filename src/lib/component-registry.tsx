@@ -24,7 +24,7 @@ import ImageTrailDemo from "@/components/demos/ImageTrailDemo";
 import WavyTextDemo from "@/components/demos/WavyTextDemo";
 import MenuAnimationsDemo from "@/components/demos/MenuAnimationsDemo";
 import VideoPlayerDemo from "@/components/demos/VideoPlayerDemo";
-
+import { Skiper67 } from "@/components/repo/skiper67";
 // Skiper collection
 import { Skiper3 } from "@/components/repo/skiper3";
 import { Skiper4 } from "@/components/repo/skiper4";
@@ -139,6 +139,6 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper64", name: "Skiper 64", category: "Skiper Collection", component: Skiper64, sourceFile: "skiper64.tsx", dependencies: ["framer-motion"], exportName: "Skiper64" },
   { id: "skiper65", name: "Skiper 65", category: "Skiper Collection", component: Skiper65, sourceFile: "skiper65.tsx", exportName: "Skiper65" },
   { id: "skiper66", name: "Skiper 66", category: "Skiper Collection", component: Skiper66, sourceFile: "skiper66.tsx", exportName: "Skiper66" },
-  { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: VideoPlayerDemo, sourceFile: "skiper67.tsx", dependencies: ["media-chrome"], exportName: "VideoPlayer" },
+  { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: Skiper67, sourceFile: "skiper67.tsx", dependencies: ["media-chrome", "framer-motion"], exportName: "Skiper67" },
   { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx", exportName: "Skiper87" },
 ];
