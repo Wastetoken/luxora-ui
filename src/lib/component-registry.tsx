@@ -30,7 +30,6 @@ import { Skiper3 } from "@/components/repo/skiper3";
 import { Skiper4 } from "@/components/repo/skiper4";
 import { Skiper16 } from "@/components/repo/skiper16";
 import { Skiper17 } from "@/components/repo/skiper17";
-import { Skiper19 } from "@/components/repo/skiper19";
 import { Skiper25 } from "@/components/repo/skiper25";
 import { Skiper26 } from "@/components/repo/skiper26";
 import { Skiper28 } from "@/components/repo/skiper28";
@@ -64,11 +63,14 @@ export interface ComponentEntry {
   category: string;
   component: ComponentType;
   sourceFile: string;
+  /** When true, component renders full-page instead of in the contained preview box.
+   *  Required for scroll-dependent, fixed-position, or 3D components. */
+  needsFullscreen?: boolean;
 }
 
 export const componentRegistry: ComponentEntry[] = [
   // Heroes & Sections
-  { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx" },
+  { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx", needsFullscreen: true },
   { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx" },
 
   // Shaders & Effects
@@ -81,17 +83,17 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx" },
   { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx" },
   { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx" },
-  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx" },
+  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true },
 
   // Text Effects
   { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx" },
   { id: "wavy-text-block", name: "Wavy Text Block", category: "Text Effects", component: WavyTextDemo, sourceFile: "wavy-text-block.tsx" },
-  { id: "parallax-text", name: "Parallax Text", category: "Text Effects", component: VelocityText, sourceFile: "parallax-scrolling-text-effect.tsx" },
-  { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx" },
+  { id: "parallax-text", name: "Parallax Text", category: "Text Effects", component: VelocityText, sourceFile: "parallax-scrolling-text-effect.tsx", needsFullscreen: true },
+  { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx", needsFullscreen: true },
 
   // Scroll Effects
   { id: "flyby-scroll", name: "Flyby Scroll", category: "Scroll Effects", component: FlybyScroll, sourceFile: "flyby-scroll.tsx" },
-  { id: "svg-follow-scroll", name: "SVG Path Scroll", category: "Scroll Effects", component: SvgFollowScroll, sourceFile: "svg-follow-scroll.tsx" },
+  { id: "svg-follow-scroll", name: "SVG Path Scroll", category: "Scroll Effects", component: SvgFollowScroll, sourceFile: "svg-follow-scroll.tsx", needsFullscreen: true },
   { id: "image-trail-effect", name: "Image Trail Effect", category: "Scroll Effects", component: ImageTrailDemo, sourceFile: "image-trail-effect.tsx" },
 
   // Interactive
@@ -105,15 +107,14 @@ export const componentRegistry: ComponentEntry[] = [
   // Skiper Collection
   { id: "skiper3", name: "Skiper 3", category: "Skiper Collection", component: Skiper3, sourceFile: "skiper3.tsx" },
   { id: "skiper4", name: "Skiper 4", category: "Skiper Collection", component: Skiper4, sourceFile: "skiper4.tsx" },
-  { id: "skiper16", name: "Skiper 16", category: "Skiper Collection", component: Skiper16, sourceFile: "skiper16.tsx" },
-  { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx" },
-  { id: "skiper19", name: "Skiper 19", category: "Skiper Collection", component: Skiper19, sourceFile: "skiper19.tsx" },
+  { id: "skiper16", name: "Skiper 16", category: "Skiper Collection", component: Skiper16, sourceFile: "skiper16.tsx", needsFullscreen: true },
+  { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx", needsFullscreen: true },
   { id: "skiper25", name: "Skiper 25", category: "Skiper Collection", component: Skiper25, sourceFile: "skiper25.tsx" },
   { id: "skiper26", name: "Skiper 26", category: "Skiper Collection", component: Skiper26, sourceFile: "skiper26.tsx" },
-  { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx" },
-  { id: "skiper30", name: "Skiper 30", category: "Skiper Collection", component: Skiper30, sourceFile: "skiper30.tsx" },
-  { id: "skiper31", name: "Skiper 31", category: "Skiper Collection", component: Skiper31, sourceFile: "skiper31.tsx" },
-  { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx" },
+  { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx", needsFullscreen: true },
+  { id: "skiper30", name: "Skiper 30", category: "Skiper Collection", component: Skiper30, sourceFile: "skiper30.tsx", needsFullscreen: true },
+  { id: "skiper31", name: "Skiper 31", category: "Skiper Collection", component: Skiper31, sourceFile: "skiper31.tsx", needsFullscreen: true },
+  { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx", needsFullscreen: true },
   { id: "skiper37", name: "Skiper 37", category: "Skiper Collection", component: Skiper37, sourceFile: "skiper37.tsx" },
   { id: "skiper39", name: "Skiper 39", category: "Skiper Collection", component: Skiper39, sourceFile: "skiper39.tsx" },
   { id: "skiper40", name: "Skiper 40", category: "Skiper Collection", component: Skiper40, sourceFile: "skiper40.tsx" },

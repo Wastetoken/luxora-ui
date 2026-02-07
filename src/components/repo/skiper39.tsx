@@ -290,7 +290,7 @@ const Skiper39 = () => {
           Croud Canvas
         </span>
       </div>
-      <div className="absolute bottom-0 h-full w-screen">
+      <div className="absolute bottom-0 h-full w-full">
         <CrowdCanvas src="https://assets.codepen.io/127738/all-peeps.png" rows={15} cols={7} />
       </div>
     </div>
