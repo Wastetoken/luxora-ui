@@ -18,48 +18,48 @@ import {
 const Skiper54 = () => {
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1721332163253-12d997232230?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/18-fractal-glass-hero-bg.jpg",
+      alt: "Fractal glass hero",
       title: "Block Reader",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163634-b33379204051?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/17-fractal-glass-texture-light-gradients.jpg",
+      alt: "Fractal glass texture",
       title: "Forest Fungi",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/13-green-fractal-light-background.jpg",
+      alt: "Green fractal light",
       title: "Golden Dusk",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163253-12d997232230?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+      alt: "Blue and black glass",
       title: "Silent Peaks",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163634-b33379204051?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+      alt: "Central purple glass",
       title: "Emerald Woods",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/47-fractal-phantom-gradient-stripes.jpg",
+      alt: "Phantom gradient stripes",
       title: "Falling Mist",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163253-12d997232230?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/48-cool-tone-spatial-gradient.jpg",
+      alt: "Cool tone spatial gradient",
       title: "Midnight Veil",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163634-b33379204051?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-391b349e64bf41c79cbb737e77691d35.r2.dev/Blue-Energy-Beam.jpg",
+      alt: "Blue energy beam",
       title: "Azure Ridge",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-391b349e64bf41c79cbb737e77691d35.r2.dev/Dusk-Amber-Gradient.png",
+      alt: "Dusk amber gradient",
       title: "Cloud Summit",
     },
   ];

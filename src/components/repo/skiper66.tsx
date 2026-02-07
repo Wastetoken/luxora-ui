@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const Skiper66 = () => {
   return (
     <div className="relative flex h-full w-full items-center justify-center bg-[#f5f4f3] min-h-[400px]">
-      <ClipDiv imgSrc="https://images.unsplash.com/photo-1721332163253-12d997232230?w=500&auto=format&fit=crop&q=60">
+      <ClipDiv imgSrc="https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/47-fractal-phantom-gradient-stripes.jpg">
         <h1 className="font-cal-sans text-4xl text-red-500 font-bold">Hover Me </h1>
       </ClipDiv>
     </div>

@@ -136,23 +136,23 @@ const Skiper17 = () => {
   const defaultCards = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1721332163253-12d997232230?w=800&auto=format&fit=crop&q=60",
+      image: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/18-fractal-glass-hero-bg.jpg",
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1721332163634-b33379204051?w=800&auto=format&fit=crop&q=60",
+      image: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/17-fractal-glass-texture-light-gradients.jpg",
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=800&auto=format&fit=crop&q=60",
+      image: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/13-green-fractal-light-background.jpg",
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=800&auto=format&fit=crop&q=60",
+      image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=800&auto=format&fit=crop&q=60",
+      image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
     },
   ];
 
