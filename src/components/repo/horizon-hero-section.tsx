@@ -609,7 +609,7 @@ export const HorizonHero = () => {
       </div>
 
       {/* Main content */}
-      <div className="hero-content cosmos-content">
+      <div className="hero-content cosmos-content" style={{ opacity: Math.max(0, 1 - scrollProgress * 4), pointerEvents: scrollProgress > 0.25 ? 'none' : 'auto' }}>
         <h1 ref={titleRef} className="hero-title">
           HORIZON
         </h1>
