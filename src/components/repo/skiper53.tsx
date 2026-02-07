@@ -8,34 +8,33 @@ import { cn } from "@/lib/utils";
 const Skiper53 = () => {
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1721332163253-12d997232230?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by my fav AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/18-fractal-glass-hero-bg.jpg",
+      alt: "Fractal glass hero",
       code: "# 23",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163634-b33379204051?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/17-fractal-glass-texture-light-gradients.jpg",
+      alt: "Fractal glass texture",
       code: "# 23",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/13-green-fractal-light-background.jpg",
+      alt: "Green fractal light",
       code: "# 23",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163253-12d997232230?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+      alt: "Blue and black glass",
       code: "# 23",
     },
     {
-      src: "https://images.unsplash.com/photo-1721332163634-b33379204051?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+      alt: "Central purple glass",
       code: "# 23",
     },
-
     {
-      src: "https://images.unsplash.com/photo-1721332164025-4724660d5716?w=500&auto=format&fit=crop&q=60",
-      alt: "Illustrations by ©AarzooAly",
+      src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/48-cool-tone-spatial-gradient.jpg",
+      alt: "Cool tone spatial gradient",
       code: "# 23",
     },
   ];
