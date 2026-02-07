@@ -40,7 +40,7 @@ const ProgressiveBlur = ({
 
 const Skiper41 = () => {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center bg-[#f5f4f3] text-black/40 min-h-[600px]">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#f5f4f3] text-black/40">
       <ProgressiveBlur position="top" backgroundColor="#f5f4f3" />
       <ProgressiveBlur position="bottom" backgroundColor="#f5f4f3" />
 
