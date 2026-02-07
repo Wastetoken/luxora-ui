@@ -13,13 +13,6 @@ const fragmentShader = `
   uniform float iTime;
   uniform vec2 iMouse;
 
-  #define PI 3.14159265359
-
-  mat2 rot(float a) {
-    float c = cos(a), s = sin(a);
-    return mat2(c, -s, s, c);
-  }
-
   float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
   }
@@ -60,41 +53,57 @@ const fragmentShader = `
 
   void main() {
     vec2 uv = gl_FragCoord.xy / iResolution.xy;
+    float aspect = iResolution.x / iResolution.y;
     vec2 p = uv * 3.0 - 1.5;
-    p.x *= iResolution.x / iResolution.y;
+    p.x *= aspect;
 
-    float t = iTime * 0.3;
+    float t = iTime * 0.25;
 
     // Mouse influence
     vec2 mouseNorm = iMouse / iResolution;
-    p += (mouseNorm - 0.5) * 0.3;
+    p += (mouseNorm - 0.5) * 0.2;
 
     float f = pattern(p, t);
 
-    // Pink / Magenta / Green / Olive palette
-    vec3 colA = vec3(0.55, 0.60, 0.45);  // muted olive/sage
-    vec3 colB = vec3(0.75, 0.40, 0.60);  // dusty pink/mauve
-    vec3 colC = vec3(0.85, 0.35, 0.70);  // vivid magenta/pink
-    vec3 colD = vec3(0.50, 0.65, 0.50);  // sage green highlight
+    // Base: olive/sage green
+    vec3 sage = vec3(0.52, 0.56, 0.42);
+    vec3 olive = vec3(0.45, 0.50, 0.38);
+    vec3 col = mix(sage, olive, f);
 
-    vec3 col = colA;
-    col = mix(col, colB, smoothstep(0.0, 0.4, f));
-    col = mix(col, colC, smoothstep(0.3, 0.7, f) * 0.8);
-    col = mix(col, colD, smoothstep(0.6, 1.0, f) * 0.5);
-
-    // Radial glow from center (the bright pink orb)
+    // Central radial glow — pink/magenta orb
     vec2 center = uv - 0.5;
-    center.x *= iResolution.x / iResolution.y;
+    center.x *= aspect;
     float dist = length(center);
-    vec3 glow = vec3(0.85, 0.30, 0.65); // magenta glow
-    col += glow * 0.6 * exp(-dist * 2.5);
 
-    // Subtle vignette
-    float vig = 1.0 - 0.3 * length(uv - 0.5);
+    // Concentric ring distortion
+    float rings = sin(dist * 18.0 - t * 1.5) * 0.5 + 0.5;
+    rings *= exp(-dist * 3.0);
+
+    // Pink/magenta gradient from center
+    vec3 pink = vec3(0.82, 0.32, 0.62);
+    vec3 magenta = vec3(0.72, 0.22, 0.58);
+    vec3 hotPink = vec3(0.90, 0.40, 0.70);
+
+    // Strong central glow
+    float glow = exp(-dist * 2.2);
+    col = mix(col, pink, glow * 0.85);
+    col = mix(col, magenta, glow * rings * 0.4);
+    col = mix(col, hotPink, exp(-dist * 4.0) * 0.5);
+
+    // Purple transition zone between pink and green
+    vec3 purple = vec3(0.55, 0.35, 0.55);
+    float purpleZone = smoothstep(0.2, 0.5, dist) * smoothstep(0.7, 0.4, dist);
+    col = mix(col, purple, purpleZone * 0.3);
+
+    // Subtle pattern-based color variation
+    col += vec3(0.05, -0.02, 0.03) * f;
+
+    // Gentle vignette
+    float vig = 1.0 - 0.25 * length(uv - 0.5);
     col *= vig;
 
     // Subtle grain
-    float grain = hash(uv * iTime) * 0.03;
+    float grain = hash(uv * iTime) * 0.025;
     col += grain;
 
     gl_FragColor = vec4(col, 1.0);
