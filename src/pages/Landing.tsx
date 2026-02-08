@@ -17,7 +17,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-black text-white font-satoshi cursor-none">
+    <div className="relative w-screen h-screen overflow-hidden bg-black text-white font-satoshi">
       <ShaderBackground />
 
       {/* Noise overlay */}
