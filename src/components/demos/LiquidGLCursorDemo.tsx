@@ -2,7 +2,7 @@ import { LiquidGLCursor } from "@/components/repo/liquid-gl-cursor";
 
 const LiquidGLCursorDemo = () => {
   return (
-    <div className="w-full h-full min-h-[500px]">
+    <div className="w-full h-screen">
       <LiquidGLCursor>
         <div className="relative z-10 h-full flex flex-col items-start justify-center max-w-3xl mx-auto px-12 text-white pointer-events-none select-none">
           <h1 className="text-5xl font-bold mb-6 leading-tight">
