@@ -65,13 +65,13 @@ const Landing = () => {
         </div>
 
         {/* Footer */}
-        <footer className="flex justify-between items-end border-t border-white/10 pt-8 pointer-events-auto">
+        <footer className="grid grid-cols-3 items-end border-t border-white/10 pt-8 pointer-events-auto">
           <div className="flex flex-col gap-1">
             <h3 className="font-clash text-lg font-medium">PLAYGROUND</h3>
             <p className="text-xs text-white/40 max-w-[200px]">COMPONENTS BUILT BY MANY, COMPILED BY LUXORA.</p>
           </div>
 
-          <div className="flex gap-12 items-center">
+          <div className="flex gap-12 items-center justify-center">
             <div className="hidden md:block text-center">
               <h3 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Status</h3>
               <p className="text-sm">Online</p>
@@ -82,7 +82,9 @@ const Landing = () => {
             </div>
           </div>
 
-          <Link to="/showcase" className="text-3xl animate-bounce opacity-50">↓</Link>
+          <div className="flex justify-end">
+            <Link to="/showcase" className="text-3xl animate-bounce opacity-50">↓</Link>
+          </div>
         </footer>
       </div>
     </div>
