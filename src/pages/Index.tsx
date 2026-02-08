@@ -35,7 +35,7 @@ const Index = () => {
   if (selectedComponent?.needsFullscreen && !showCode) {
     const Component = selectedComponent.component;
     return (
-      <div className="relative w-full">
+      <div className="relative w-full min-h-screen">
         {/* Floating toolbar */}
         <div className="fixed top-4 right-4 z-[9999] flex items-center gap-1 bg-black/70 backdrop-blur-md rounded-full px-2 py-1.5 border border-white/10 shadow-2xl">
           <button
