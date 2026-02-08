@@ -172,12 +172,32 @@ export default function SilkShader({ className }: SilkShaderProps = {}) {
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    canvas.addEventListener('mousemove', (e) => {
+    const updateMousePos = (clientX: number, clientY: number) => {
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      mouse.x = (e.clientX - rect.left) * dpr;
-      mouse.y = canvas.height - (e.clientY - rect.top) * dpr;
+      mouse.x = (clientX - rect.left) * dpr;
+      mouse.y = canvas.height - (clientY - rect.top) * dpr;
+    };
+
+    canvas.addEventListener('mousemove', (e) => {
+      updateMousePos(e.clientX, e.clientY);
     });
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      updateMousePos(t.clientX, t.clientY);
+    }, { passive: false });
+
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      updateMousePos(t.clientX, t.clientY);
+      mouse.z = 2;
+      clickPos.x = mouse.x;
+      clickPos.y = mouse.y;
+      clickTime = (Date.now() - startTime) / 1000;
+    }, { passive: false });
 
     canvas.addEventListener('mousedown', () => { 
       mouse.z = 2;
@@ -186,6 +206,7 @@ export default function SilkShader({ className }: SilkShaderProps = {}) {
       clickTime = (Date.now() - startTime) / 1000;
     });
     canvas.addEventListener('mouseup', () => { mouse.z = 0; });
+    canvas.addEventListener('touchend', () => { mouse.z = 0; });
     canvas.addEventListener('mouseleave', () => { mouse.z = 0; });
 
     let animationId: number;
@@ -209,7 +230,7 @@ export default function SilkShader({ className }: SilkShaderProps = {}) {
   }, [isDark]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen" style={{ touchAction: 'none' }}>
       <canvas ref={canvasRef} className="w-full h-full" style={{ display: 'block' }} />
     </div>
   );
