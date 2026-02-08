@@ -1,13 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-declare global {
-  interface Window {
-    liquidGL: (options: Record<string, unknown>) => unknown;
-  }
-}
-
-/* ── Shader source (mirrors ShaderBackground but zooms around cursor) ── */
-
 const lensVertex = `
   attribute vec2 position;
   void main() { gl_Position = vec4(position, 0.0, 1.0); }
@@ -62,7 +54,7 @@ const lensFragment = `
     float dist = length(centered);
     if (dist > 1.0) discard;
 
-    // Map lens pixel → screen coordinate (zoomed around cursor)
+    // Map lens pixel to screen coordinate (zoomed around cursor)
     vec2 screenCoord = uCenter + (lensUV - 0.5) * (iResolution.xy / uZoom);
     vec2 uv = (screenCoord * 2.0 - uScreenSize) / min(uScreenSize.x, uScreenSize.y);
     float t = iTime * TIME_SCALE;
@@ -103,27 +95,12 @@ const lensFragment = `
   }
 `;
 
-/* ── Script loader ── */
-
-function loadScript(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
-    const s = document.createElement('script');
-    s.src = src;
-    s.onload = () => resolve();
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
-
-/* ── Constants ── */
 const SIZE = 130;
 const ZOOM = 2.0;
 
 export default function LiquidCursor() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const liquidRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const target = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const glRef = useRef<WebGLRenderingContext | null>(null);
@@ -139,7 +116,6 @@ export default function LiquidCursor() {
     canvas.width = SIZE;
     canvas.height = SIZE;
 
-    /* ── WebGL setup (shader lens) ── */
     const gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: false }) ||
                canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
     if (!gl) return;
@@ -193,7 +169,6 @@ export default function LiquidCursor() {
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     startTimeRef.current = Date.now();
 
-    /* ── Animation loop ── */
     let animId: number;
 
     const render = () => {
@@ -221,7 +196,6 @@ export default function LiquidCursor() {
       animId = requestAnimationFrame(render);
     };
 
-    /* ── Mouse events ── */
     const handleMouseMove = (e: MouseEvent) => {
       target.current.x = e.clientX;
       target.current.y = e.clientY;
@@ -236,39 +210,10 @@ export default function LiquidCursor() {
     document.addEventListener('mouseleave', handleMouseLeave);
     render();
 
-    /* ── Load liquidGL for text refraction overlay ── */
-    let glassEffect: unknown = null;
-    (async () => {
-      try {
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-        await loadScript('https://cdn.jsdelivr.net/gh/naughtyduk/liquidGL/scripts/liquidGL.js');
-        if (window.liquidGL && liquidRef.current) {
-          glassEffect = window.liquidGL({
-            snapshot: 'body',
-            target: '.js-liquid-text-layer',
-            resolution: 2.0,
-            refraction: 0.015,
-            bevelDepth: -0.16,
-            bevelWidth: 0.25,
-            frost: 0,
-            shadow: false,
-            specular: true,
-            reveal: 'none',
-            tilt: false,
-            magnify: 1.1,
-            on: { init() { /* ready */ } },
-          });
-        }
-      } catch (err) {
-        console.warn('liquidGL load failed:', err);
-      }
-    })();
-
     return () => {
       cancelAnimationFrame(animId);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      glassEffect = null;
     };
   }, []);
 
@@ -284,12 +229,10 @@ export default function LiquidCursor() {
         transition: 'opacity 0.3s ease',
       }}
     >
-      {/* Layer 1: WebGL magnified shader background */}
       <canvas
         ref={canvasRef}
         width={SIZE}
         height={SIZE}
-        className="absolute inset-0"
         style={{
           width: SIZE,
           height: SIZE,
@@ -299,18 +242,6 @@ export default function LiquidCursor() {
             '0 0 12px rgba(255,255,255,0.06)',
             '0 0 30px rgba(255,255,255,0.03)',
           ].join(', '),
-        }}
-      />
-
-      {/* Layer 2: liquidGL text refraction overlay */}
-      <div
-        ref={liquidRef}
-        className="js-liquid-text-layer absolute inset-0 rounded-full"
-        style={{
-          width: SIZE,
-          height: SIZE,
-          mixBlendMode: 'screen',
-          background: 'linear-gradient(90deg, rgba(228,255,255,0.15) 0%, rgba(255,255,255,0.1) 38%, rgba(255,255,255,0.08) 84%)',
         }}
       />
     </div>
