@@ -31,11 +31,10 @@ class Strand {
 
   draw(ctx: CanvasRenderingContext2D) {
     const p = this.points[0];
-    // Draw as a zero-length line with square lineCap to produce a square dot
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
     ctx.lineTo(p.x, p.y);
-    ctx.strokeStyle = "hsl(0, 0%, 65%)";
+    ctx.strokeStyle = "hsla(0, 100%, 100%, 0.65)";
     ctx.lineWidth = 3.0;
     ctx.lineCap = "square";
     ctx.stroke();
