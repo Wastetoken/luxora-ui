@@ -40,8 +40,18 @@ export function Component() {
     function onMouseLeave() {
       if (gradient) gradient.style.opacity = "0";
     }
+    function onTouchMove(e: TouchEvent) {
+      const t = e.touches[0];
+      if (gradient) {
+        gradient.style.left = t.clientX - 192 + "px";
+        gradient.style.top = t.clientY - 192 + "px";
+        gradient.style.opacity = "1";
+      }
+    }
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseleave", onMouseLeave);
+    document.addEventListener("touchmove", onTouchMove, { passive: true });
+    document.addEventListener("touchend", onMouseLeave);
  
     // Word hover effects
     words.forEach((word) => {
@@ -88,6 +98,8 @@ export function Component() {
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("touchmove", onTouchMove);
+      document.removeEventListener("touchend", onMouseLeave);
       document.removeEventListener("click", onClick);
       window.removeEventListener("scroll", onScroll);
     };

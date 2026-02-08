@@ -152,8 +152,8 @@ export const Skiper67 = () => {
         )}
       </AnimatePresence>
       <div
-        onMouseMove={handlePointerMove}
-        onMouseLeave={() => {
+        onPointerMove={handlePointerMove}
+        onPointerLeave={() => {
           opacity.set(0);
         }}
         onClick={() => setShowVideoPopOver(true)}
