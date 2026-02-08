@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import ShaderBackground from '@/components/landing/ShaderBackground';
-import LiquidCursor from '@/components/landing/LiquidCursor';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import ShaderBackground from "@/components/landing/ShaderBackground";
+import LiquidCursor from "@/components/landing/LiquidCursor";
 
 const Landing = () => {
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState("");
 
   useEffect(() => {
     const update = () => {
       const now = new Date();
-      setTime(now.toLocaleTimeString('en-US', { hour12: false }));
+      setTime(now.toLocaleTimeString("en-US", { hour12: false }));
     };
     update();
     const interval = setInterval(update, 1000);
@@ -44,16 +44,11 @@ const Landing = () => {
           </nav>
         </header>
 
-        {/* Dynamic Time — absolute positioned */}
-        <div className="absolute top-14 right-40 hidden lg:block text-right pointer-events-none">
-          <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</div>
-          <div className="font-mono text-xs text-white/70">{time} LOCAL</div>
-        </div>
-
         {/* Hero Text */}
         <div className="flex-1 flex flex-col justify-center items-center relative z-20">
           <h1 className="font-clash font-medium text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
-            FAVORITE<br />
+            FAVORITE
+            <br />
             <span className="italic font-light opacity-80 backdrop-blur-sm">COMPONENTS</span>
           </h1>
           <p className="mt-8 text-center max-w-md text-sm md:text-base text-white/50 leading-relaxed font-light">
@@ -83,7 +78,9 @@ const Landing = () => {
           </div>
 
           <div className="flex justify-end">
-            <Link to="/showcase" className="text-3xl animate-bounce opacity-50">↓</Link>
+            <Link to="/showcase" className="text-3xl animate-bounce opacity-50">
+              ↓
+            </Link>
           </div>
         </footer>
       </div>
