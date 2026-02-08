@@ -405,6 +405,17 @@ const ReptileCursor = ({
     const interval = setInterval(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Draw small circular cursor at exact mouse position
+      ctx.beginPath();
+      ctx.arc(inputMouse.x, inputMouse.y, 4, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Reset styles for creature drawing
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = 1.5;
+
       if (lastMouseX !== null && lastMouseY !== null) {
         if (Math.abs(inputMouse.x - lastMouseX) < 1 && Math.abs(inputMouse.y - lastMouseY) < 1) {
           mouseStillTime += 33;
