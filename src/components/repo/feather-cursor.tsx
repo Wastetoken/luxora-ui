@@ -30,16 +30,11 @@ class Strand {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    const p = this.points[0];
     ctx.beginPath();
-    ctx.moveTo(this.points[0].x, this.points[0].y);
-    for (let i = 1; i < this.points.length; i++) {
-      ctx.lineTo(this.points[i].x, this.points[i].y);
-    }
-    // Render as white/light dots
-    ctx.strokeStyle = `hsl(0, 0%, 65%)`;
-    ctx.lineWidth = 3.0;
-    ctx.lineCap = "square";
-    ctx.stroke();
+    ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = `hsl(0, 0%, 65%)`;
+    ctx.fill();
   }
 }
 
