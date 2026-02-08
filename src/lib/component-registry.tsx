@@ -24,6 +24,9 @@ import ImageTrailDemo from "@/components/demos/ImageTrailDemo";
 import WavyTextDemo from "@/components/demos/WavyTextDemo";
 import MenuAnimationsDemo from "@/components/demos/MenuAnimationsDemo";
 import VideoPlayerDemo from "@/components/demos/VideoPlayerDemo";
+import LazerCursorDemo from "@/components/demos/LazerCursorDemo";
+import LightFeatherCursorDemo from "@/components/demos/LightFeatherCursorDemo";
+import LiquidGLCursorDemo from "@/components/demos/LiquidGLCursorDemo";
 import { Skiper67 } from "@/components/repo/skiper67";
 // Skiper collection
 import { Skiper3 } from "@/components/repo/skiper3";
@@ -100,6 +103,11 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "flyby-scroll", name: "Flyby Scroll", category: "Scroll Effects", component: FlybyScroll, sourceFile: "flyby-scroll.tsx", exportName: "Component" },
   { id: "svg-follow-scroll", name: "SVG Path Scroll", category: "Scroll Effects", component: SvgFollowScroll, sourceFile: "svg-follow-scroll.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "Skiper19" },
   { id: "image-trail-effect", name: "Image Trail Effect", category: "Scroll Effects", component: ImageTrailDemo, sourceFile: "image-trail-effect.tsx", dependencies: ["gsap"], exportName: "TrailWrapper", isDefaultExport: true },
+
+  // Cursors
+  { id: "lazer-cursor", name: "Lazer Cursor", category: "Cursors", component: LazerCursorDemo, sourceFile: "lazer-cursor.tsx", needsFullscreen: true, exportName: "LazerCursor" },
+  { id: "light-feather-cursor", name: "Light Feather Cursor", category: "Cursors", component: LightFeatherCursorDemo, sourceFile: "light-feather-cursor.tsx", needsFullscreen: true, exportName: "LightFeatherCursor" },
+  { id: "liquid-gl-cursor", name: "Liquid GL Cursor", category: "Cursors", component: LiquidGLCursorDemo, sourceFile: "liquid-gl-cursor.tsx", needsFullscreen: true, exportName: "LiquidGLCursor" },
 
   // Interactive
   { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "Component" },
