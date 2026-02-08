@@ -25,7 +25,7 @@ import WavyTextDemo from "@/components/demos/WavyTextDemo";
 import MenuAnimationsDemo from "@/components/demos/MenuAnimationsDemo";
 import VideoPlayerDemo from "@/components/demos/VideoPlayerDemo";
 import LazerCursorDemo from "@/components/demos/LazerCursorDemo";
-import LightFeatherCursorDemo from "@/components/demos/LightFeatherCursorDemo";
+
 import LiquidGLCursorDemo from "@/components/demos/LiquidGLCursorDemo";
 import ElectricCursorDemo from "@/components/demos/ElectricCursorDemo";
 import FeatherCursorDemo from "@/components/demos/FeatherCursorDemo";
@@ -108,7 +108,7 @@ export const componentRegistry: ComponentEntry[] = [
 
   // Cursors
   { id: "lazer-cursor", name: "Lazer Cursor", category: "Cursors", component: LazerCursorDemo, sourceFile: "lazer-cursor.tsx", needsFullscreen: true, exportName: "LazerCursor" },
-  { id: "light-feather-cursor", name: "Light Feather Cursor", category: "Cursors", component: LightFeatherCursorDemo, sourceFile: "light-feather-cursor.tsx", needsFullscreen: true, exportName: "LightFeatherCursor" },
+  
   { id: "liquid-gl-cursor", name: "Liquid GL Cursor", category: "Cursors", component: LiquidGLCursorDemo, sourceFile: "liquid-gl-cursor.tsx", needsFullscreen: true, exportName: "LiquidGLCursor" },
   { id: "electric-cursor", name: "Electric Cursor", category: "Cursors", component: ElectricCursorDemo, sourceFile: "electric-cursor.tsx", needsFullscreen: true, exportName: "ElectricCursor" },
   { id: "feather-cursor", name: "Feather Cursor", category: "Cursors", component: FeatherCursorDemo, sourceFile: "feather-cursor.tsx", needsFullscreen: true, exportName: "FeatherCursor" },
