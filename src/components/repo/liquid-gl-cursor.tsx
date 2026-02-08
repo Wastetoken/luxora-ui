@@ -62,15 +62,42 @@ const LiquidGLCursor = ({
       setActive(true);
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      const r = container.getBoundingClientRect();
+      const t = e.touches[0];
+      mouseRef.current.x = t.clientX - r.left;
+      mouseRef.current.y = t.clientY - r.top;
+      setActive(true);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const r = container.getBoundingClientRect();
+      const t = e.touches[0];
+      mouseRef.current.x = t.clientX - r.left;
+      mouseRef.current.y = t.clientY - r.top;
+    };
+
+    const handleTouchEnd = () => {
+      setActive(false);
+    };
+
     container.addEventListener("mousemove", handleMouseMove);
     container.addEventListener("mouseleave", handleMouseLeave);
     container.addEventListener("mouseenter", handleMouseEnter);
+    container.addEventListener("touchstart", handleTouchStart, { passive: false });
+    container.addEventListener("touchmove", handleTouchMove, { passive: false });
+    container.addEventListener("touchend", handleTouchEnd);
     updatePosition();
 
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
       container.removeEventListener("mouseleave", handleMouseLeave);
       container.removeEventListener("mouseenter", handleMouseEnter);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
       cancelAnimationFrame(animId);
     };
   }, [smoothness]);
@@ -79,6 +106,7 @@ const LiquidGLCursor = ({
     <div
       ref={containerRef}
       className={`relative w-full h-full bg-black cursor-none overflow-hidden ${className ?? ""}`}
+      style={{ touchAction: "none" }}
     >
       {/* Cursor element */}
       <div
