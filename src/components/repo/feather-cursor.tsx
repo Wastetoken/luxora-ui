@@ -14,7 +14,7 @@ class Strand {
     this.points = [];
     const startX = Math.random() * w;
     const startY = Math.random() * h;
-    // STRAND_LENGTH is 1.01 so only 1 point beyond start
+    // Original uses STRAND_LENGTH=1.01, so 1 point
     this.points.push({ x: startX, y: startY });
     this.speed = Math.random() * 0.3 + 0.1 * 0.2;
     this.colorOffset = 0;
@@ -31,10 +31,14 @@ class Strand {
 
   draw(ctx: CanvasRenderingContext2D) {
     const p = this.points[0];
+    // Draw as a zero-length line with square lineCap to produce a square dot
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
-    ctx.fillStyle = `hsl(0, 0%, 65%)`;
-    ctx.fill();
+    ctx.moveTo(p.x, p.y);
+    ctx.lineTo(p.x, p.y);
+    ctx.strokeStyle = "hsl(0, 0%, 65%)";
+    ctx.lineWidth = 3.0;
+    ctx.lineCap = "square";
+    ctx.stroke();
   }
 }
 
