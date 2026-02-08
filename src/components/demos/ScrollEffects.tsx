@@ -133,7 +133,7 @@ export const ImageTrailEffect = () => {
   const ref = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -154,7 +154,8 @@ export const ImageTrailEffect = () => {
     <div
       ref={ref}
       className="w-full h-full min-h-[400px] bg-background relative cursor-none overflow-hidden"
-      onMouseMove={handleMouseMove}
+      style={{ touchAction: "none" }}
+      onPointerMove={handlePointerMove}
     >
       {trails.map((trail, i) => (
         <div

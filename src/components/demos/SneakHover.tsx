@@ -12,15 +12,15 @@ const SneakHover = () => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="w-full h-full min-h-[400px] flex items-center justify-center bg-background p-8">
+    <div className="w-full h-full min-h-[400px] flex items-center justify-center bg-background p-8" style={{ touchAction: "none" }}>
       <div className="w-full max-w-lg">
         {items.map((item, i) => (
           <div
             key={i}
             className="relative overflow-hidden cursor-pointer border-b transition-all duration-500"
             style={{ borderColor: "hsl(225, 12%, 16%)" }}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
+            onPointerEnter={() => setHovered(i)}
+            onPointerLeave={() => setHovered(null)}
           >
             <div
               className="absolute inset-0 transition-transform duration-500 ease-out"

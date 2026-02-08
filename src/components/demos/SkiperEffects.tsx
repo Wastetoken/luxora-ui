@@ -219,7 +219,8 @@ const createEffect = (
           <div
             ref={ref}
             className="w-full h-full min-h-[400px] flex items-center justify-center bg-background relative cursor-crosshair"
-            onMouseMove={(e) => {
+            style={{ touchAction: "none" }}
+            onPointerMove={(e) => {
               if (!ref.current) return;
               const rect = ref.current.getBoundingClientRect();
               setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });

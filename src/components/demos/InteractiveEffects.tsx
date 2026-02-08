@@ -60,8 +60,8 @@ export const MenuAnimations = () => {
         {menuItems.map((menu, i) => (
           <div key={i} className="relative">
             <button
-              onMouseEnter={() => setActiveMenu(i)}
-              onMouseLeave={() => setActiveMenu(null)}
+              onPointerEnter={() => setActiveMenu(i)}
+              onPointerLeave={() => setActiveMenu(null)}
               className="px-4 py-2 text-sm font-medium rounded-md transition-colors"
               style={{
                 color: activeMenu === i ? "hsl(38, 92%, 50%)" : "hsl(220, 14%, 70%)",
@@ -78,8 +78,8 @@ export const MenuAnimations = () => {
                   borderColor: "hsl(225, 12%, 16%)",
                   animation: "fadeSlideIn 0.2s ease-out",
                 }}
-                onMouseEnter={() => setActiveMenu(i)}
-                onMouseLeave={() => setActiveMenu(null)}
+                onPointerEnter={() => setActiveMenu(i)}
+                onPointerLeave={() => setActiveMenu(null)}
               >
                 <style>{`
                   @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
@@ -89,11 +89,11 @@ export const MenuAnimations = () => {
                     key={j}
                     className="px-3 py-2 text-sm rounded-md cursor-pointer transition-colors"
                     style={{ color: "hsl(220, 14%, 70%)" }}
-                    onMouseEnter={(e) => {
+                    onPointerEnter={(e) => {
                       (e.target as HTMLElement).style.background = "hsla(38, 92%, 50%, 0.1)";
                       (e.target as HTMLElement).style.color = "hsl(38, 92%, 50%)";
                     }}
-                    onMouseLeave={(e) => {
+                    onPointerLeave={(e) => {
                       (e.target as HTMLElement).style.background = "transparent";
                       (e.target as HTMLElement).style.color = "hsl(220, 14%, 70%)";
                     }}
