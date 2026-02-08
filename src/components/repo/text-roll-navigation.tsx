@@ -26,6 +26,7 @@ export const TextRoll: React.FC<{
   <motion.span
     initial="initial"
     whileHover="hovered"
+    whileTap="hovered"
     className={cn("relative block overflow-hidden", className)}
     style={{ lineHeight: 0.75 }}
     aria-label={children}
