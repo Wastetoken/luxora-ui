@@ -21,8 +21,8 @@ export const ComponentDisplay = ({
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+      {/* Header - desktop only, mobile uses MobileHeader */}
+      <div className="hidden md:flex items-center justify-between px-6 py-4 border-b border-border">
         <h1 className="text-xl font-semibold text-foreground">{entry.name}</h1>
         <div className="flex items-center gap-1">
           <button
@@ -53,7 +53,7 @@ export const ComponentDisplay = ({
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-hidden p-6">
+      <div className="flex-1 overflow-hidden p-3 md:p-6">
         {showCode ? (
           <CodeViewer entry={entry} onClose={onCloseCode} />
         ) : (

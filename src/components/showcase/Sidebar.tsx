@@ -1,4 +1,6 @@
-import { Search, ArrowLeft } from "lucide-react";
+import { Search, ArrowLeft, Menu, X } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   components: { id: string; name: string; category: string }[];
@@ -7,10 +9,13 @@ interface SidebarProps {
   onDeselect: () => void;
   searchQuery: string;
   onSearch: (query: string) => void;
+  mobileOpen?: boolean;
+  onMobileToggle?: () => void;
 }
 
 const categoryOrder = [
   "Heroes & Sections",
+  "Cursors",
   "Shaders & Effects",
   "Animations",
   "Text Effects",
@@ -27,7 +32,11 @@ export const Sidebar = ({
   onDeselect,
   searchQuery,
   onSearch,
+  mobileOpen = false,
+  onMobileToggle,
 }: SidebarProps) => {
+  const isMobile = useIsMobile();
+
   const grouped = components.reduce<Record<string, typeof components>>(
     (acc, comp) => {
       if (!acc[comp.category]) acc[comp.category] = [];
@@ -41,11 +50,26 @@ export const Sidebar = ({
     (a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)
   );
 
-  return (
-    <aside className="w-64 h-screen flex flex-col bg-sidebar border-r border-sidebar-border shrink-0">
+  const handleSelect = (id: string) => {
+    onSelect(id);
+    if (isMobile && onMobileToggle) {
+      onMobileToggle();
+    }
+  };
+
+  const sidebarContent = (
+    <aside className="w-full md:w-64 h-full flex flex-col bg-sidebar border-r border-sidebar-border shrink-0">
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center gap-2 mb-3">
-          {selectedId && (
+          {isMobile && (
+            <button
+              onClick={onMobileToggle}
+              className="p-1 rounded-md hover:bg-sidebar-accent text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
+          {selectedId && !isMobile && (
             <button
               onClick={onDeselect}
               className="p-1 rounded-md hover:bg-sidebar-accent text-muted-foreground hover:text-foreground transition-colors"
@@ -79,7 +103,7 @@ export const Sidebar = ({
             {grouped[category].map((comp) => (
               <button
                 key={comp.id}
-                onClick={() => onSelect(comp.id)}
+                onClick={() => handleSelect(comp.id)}
                 className={`w-full text-left text-sm px-2 py-1.5 rounded-md transition-colors ${
                   selectedId === comp.id
                     ? "bg-primary/15 text-primary font-medium"
@@ -93,11 +117,83 @@ export const Sidebar = ({
         ))}
       </nav>
 
-      <div className="p-3 border-t border-sidebar-border">
-        <p className="text-[10px] text-muted-foreground text-center">
+      <div className="p-3 border-t border-sidebar-border flex items-center justify-between">
+        <p className="text-[10px] text-muted-foreground">
           {components.length} components
         </p>
+        <Link to="/" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+          ← Home
+        </Link>
       </div>
     </aside>
+  );
+
+  // Mobile: overlay drawer
+  if (isMobile) {
+    return (
+      <>
+        {/* Mobile hamburger button - rendered by parent via MobileHeader */}
+        {/* Overlay */}
+        {mobileOpen && (
+          <div className="fixed inset-0 z-50 flex">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={onMobileToggle}
+            />
+            {/* Drawer */}
+            <div className="relative z-10 w-[280px] h-full animate-in slide-in-from-left duration-200">
+              {sidebarContent}
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // Desktop: fixed sidebar
+  return sidebarContent;
+};
+
+// Mobile header bar with hamburger
+export const MobileHeader = ({
+  title,
+  onMenuToggle,
+  onBack,
+  showBack,
+  rightContent,
+}: {
+  title?: string;
+  onMenuToggle: () => void;
+  onBack?: () => void;
+  showBack?: boolean;
+  rightContent?: React.ReactNode;
+}) => {
+  return (
+    <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background md:hidden">
+      <div className="flex items-center gap-2">
+        {showBack && onBack ? (
+          <button
+            onClick={onBack}
+            className="p-1.5 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+        ) : (
+          <button
+            onClick={onMenuToggle}
+            className="p-1.5 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
+        {title && (
+          <h1 className="text-sm font-semibold text-foreground truncate max-w-[200px]">
+            {title}
+          </h1>
+        )}
+      </div>
+      {rightContent && <div className="flex items-center gap-1">{rightContent}</div>}
+    </div>
   );
 };

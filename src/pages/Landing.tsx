@@ -28,16 +28,19 @@ const Landing = () => {
         }}
       />
 
-      <LiquidCursor />
+      {/* Hide custom cursor on mobile */}
+      <div className="hidden md:block">
+        <LiquidCursor />
+      </div>
 
       {/* Content layer */}
-      <div className="relative z-20 w-full h-full flex flex-col justify-between p-8 md:p-14 pointer-events-none">
+      <div className="relative z-20 w-full h-full flex flex-col justify-between p-5 sm:p-8 md:p-14 pointer-events-none">
         {/* Header */}
         <header className="flex justify-between items-start pointer-events-auto">
-          <div className="font-clash font-bold text-3xl md:text-5xl tracking-tight uppercase leading-none hover:text-white/80 transition-colors">
+          <div className="font-clash font-bold text-2xl sm:text-3xl md:text-5xl tracking-tight uppercase leading-none hover:text-white/80 transition-colors">
             LUXORA
           </div>
-          <nav className="flex flex-col text-right gap-1 md:gap-2 text-xs md:text-sm font-medium tracking-widest uppercase">
+          <nav className="flex flex-col text-right gap-1 md:gap-2 text-[10px] sm:text-xs md:text-sm font-medium tracking-widest uppercase">
             <Link to="/showcase" className="nav-item">
               BROWSE LIBRARY
             </Link>
@@ -46,39 +49,39 @@ const Landing = () => {
 
         {/* Hero Text */}
         <div className="flex-1 flex flex-col justify-center items-center relative z-20">
-          <h1 className="font-clash font-medium text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
+          <h1 className="font-clash font-medium text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
             FAVORITE
             <br />
             <span className="italic font-light opacity-80 backdrop-blur-sm">COMPONENTS</span>
           </h1>
-          <p className="mt-8 text-center max-w-md text-sm md:text-base text-white/50 leading-relaxed font-light">
+          <p className="mt-4 sm:mt-8 text-center max-w-md text-xs sm:text-sm md:text-base text-white/50 leading-relaxed font-light px-4">
             A collection of react components.
           </p>
-          <p className="mt-8 text-center max-w-md text-sm md:text-base text-white/50 leading-relaxed font-light">
+          <p className="mt-3 sm:mt-8 text-center max-w-md text-xs sm:text-sm md:text-base text-white/50 leading-relaxed font-light">
             Good taste by default
           </p>
         </div>
 
         {/* Footer */}
-        <footer className="grid grid-cols-3 items-end border-t border-white/10 pt-8 pointer-events-auto">
-          <div className="flex flex-col gap-1">
-            <h3 className="font-clash text-lg font-medium">PLAYGROUND</h3>
-            <p className="text-xs text-white/40 max-w-[200px]">COMPONENTS BUILT BY MANY, COMPILED BY LUXORA.</p>
+        <footer className="flex flex-col sm:grid sm:grid-cols-3 items-center sm:items-end gap-4 sm:gap-0 border-t border-white/10 pt-4 sm:pt-8 pointer-events-auto">
+          <div className="flex flex-col gap-1 text-center sm:text-left">
+            <h3 className="font-clash text-sm sm:text-lg font-medium">PLAYGROUND</h3>
+            <p className="text-[10px] sm:text-xs text-white/40 max-w-[200px]">COMPONENTS BUILT BY MANY, COMPILED BY LUXORA.</p>
           </div>
 
-          <div className="flex gap-12 items-center justify-center">
-            <div className="hidden md:block text-center">
+          <div className="flex gap-8 sm:gap-12 items-center justify-center">
+            <div className="text-center">
               <h3 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Status</h3>
-              <p className="text-sm">Online</p>
+              <p className="text-xs sm:text-sm">Online</p>
             </div>
             <div className="text-center">
               <h3 className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Year</h3>
-              <p className="text-sm">2026</p>
+              <p className="text-xs sm:text-sm">2026</p>
             </div>
           </div>
 
-          <div className="flex justify-end">
-            <Link to="/showcase" className="text-3xl animate-bounce opacity-50">
+          <div className="flex justify-center sm:justify-end">
+            <Link to="/showcase" className="text-2xl sm:text-3xl animate-bounce opacity-50">
               ↓
             </Link>
           </div>
