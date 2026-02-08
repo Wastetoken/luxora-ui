@@ -1,66 +1,21 @@
 import { useEffect, useRef } from "react";
 
-interface StrandPoint {
-  x: number;
-  y: number;
-}
-
-class Strand {
-  points: StrandPoint[];
-  speed: number;
-  colorOffset: number;
-
-  constructor(w: number, h: number) {
-    this.points = [];
-    const startX = Math.random() * w;
-    const startY = Math.random() * h;
-    // Original uses STRAND_LENGTH=1.01, so 1 point
-    this.points.push({ x: startX, y: startY });
-    this.speed = Math.random() * 0.3 + 0.1 * 0.2;
-    this.colorOffset = 0;
-  }
-
-  update(target: { x: number; y: number }) {
-    let last = { x: target.x, y: target.y };
-    for (const p of this.points) {
-      p.x += (last.x - p.x) * this.speed;
-      p.y += (last.y - p.y) * this.speed;
-      last = p;
-    }
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    const p = this.points[0];
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    ctx.lineTo(p.x, p.y);
-    ctx.strokeStyle = "hsla(0, 100%, 100%, 0.65)";
-    ctx.lineWidth = 3.0;
-    ctx.lineCap = "square";
-    ctx.stroke();
-  }
-}
-
-const NUM_STRANDS = 800;
-
 interface FeatherCursorProps {
-  /** Number of strands following the cursor */
+  /** Number of strands */
   numStrands?: number;
   /** Custom className for the container */
   className?: string;
-  /** Content to render on top of the cursor canvas */
+  /** Content to render on top */
   children?: React.ReactNode;
 }
 
 const FeatherCursor = ({
-  numStrands = NUM_STRANDS,
+  numStrands = 800,
   className,
   children,
 }: FeatherCursorProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const strandsRef = useRef<Strand[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -72,24 +27,68 @@ const FeatherCursor = ({
 
     let w = (canvas.width = container.offsetWidth);
     let h = (canvas.height = container.offsetHeight);
-    mouseRef.current = { x: w / 2, y: h / 2 };
 
-    strandsRef.current = [];
-    for (let i = 0; i < numStrands; i++) {
-      strandsRef.current.push(new Strand(w, h));
+    const NUM_STRANDS = numStrands;
+    const STRAND_LENGTH = 1.01;
+
+    // Exact port of the original Strand class
+    const strands: {
+      points: { x: number; y: number }[];
+      speed: number;
+      colorOffset: number;
+    }[] = [];
+
+    for (let i = 0; i < NUM_STRANDS; i++) {
+      const points: { x: number; y: number }[] = [];
+      const startX = Math.random() * w;
+      const startY = Math.random() * h;
+      for (let j = 0; j < STRAND_LENGTH; j++) {
+        points.push({ x: startX, y: startY });
+      }
+      strands.push({
+        points,
+        speed: Math.random() * 0.3 + 0.1 * 0.2,
+        colorOffset: Math.random() * 0,
+      });
+    }
+
+    const mouse = { x: w / 2, y: h / 2 };
+
+    function updateStrand(
+      strand: (typeof strands)[0],
+      target: { x: number; y: number }
+    ) {
+      let last = { x: target.x, y: target.y };
+      for (const p of strand.points) {
+        p.x += (last.x - p.x) * strand.speed;
+        p.y += (last.y - p.y) * strand.speed;
+        last = p;
+      }
+    }
+
+    function drawStrand(strand: (typeof strands)[0]) {
+      ctx!.beginPath();
+      ctx!.moveTo(strand.points[0].x, strand.points[0].y);
+      for (let i = 1; i < strand.points.length; i++) {
+        ctx!.lineTo(strand.points[i].x, strand.points[i].y);
+      }
+      ctx!.strokeStyle = `hsl(${strand.colorOffset} 100%, 100%, 65%)`;
+      ctx!.lineWidth = 3.0;
+      ctx!.lineCap = "square";
+      ctx!.stroke();
     }
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      mouseRef.current.x = e.clientX - rect.left;
-      mouseRef.current.y = e.clientY - rect.top;
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       const rect = container.getBoundingClientRect();
       const t = e.touches[0];
-      mouseRef.current.x = t.clientX - rect.left;
-      mouseRef.current.y = t.clientY - rect.top;
+      mouse.x = t.clientX - rect.left;
+      mouse.y = t.clientY - rect.top;
     };
 
     const handleResize = () => {
@@ -98,14 +97,14 @@ const FeatherCursor = ({
     };
 
     let animId: number;
-    const loop = () => {
-      ctx.clearRect(0, 0, w, h);
-      for (const s of strandsRef.current) {
-        s.update(mouseRef.current);
-        s.draw(ctx);
+    function loop() {
+      ctx!.clearRect(0, 0, w, h);
+      for (const s of strands) {
+        updateStrand(s, mouse);
+        drawStrand(s);
       }
       animId = requestAnimationFrame(loop);
-    };
+    }
 
     container.addEventListener("mousemove", handleMouseMove);
     container.addEventListener("touchmove", handleTouchMove, { passive: true });
