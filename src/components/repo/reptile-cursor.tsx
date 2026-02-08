@@ -376,10 +376,7 @@ const ReptileCursor = ({
     }
 
     // --- Input & loop ---
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const mx = e.clientX - rect.left;
-      const my = e.clientY - rect.top;
+    const updateMouse = (mx: number, my: number) => {
       if (lastMouseX !== null && lastMouseY !== null) {
         if (Math.abs(mx - lastMouseX) > 1 || Math.abs(my - lastMouseY) > 1) {
           mouseStillTime = 0;
@@ -391,6 +388,25 @@ const ReptileCursor = ({
       inputMouse.y = my;
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      updateMouse(e.clientX - rect.left, e.clientY - rect.top);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      const rect = container.getBoundingClientRect();
+      const t = e.touches[0];
+      updateMouse(t.clientX - rect.left, t.clientY - rect.top);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const rect = container.getBoundingClientRect();
+      const t = e.touches[0];
+      updateMouse(t.clientX - rect.left, t.clientY - rect.top);
+    };
+
     const handleResize = () => {
       canvas.width = container.offsetWidth;
       canvas.height = container.offsetHeight;
@@ -400,6 +416,8 @@ const ReptileCursor = ({
     };
 
     container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("touchstart", handleTouchStart, { passive: false });
+    container.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("resize", handleResize);
 
     const interval = setInterval(() => {
@@ -431,6 +449,8 @@ const ReptileCursor = ({
 
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("resize", handleResize);
       clearInterval(interval);
     };
@@ -440,7 +460,7 @@ const ReptileCursor = ({
     <div
       ref={containerRef}
       className={`relative w-full h-full cursor-none overflow-hidden ${className ?? ""}`}
-      style={{ background: "black" }}
+      style={{ background: "black", touchAction: "none" }}
     >
       <canvas
         ref={canvasRef}

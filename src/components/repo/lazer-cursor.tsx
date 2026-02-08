@@ -83,7 +83,16 @@ const LazerCursor = ({ numStrands = NUM_STRANDS, className, children }: LazerCur
       mouseRef.current.y = e.clientY - rect.top;
     };
 
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      const rect = container.getBoundingClientRect();
+      const t = e.touches[0];
+      mouseRef.current.x = t.clientX - rect.left;
+      mouseRef.current.y = t.clientY - rect.top;
+    };
+
     const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
       const rect = container.getBoundingClientRect();
       const t = e.touches[0];
       mouseRef.current.x = t.clientX - rect.left;
@@ -106,12 +115,14 @@ const LazerCursor = ({ numStrands = NUM_STRANDS, className, children }: LazerCur
     };
 
     container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("touchmove", handleTouchMove, { passive: true });
+    container.addEventListener("touchstart", handleTouchStart, { passive: false });
+    container.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("resize", handleResize);
     loop();
 
     return () => {
       container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animId);
@@ -122,7 +133,7 @@ const LazerCursor = ({ numStrands = NUM_STRANDS, className, children }: LazerCur
     <div
       ref={containerRef}
       className={`relative w-full h-full cursor-none overflow-hidden ${className ?? ""}`}
-      style={{ background: "radial-gradient(circle at center, #0a0a0a 0%, #050505 90%)" }}
+      style={{ background: "radial-gradient(circle at center, #0a0a0a 0%, #050505 90%)", touchAction: "none" }}
     >
       <canvas
         ref={canvasRef}
