@@ -23,8 +23,8 @@ const DisplayCards = () => {
           return (
             <div
               key={i}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
+              onPointerEnter={() => setHovered(i)}
+              onPointerLeave={() => setHovered(null)}
               className="absolute inset-0 rounded-2xl p-6 flex flex-col justify-end cursor-pointer transition-all duration-500 ease-out"
               style={{
                 background: card.gradient,

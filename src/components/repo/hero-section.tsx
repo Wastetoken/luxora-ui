@@ -108,6 +108,7 @@ export function Component() {
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-[#1a1d18] via-black to-[#2a2e26] text-[#e6e1d7] font-primary overflow-hidden relative w-full"
+      style={{ touchAction: "none" }}
     >
       <style>{`
         @keyframes word-appear {

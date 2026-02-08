@@ -244,11 +244,9 @@ export default function TrailWrapper({ images, className, config, children }: Tr
     node.addEventListener("pointerleave", onPointerLeave, { passive: true });
 
     const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
       if (!e.touches.length) return;
       const t = e.touches[0];
-      const dx = Math.abs(t.clientX - state.current.prevMouseX);
-      const dy = Math.abs(t.clientY - state.current.prevMouseY);
-      if (dy > dx) return;
 
       state.current.prevMouseX = state.current.mouseX;
       state.current.prevMouseY = state.current.mouseY;
@@ -260,7 +258,7 @@ export default function TrailWrapper({ images, className, config, children }: Tr
       }
     };
 
-    node.addEventListener("touchmove", onTouchMove, { passive: true });
+    node.addEventListener("touchmove", onTouchMove, { passive: false });
 
     state.current.raf = requestAnimationFrame(tick);
 
@@ -282,7 +280,7 @@ export default function TrailWrapper({ images, className, config, children }: Tr
   const wrapperClass = `relative overflow-hidden ${className ?? ""}`.trim();
 
   return (
-    <div ref={containerRef} className={wrapperClass}>
+    <div ref={containerRef} className={wrapperClass} style={{ touchAction: "none" }}>
       {children}
     </div>
   );

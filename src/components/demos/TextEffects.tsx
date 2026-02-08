@@ -55,7 +55,7 @@ export const ParallaxText = () => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -67,8 +67,9 @@ export const ParallaxText = () => {
     <div
       ref={ref}
       className="w-full h-full min-h-[400px] flex items-center justify-center bg-background overflow-hidden cursor-crosshair"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => setOffset({ x: 0, y: 0 })}
+      style={{ touchAction: "none" }}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={() => setOffset({ x: 0, y: 0 })}
     >
       {["PARALLAX", "MOTION", "DEPTH"].map((text, i) => {
         const depth = (i + 1) * 30;

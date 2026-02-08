@@ -4,13 +4,13 @@ import { WavyBlock, WavyBlockItem } from "@/components/repo/wavy-text-block";
 const WavyTextDemo = () => {
   const progress = useMotionValue(0);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const y = (e.clientY - rect.top) / rect.height;
     progress.set(y);
   };
 
-  const handleMouseLeave = () => {
+  const handlePointerLeave = () => {
     progress.set(0);
   };
 
@@ -19,8 +19,9 @@ const WavyTextDemo = () => {
   return (
     <div
       className="w-full h-full bg-neutral-950 flex items-center justify-center cursor-crosshair"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      style={{ touchAction: "none" }}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
     >
       <WavyBlock progress={progress}>
         {words.map((word, i) => (

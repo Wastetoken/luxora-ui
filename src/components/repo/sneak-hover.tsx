@@ -242,5 +242,5 @@ export const Component = () => {
     };
   }, []);
 
-  return <div ref={containerRef} className="w-full h-[600px]" />;
+  return <div ref={containerRef} className="w-full h-[600px]" style={{ touchAction: "none" }} />;
 };
