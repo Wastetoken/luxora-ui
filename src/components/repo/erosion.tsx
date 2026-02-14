@@ -289,7 +289,7 @@ interface ErosionProps {
   gravity?: number;
   /** Perlin noise turbulence intensity (default: 30) */
   turbulence?: number;
-  /** Tangential vortex force multiplier (default: 0.45) */
+  /** Tangential vortex force multiplier (default: 0.65) */
   vortexStrength?: number;
   /** Enable click-to-shockwave (default: true) */
   shockwaveOnClick?: boolean;
