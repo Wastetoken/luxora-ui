@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useRef,
-  useEffect,
-  useCallback,
-  useState,
-  type ReactNode,
-} from "react";
+import { useRef, useEffect, useCallback, useState, type ReactNode } from "react";
 import { createTimeline, stagger } from "animejs";
 import { cn } from "@/lib/utils";
 
@@ -18,8 +12,14 @@ import { cn } from "@/lib/utils";
 const F2 = 0.5 * (Math.sqrt(3) - 1);
 const G2 = (3 - Math.sqrt(3)) / 6;
 const grad3 = [
-  [1, 1], [-1, 1], [1, -1], [-1, -1],
-  [1, 0], [-1, 0], [0, 1], [0, -1],
+  [1, 1],
+  [-1, 1],
+  [1, -1],
+  [-1, -1],
+  [1, 0],
+  [-1, 0],
+  [0, 1],
+  [0, -1],
 ];
 const perm = new Uint8Array(512);
 (() => {
@@ -48,7 +48,9 @@ function noise2D(x: number, y: number): number {
   const y2 = y0 - 1 + 2 * G2;
   const ii = i & 255;
   const jj = j & 255;
-  let n0 = 0, n1 = 0, n2 = 0;
+  let n0 = 0,
+    n1 = 0,
+    n2 = 0;
   let t0 = 0.5 - x0 * x0 - y0 * y0;
   if (t0 > 0) {
     t0 *= t0;
@@ -75,7 +77,7 @@ function noise2D(x: number, y: number): number {
  * ──────────────────────────────────────────────────────────── */
 
 function seeded(i: number, salt: number): number {
-  return ((Math.sin(i * salt + 311.7) * 43758.5453) % 1 + 1) % 1;
+  return (((Math.sin(i * salt + 311.7) * 43758.5453) % 1) + 1) % 1;
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -98,12 +100,7 @@ interface ParticleData {
   count: number;
 }
 
-function createParticles(
-  w: number,
-  h: number,
-  count: number,
-  clearR: number
-): ParticleData {
+function createParticles(w: number, h: number, count: number, clearR: number): ParticleData {
   const x = new Float32Array(count);
   const y = new Float32Array(count);
   const vx = new Float32Array(count);
@@ -137,9 +134,7 @@ function createParticles(
       const dy = py - cy;
       const dist = Math.sqrt(dx * dx + dy * dy);
       if (dist < clearR + 10) {
-        const angle = dist > 0.1
-          ? Math.atan2(dy, dx)
-          : seeded(i, 999.1) * Math.PI * 2;
+        const angle = dist > 0.1 ? Math.atan2(dy, dx) : seeded(i, 999.1) * Math.PI * 2;
         const newDist = clearR + 10 + seeded(i, 831.2) * clearR * 0.7;
         px = Math.max(0, Math.min(w, cx + Math.cos(angle) * newDist));
         py = Math.max(0, Math.min(h, cy + Math.sin(angle) * newDist));
@@ -310,7 +305,7 @@ interface ErosionProps {
 
 export function Erosion({
   children,
-  particleCount = 5000,
+  particleCount = 10000,
   erosionRadius = 140,
   erosionStrength = 8000,
   healRate = 0.008,
@@ -357,22 +352,19 @@ export function Erosion({
   }, [clearRadius]);
 
   // Film grain generator
-  const generateFilmGrain = useCallback(
-    (ctx: CanvasRenderingContext2D, w: number, h: number) => {
-      const pal = paletteRef.current;
-      const imgData = ctx.createImageData(w, h);
-      const d = imgData.data;
-      for (let i = 0; i < d.length; i += 4) {
-        const v = Math.random() * pal.filmGrainValue;
-        d[i] = v;
-        d[i + 1] = v;
-        d[i + 2] = v;
-        d[i + 3] = pal.filmGrainAlpha;
-      }
-      ctx.putImageData(imgData, 0, 0);
-    },
-    []
-  );
+  const generateFilmGrain = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number) => {
+    const pal = paletteRef.current;
+    const imgData = ctx.createImageData(w, h);
+    const d = imgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = Math.random() * pal.filmGrainValue;
+      d[i] = v;
+      d[i + 1] = v;
+      d[i + 2] = v;
+      d[i + 3] = pal.filmGrainAlpha;
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }, []);
 
   // Physics + render loop
   const tick = useCallback(() => {
@@ -403,8 +395,7 @@ export function Erosion({
     prevMouseRef.current.x = mx;
     prevMouseRef.current.y = my;
 
-    const { x, y, vx, vy, ox, oy, size, alpha, shade, depth, heat, eroded, count } =
-      particles;
+    const { x, y, vx, vy, ox, oy, size, alpha, shade, depth, heat, eroded, count } = particles;
 
     const erosionRadSq = (erosionRadius * dpr) ** 2;
     const timeSinceDet = time - detonationTimeRef.current;
@@ -502,10 +493,7 @@ export function Erosion({
 
           const hx = x[i] - ox[i];
           const hy = y[i] - oy[i];
-          if (
-            hx * hx + hy * hy < 4 &&
-            vx[i] * vx[i] + vy[i] * vy[i] < 1
-          ) {
+          if (hx * hx + hy * hy < 4 && vx[i] * vx[i] + vy[i] * vy[i] < 1) {
             x[i] = ox[i];
             y[i] = oy[i];
             vx[i] = 0;
@@ -535,10 +523,22 @@ export function Erosion({
       y[i] += vy[i] * dt * 60;
 
       // Soft boundary bounce
-      if (x[i] < 0) { x[i] = 0; vx[i] *= -0.3; }
-      if (x[i] > w) { x[i] = w; vx[i] *= -0.3; }
-      if (y[i] < 0) { y[i] = 0; vy[i] *= -0.3; }
-      if (y[i] > h) { y[i] = h; vy[i] *= -0.3; }
+      if (x[i] < 0) {
+        x[i] = 0;
+        vx[i] *= -0.3;
+      }
+      if (x[i] > w) {
+        x[i] = w;
+        vx[i] *= -0.3;
+      }
+      if (y[i] < 0) {
+        y[i] = 0;
+        vy[i] *= -0.3;
+      }
+      if (y[i] > h) {
+        y[i] = h;
+        vy[i] *= -0.3;
+      }
     }
 
     // --- RENDER ---
@@ -591,13 +591,7 @@ export function Erosion({
         const ht = heat[i];
         const glowSize = size[i] * dpr * (3 + ht * 8);
         ctx.globalAlpha = ht * ht * 0.35;
-        ctx.drawImage(
-          glowSprite,
-          x[i] - glowSize * 0.5,
-          y[i] - glowSize * 0.5,
-          glowSize,
-          glowSize
-        );
+        ctx.drawImage(glowSprite, x[i] - glowSize * 0.5, y[i] - glowSize * 0.5, glowSize, glowSize);
       }
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = "source-over";
@@ -678,16 +672,9 @@ export function Erosion({
     grainCanvas.style.width = `${rect.width}px`;
     grainCanvas.style.height = `${rect.height}px`;
 
-    const clearR = clearRadius > 0
-      ? Math.min(rect.width * dpr, rect.height * dpr) * clearRadius
-      : 0;
+    const clearR = clearRadius > 0 ? Math.min(rect.width * dpr, rect.height * dpr) * clearRadius : 0;
 
-    particlesRef.current = createParticles(
-      rect.width * dpr,
-      rect.height * dpr,
-      particleCount,
-      clearR
-    );
+    particlesRef.current = createParticles(rect.width * dpr, rect.height * dpr, particleCount, clearR);
 
     glowDarkRef.current = createGlowSprite(true);
     glowLightRef.current = createGlowSprite(false);
@@ -697,10 +684,7 @@ export function Erosion({
       const gCtx = grainCanvas.getContext("2d");
       if (gCtx) {
         generateFilmGrain(gCtx, grainCanvas.width, grainCanvas.height);
-        grainInterval = setInterval(
-          () => generateFilmGrain(gCtx, grainCanvas.width, grainCanvas.height),
-          80
-        );
+        grainInterval = setInterval(() => generateFilmGrain(gCtx, grainCanvas.width, grainCanvas.height), 80);
       }
     }
 
@@ -717,15 +701,8 @@ export function Erosion({
       grainCanvas.height = r.height * 0.5;
       grainCanvas.style.width = `${r.width}px`;
       grainCanvas.style.height = `${r.height}px`;
-      const cr = clearRadius > 0
-        ? Math.min(r.width * d, r.height * d) * clearRadius
-        : 0;
-      particlesRef.current = createParticles(
-        r.width * d,
-        r.height * d,
-        particleCount,
-        cr
-      );
+      const cr = clearRadius > 0 ? Math.min(r.width * d, r.height * d) * clearRadius : 0;
+      particlesRef.current = createParticles(r.width * d, r.height * d, particleCount, cr);
     };
     window.addEventListener("resize", onResize);
 
@@ -760,32 +737,25 @@ export function Erosion({
             delay: stagger(35, { from: "center" }),
             duration: 1400,
           },
-          i === 0 ? startDelay : "-=1000"
+          i === 0 ? startDelay : "-=1000",
         );
       } else {
-        tl.add(
-          el,
-          { y: [60, 0], opacity: [0, 1], scale: [0.9, 1], duration: 1100 },
-          i === 0 ? startDelay : "-=800"
-        );
+        tl.add(el, { y: [60, 0], opacity: [0, 1], scale: [0.9, 1], duration: 1100 }, i === 0 ? startDelay : "-=800");
       }
     });
   }, [revealed, clearRadius]);
 
   // Mouse / touch tracking
-  const handlePointerMove = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      const c = containerRef.current;
-      if (!c) return;
-      const rect = c.getBoundingClientRect();
-      const cx = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const cy = "touches" in e ? e.touches[0].clientY : e.clientY;
-      mouseRef.current.x = cx - rect.left;
-      mouseRef.current.y = cy - rect.top;
-      mouseRef.current.active = true;
-    },
-    []
-  );
+  const handlePointerMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    const c = containerRef.current;
+    if (!c) return;
+    const rect = c.getBoundingClientRect();
+    const cx = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const cy = "touches" in e ? e.touches[0].clientY : e.clientY;
+    mouseRef.current.x = cx - rect.left;
+    mouseRef.current.y = cy - rect.top;
+    mouseRef.current.active = true;
+  }, []);
 
   const handlePointerLeave = useCallback(() => {
     mouseRef.current.active = false;
@@ -801,9 +771,7 @@ export function Erosion({
       const dpr = window.devicePixelRatio || 1;
       const cx = (e.clientX - rect.left) * dpr;
       const cy = (e.clientY - rect.top) * dpr;
-      const diag = Math.sqrt(
-        (rect.width * dpr) ** 2 + (rect.height * dpr) ** 2
-      );
+      const diag = Math.sqrt((rect.width * dpr) ** 2 + (rect.height * dpr) ** 2);
       shockwavesRef.current.push({
         cx,
         cy,
@@ -813,7 +781,7 @@ export function Erosion({
         born: timeRef.current,
       });
     },
-    [shockwaveOnClick]
+    [shockwaveOnClick],
   );
 
   const vignetteStyle = isDark
@@ -823,10 +791,7 @@ export function Erosion({
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "relative w-full h-full overflow-hidden select-none bg-[var(--gray-1)]",
-        className
-      )}
+      className={cn("relative w-full h-full overflow-hidden select-none bg-[var(--gray-1)]", className)}
       onMouseMove={handlePointerMove}
       onTouchMove={handlePointerMove}
       onMouseLeave={handlePointerLeave}
@@ -835,18 +800,12 @@ export function Erosion({
       style={{ cursor: "crosshair" }}
     >
       {/* Content — centered in the clear zone */}
-      <div
-        ref={contentRef}
-        className="absolute inset-0 z-10 flex items-center justify-center"
-      >
+      <div ref={contentRef} className="absolute inset-0 z-10 flex items-center justify-center">
         {children}
       </div>
 
       {/* Particle canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-20 pointer-events-none"
-      />
+      <canvas ref={canvasRef} className="absolute inset-0 z-20 pointer-events-none" />
 
       {/* Film grain overlay */}
       {filmGrain && (
@@ -858,12 +817,7 @@ export function Erosion({
       )}
 
       {/* Vignette */}
-      {vignette && (
-        <div
-          className="absolute inset-0 z-30 pointer-events-none"
-          style={{ background: vignetteStyle }}
-        />
-      )}
+      {vignette && <div className="absolute inset-0 z-30 pointer-events-none" style={{ background: vignetteStyle }} />}
     </div>
   );
 }
@@ -882,17 +836,9 @@ export function ErosionText({
   as?: "h1" | "h2" | "h3" | "p" | "span";
 }) {
   return (
-    <Tag
-      data-erosion-reveal
-      className={cn("overflow-hidden", className)}
-      style={{ perspective: "800px" }}
-    >
+    <Tag data-erosion-reveal className={cn("overflow-hidden", className)} style={{ perspective: "800px" }}>
       {children.split("").map((char, i) => (
-        <span
-          key={i}
-          className="erosion-char inline-block"
-          style={{ opacity: 0, transformOrigin: "center bottom" }}
-        >
+        <span key={i} className="erosion-char inline-block" style={{ opacity: 0, transformOrigin: "center bottom" }}>
           {char === " " ? "\u00A0" : char}
         </span>
       ))}
@@ -910,11 +856,7 @@ export function ErosionPreview() {
   const isDark = useIsDark(wrapperRef);
 
   return (
-    <div
-      ref={wrapperRef}
-      className="relative w-full h-[600px]"
-      style={{ background: isDark ? "#050505" : "#f5f2ee" }}
-    >
+    <div ref={wrapperRef} className="relative w-full h-[600px]" style={{ background: isDark ? "#050505" : "#f5f2ee" }}>
       <Erosion
         key={key}
         particleCount={5000}
@@ -935,7 +877,7 @@ export function ErosionPreview() {
             as="h1"
             className={cn(
               "text-[clamp(3rem,10vw,8rem)] font-extralight tracking-[-0.06em] leading-[0.85]",
-              isDark ? "text-white" : "text-[#1a1a1a]"
+              isDark ? "text-white" : "text-[#1a1a1a]",
             )}
           >
             Erosion
@@ -944,36 +886,22 @@ export function ErosionPreview() {
             as="p"
             className={cn(
               "text-[clamp(0.875rem,1.5vw,1.125rem)] font-light tracking-[0.02em] max-w-[480px]",
-              isDark ? "text-white/50" : "text-black/45"
+              isDark ? "text-white/50" : "text-black/45",
             )}
           >
             Move your cursor to erode
           </ErosionText>
-          <div
-            data-erosion-reveal
-            className="mt-6 flex items-center gap-3"
-            style={{ opacity: 0 }}
-          >
-            <div
-              className={cn(
-                "h-px w-10",
-                isDark ? "bg-white/15" : "bg-black/10"
-              )}
-            />
+          <div data-erosion-reveal className="mt-6 flex items-center gap-3" style={{ opacity: 0 }}>
+            <div className={cn("h-px w-10", isDark ? "bg-white/15" : "bg-black/10")} />
             <span
               className={cn(
                 "text-[11px] uppercase tracking-[0.2em] font-light",
-                isDark ? "text-white/25" : "text-black/30"
+                isDark ? "text-white/25" : "text-black/30",
               )}
             >
               Click anywhere for shockwave
             </span>
-            <div
-              className={cn(
-                "h-px w-10",
-                isDark ? "bg-white/15" : "bg-black/10"
-              )}
-            />
+            <div className={cn("h-px w-10", isDark ? "bg-white/15" : "bg-black/10")} />
           </div>
         </div>
       </Erosion>
@@ -986,7 +914,7 @@ export function ErosionPreview() {
           "absolute bottom-4 right-4 z-40 px-3 py-1.5 text-[11px] uppercase tracking-[0.15em] rounded-md backdrop-blur-sm transition-colors",
           isDark
             ? "text-white/40 border border-white/10 bg-black/40 hover:text-white/60 hover:border-white/20"
-            : "text-black/40 border border-black/10 bg-white/40 hover:text-black/60 hover:border-black/20"
+            : "text-black/40 border border-black/10 bg-white/40 hover:text-black/60 hover:border-black/20",
         )}
       >
         Reset
