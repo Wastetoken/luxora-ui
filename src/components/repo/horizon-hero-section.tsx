@@ -618,7 +618,7 @@ export const HorizonHero = () => {
         style={{ opacity: Math.max(0, 1 - scrollProgress * 4), pointerEvents: scrollProgress > 0.25 ? "none" : "auto" }}
       >
         <h1 ref={titleRef} className="hero-title">
-          COMPONENTS
+          SCROLL
         </h1>
 
         <div ref={subtitleRef} className="hero-subtitle cosmos-subtitle">
