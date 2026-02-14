@@ -62,6 +62,11 @@ import { Skiper64 } from "@/components/repo/skiper64";
 import { Skiper65 } from "@/components/repo/skiper65";
 import { Skiper66 } from "@/components/repo/skiper66";
 import { Skiper87 } from "@/components/repo/skiper87";
+import { SingularityPreview } from "@/components/repo/singularity";
+import { AttractorPreview } from "@/components/repo/attractor";
+import { MorphogenPreview } from "@/components/repo/morphogen";
+import { ErosionPreview } from "@/components/repo/erosion";
+import { LeniaPreview } from "@/components/repo/lenia";
 
 export interface ComponentEntry {
   id: string;
@@ -88,6 +93,11 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "SilkShader", isDefaultExport: true },
   { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx", exportName: "SilkShader", isDefaultExport: true },
   { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx", exportName: "SilkShader", isDefaultExport: true },
+  { id: "singularity", name: "Singularity", category: "Shaders & Effects", component: SingularityPreview, sourceFile: "singularity.tsx", needsFullscreen: true, dependencies: ["animejs", "three"], exportName: "SingularityPreview" },
+  { id: "attractor", name: "Attractor", category: "Shaders & Effects", component: AttractorPreview, sourceFile: "attractor.tsx", needsFullscreen: true, dependencies: ["animejs", "three"], exportName: "AttractorPreview" },
+  { id: "morphogen", name: "Morphogen", category: "Shaders & Effects", component: MorphogenPreview, sourceFile: "morphogen.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "MorphogenPreview" },
+  { id: "erosion", name: "Erosion", category: "Shaders & Effects", component: ErosionPreview, sourceFile: "erosion.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "ErosionPreview" },
+  { id: "lenia", name: "Lenia", category: "Shaders & Effects", component: LeniaPreview, sourceFile: "lenia.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "LeniaPreview" },
 
   // Animations
   { id: "fluid-blob", name: "Fluid Blob", category: "Animations", component: LavaLamp, sourceFile: "fluid-blob.tsx", dependencies: ["three", "@react-three/fiber"], exportName: "LavaLamp" },
