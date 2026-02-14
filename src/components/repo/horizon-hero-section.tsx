@@ -641,7 +641,7 @@ export const HorizonHero = () => {
       {/* Additional sections for scrolling */}
       <div className="scroll-sections" style={{ paddingTop: "100vh" }}>
         {[...Array(2)].map((_, i) => {
-          const titles = ["COSMOS", "INFINITY"];
+          const titles = ["LUXORA", "COMPONENTS"];
           const subtitles = [
             { line1: "Beyond the boundaries of imagination,", line2: "lies the universe of possibilities" },
             { line1: "In the space between thought and creation,", line2: "we find the essence of true innovation" },
