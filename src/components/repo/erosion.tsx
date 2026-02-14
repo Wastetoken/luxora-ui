@@ -880,7 +880,7 @@ export function ErosionPreview() {
               isDark ? "text-white" : "text-[#1a1a1a]",
             )}
           >
-            Erosion
+            LUXORA
           </ErosionText>
           <ErosionText
             as="p"
@@ -889,7 +889,7 @@ export function ErosionPreview() {
               isDark ? "text-white/50" : "text-black/45",
             )}
           >
-            Move your cursor to erode
+            MOVE YOUR CURSOR
           </ErosionText>
           <div data-erosion-reveal className="mt-6 flex items-center gap-3" style={{ opacity: 0 }}>
             <div className={cn("h-px w-10", isDark ? "bg-white/15" : "bg-black/10")} />
@@ -899,7 +899,7 @@ export function ErosionPreview() {
                 isDark ? "text-white/25" : "text-black/30",
               )}
             >
-              Click anywhere for shockwave
+              & CLICK YOUR MOUSE
             </span>
             <div className={cn("h-px w-10", isDark ? "bg-white/15" : "bg-black/10")} />
           </div>
@@ -911,7 +911,7 @@ export function ErosionPreview() {
           setKey((k) => k + 1);
         }}
         className={cn(
-          "absolute bottom-4 right-4 z-40 px-3 py-1.5 text-[11px] uppercase tracking-[0.15em] rounded-md backdrop-blur-sm transition-colors",
+          "absolute bottom-4 right-4 z-40 px-3 py-1.5 text-[20px] uppercase tracking-[0.15em] rounded-md backdrop-blur-sm transition-colors",
           isDark
             ? "text-white/40 border border-white/10 bg-black/40 hover:text-white/60 hover:border-white/20"
             : "text-black/40 border border-black/10 bg-white/40 hover:text-black/60 hover:border-black/20",
