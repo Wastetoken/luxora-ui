@@ -176,10 +176,10 @@ interface Shockwave {
 
 function createGlowSprite(warm: boolean): HTMLCanvasElement {
   const c = document.createElement("canvas");
-  c.width = 124;
-  c.height = 124;
+  c.width = 164;
+  c.height = 164;
   const ctx = c.getContext("2d")!;
-  const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
   if (warm) {
     g.addColorStop(0, "rgba(255,160,60,0.7)");
     g.addColorStop(0.25, "rgba(255,100,20,0.35)");
@@ -192,7 +192,7 @@ function createGlowSprite(warm: boolean): HTMLCanvasElement {
     g.addColorStop(1, "rgba(80,20,0,0)");
   }
   ctx.fillStyle = g;
-  ctx.fillRect(0, 0, 64, 64);
+  ctx.fillRect(0, 0, 164, 164);
   return c;
 }
 
