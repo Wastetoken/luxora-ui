@@ -926,7 +926,7 @@ export function SingularityPreview() {
               <img
                 ref={logoRef}
                 src="/logo.png"
-                alt="Opale UI"
+                alt="Luxora"
                 className="w-24 h-24 object-contain"
                 style={{ opacity: 0, filter: "invert(1) brightness(1.2)" }}
               />
@@ -942,7 +942,7 @@ export function SingularityPreview() {
                 className="text-[11px] uppercase tracking-[0.2em] text-white/45"
                 style={{ opacity: 0 }}
               >
-                Opale UI
+                Luxora
               </span>
             </div>
           </div>
