@@ -1,7 +1,7 @@
 "use client";
- 
+
 import React, { useEffect, useRef } from "react";
- 
+
 const colors = {
   50: "#f8f7f5",
   100: "#e6e1d7",
@@ -14,10 +14,10 @@ const colors = {
   800: "#2a2e26",
   900: "#1a1d18",
 };
- 
+
 export function Component() {
   const gradientRef = useRef<HTMLDivElement>(null);
- 
+
   useEffect(() => {
     // Animate words
     const words = document.querySelectorAll<HTMLElement>(".word");
@@ -27,7 +27,7 @@ export function Component() {
         word.style.animation = "word-appear 0.8s ease-out forwards";
       }, delay);
     });
- 
+
     // Mouse gradient
     const gradient = gradientRef.current;
     function onMouseMove(e: MouseEvent) {
@@ -52,7 +52,7 @@ export function Component() {
     document.addEventListener("mouseleave", onMouseLeave);
     document.addEventListener("touchmove", onTouchMove, { passive: true });
     document.addEventListener("touchend", onMouseLeave);
- 
+
     // Word hover effects
     words.forEach((word) => {
       word.addEventListener("mouseenter", () => {
@@ -62,7 +62,7 @@ export function Component() {
         word.style.textShadow = "none";
       });
     });
- 
+
     // Click ripple effect
     function onClick(e: MouseEvent) {
       const ripple = document.createElement("div");
@@ -80,7 +80,7 @@ export function Component() {
       setTimeout(() => ripple.remove(), 1000);
     }
     document.addEventListener("click", onClick);
- 
+
     // Floating elements on scroll
     let scrolled = false;
     function onScroll() {
@@ -94,7 +94,7 @@ export function Component() {
       }
     }
     window.addEventListener("scroll", onScroll);
- 
+
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseleave", onMouseLeave);
@@ -104,7 +104,7 @@ export function Component() {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
- 
+
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-[#1a1d18] via-black to-[#2a2e26] text-[#e6e1d7] font-primary overflow-hidden relative w-full"
@@ -134,12 +134,7 @@ export function Component() {
       <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <path
-              d="M 60 0 L 0 0 0 60"
-              fill="none"
-              stroke="rgba(200,180,160,0.08)"
-              strokeWidth="0.5"
-            />
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(200,180,160,0.08)" strokeWidth="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
@@ -169,39 +164,27 @@ export function Component() {
         <circle cx="80%" cy="80%" r="2" className="detail-dot" style={{ animationDelay: "3.6s" }} />
         <circle cx="50%" cy="50%" r="1.5" className="detail-dot" style={{ animationDelay: "4s" }} />
       </svg>
- 
+
       {/* Corner elements */}
       <div className="corner-element top-8 left-8" style={{ animationDelay: "4s" }}>
-        <div
-          className="absolute top-0 left-0 w-2 h-2 opacity-30"
-          style={{ background: colors[200] }}
-        ></div>
+        <div className="absolute top-0 left-0 w-2 h-2 opacity-30" style={{ background: colors[200] }}></div>
       </div>
       <div className="corner-element top-8 right-8" style={{ animationDelay: "4.2s" }}>
-        <div
-          className="absolute top-0 right-0 w-2 h-2 opacity-30"
-          style={{ background: colors[200] }}
-        ></div>
+        <div className="absolute top-0 right-0 w-2 h-2 opacity-30" style={{ background: colors[200] }}></div>
       </div>
       <div className="corner-element bottom-8 left-8" style={{ animationDelay: "4.4s" }}>
-        <div
-          className="absolute bottom-0 left-0 w-2 h-2 opacity-30"
-          style={{ background: colors[200] }}
-        ></div>
+        <div className="absolute bottom-0 left-0 w-2 h-2 opacity-30" style={{ background: colors[200] }}></div>
       </div>
       <div className="corner-element bottom-8 right-8" style={{ animationDelay: "4.6s" }}>
-        <div
-          className="absolute bottom-0 right-0 w-2 h-2 opacity-30"
-          style={{ background: colors[200] }}
-        ></div>
+        <div className="absolute bottom-0 right-0 w-2 h-2 opacity-30" style={{ background: colors[200] }}></div>
       </div>
- 
+
       {/* Floating elements */}
       <div className="floating-element" style={{ top: "25%", left: "15%", animationDelay: "5s" }}></div>
       <div className="floating-element" style={{ top: "60%", left: "85%", animationDelay: "5.5s" }}></div>
       <div className="floating-element" style={{ top: "40%", left: "10%", animationDelay: "6s" }}></div>
       <div className="floating-element" style={{ top: "75%", left: "90%", animationDelay: "6.5s" }}></div>
- 
+
       <div className="relative z-10 min-h-screen flex flex-col justify-between items-center px-8 py-12 md:px-16 md:py-20">
         {/* Top tagline */}
         <div className="text-center">
@@ -216,7 +199,7 @@ export function Component() {
               to
             </span>
             <span className="word" data-delay="400">
-              <b>StackPilot</b>
+              <b>LUXORA</b>
             </span>
             <span className="word" data-delay="600">
               — 
@@ -241,7 +224,7 @@ export function Component() {
             }}
           ></div>
         </div>
- 
+
         {/* Main headline */}
         <div className="text-center max-w-5xl mx-auto">
           <h1
@@ -268,10 +251,7 @@ export function Component() {
                 automation.
               </span>
             </div>
-            <div
-              className="text-2xl md:text-3xl lg:text-4xl font-thin leading-relaxed"
-              style={{ color: colors[200] }}
-            >
+            <div className="text-2xl md:text-3xl lg:text-4xl font-thin leading-relaxed" style={{ color: colors[200] }}>
               <span className="word" data-delay="2600">
                 Integrate,
               </span>
@@ -324,7 +304,7 @@ export function Component() {
             }}
           ></div>
         </div>
- 
+
         {/* Bottom tagline */}
         <div className="text-center">
           <div
@@ -363,22 +343,13 @@ export function Component() {
               animationDelay: "4.5s",
             }}
           >
-            <div
-              className="w-1 h-1 rounded-full opacity-40"
-              style={{ background: colors[200] }}
-            ></div>
-            <div
-              className="w-1 h-1 rounded-full opacity-60"
-              style={{ background: colors[200] }}
-            ></div>
-            <div
-              className="w-1 h-1 rounded-full opacity-40"
-              style={{ background: colors[200] }}
-            ></div>
+            <div className="w-1 h-1 rounded-full opacity-40" style={{ background: colors[200] }}></div>
+            <div className="w-1 h-1 rounded-full opacity-60" style={{ background: colors[200] }}></div>
+            <div className="w-1 h-1 rounded-full opacity-40" style={{ background: colors[200] }}></div>
           </div>
         </div>
       </div>
- 
+
       <div
         id="mouse-gradient"
         ref={gradientRef}
