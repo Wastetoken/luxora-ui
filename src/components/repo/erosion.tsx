@@ -146,8 +146,8 @@ function createParticles(w: number, h: number, count: number, clearR: number): P
     vx[i] = 0;
     vy[i] = 0;
     depth[i] = seeded(i, 512.3);
-    const baseSize = 0.5 + seeded(i, 43.7) * 2.5;
-    size[i] = baseSize * (0.4 + depth[i] * 1.4);
+    const baseSize = 0.1 + seeded(i, 43.7) * 2.5;
+    size[i] = baseSize * (0.2 + depth[i] * 1.4);
     alpha[i] = 0.35 + seeded(i, 97.3) * 0.65;
     shade[i] = -8 + seeded(i, 173.9) * 16;
     heat[i] = 0;
