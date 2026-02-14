@@ -277,7 +277,7 @@ const PALETTE_LIGHT: ThemePalette = {
 
 interface ErosionProps {
   children?: ReactNode;
-  /** Number of grain particles (default: 5000) */
+  /** Number of grain particles (default: 10000) */
   particleCount?: number;
   /** Cursor influence radius in px (default: 140) */
   erosionRadius?: number;
