@@ -49,7 +49,7 @@ const Landing = () => {
 
         {/* Hero Text */}
         <div className="flex-1 flex flex-col justify-center items-center relative z-20">
-          <h1 className="font-clash font-medium text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
+          <h1 className="font-clash font-bold text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
             FAVORITE
             <br />
             <span className="italic font-light opacity-80 backdrop-blur-sm">COMPONENTS</span>
@@ -66,7 +66,9 @@ const Landing = () => {
         <footer className="flex flex-col sm:grid sm:grid-cols-3 items-center sm:items-end gap-4 sm:gap-0 border-t border-white/10 pt-4 sm:pt-8 pointer-events-auto">
           <div className="flex flex-col gap-1 text-center sm:text-left">
             <h3 className="font-clash text-sm sm:text-lg font-medium">PLAYGROUND</h3>
-            <p className="text-[10px] sm:text-xs text-white/40 max-w-[200px]">COMPONENTS BUILT BY MANY, COMPILED BY LUXORA.</p>
+            <p className="text-[10px] sm:text-xs text-white/40 max-w-[200px]">
+              COMPONENTS BUILT BY MANY, COMPILED BY LUXORA.
+            </p>
           </div>
 
           <div className="flex gap-8 sm:gap-12 items-center justify-center">
