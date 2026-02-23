@@ -67,6 +67,10 @@ import { AttractorPreview } from "@/components/repo/attractor";
 import { MorphogenPreview } from "@/components/repo/morphogen";
 import { ErosionPreview } from "@/components/repo/erosion";
 import { LeniaPreview } from "@/components/repo/lenia";
+import { LuxoraAIDesigner } from "@/components/repo/luxora-ai-designer";
+import { SinekPanel } from "@/components/repo/sinek-panel";
+import { CrowdSprites } from "@/components/repo/crowd-sprites";
+import { ChromaticErosion } from "@/components/repo/chromatic-erosion";
 
 export interface ComponentEntry {
   id: string;
@@ -165,4 +169,10 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper66", name: "Skiper 66", category: "Skiper Collection", component: Skiper66, sourceFile: "skiper66.tsx", exportName: "Skiper66" },
   { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: Skiper67, sourceFile: "skiper67.tsx", dependencies: ["media-chrome", "framer-motion"], exportName: "Skiper67" },
   { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx", exportName: "Skiper87" },
+
+  // Luxora Collection
+  { id: "luxora-ai-designer", name: "Luxora AI Designer", category: "Heroes & Sections", component: LuxoraAIDesigner, sourceFile: "luxora-ai-designer.tsx", needsFullscreen: true, exportName: "LuxoraAIDesigner" },
+  { id: "sinek-panel", name: "Sinek Golden Circle", category: "Interactive", component: SinekPanel, sourceFile: "sinek-panel.tsx", needsFullscreen: true, exportName: "SinekPanel" },
+  { id: "crowd-sprites", name: "Crowd Sprites", category: "Animations", component: CrowdSprites, sourceFile: "crowd-sprites.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "CrowdSprites" },
+  { id: "chromatic-erosion", name: "Chromatic Erosion", category: "Shaders & Effects", component: ChromaticErosion, sourceFile: "chromatic-erosion.tsx", needsFullscreen: true, exportName: "ChromaticErosion" },
 ];
