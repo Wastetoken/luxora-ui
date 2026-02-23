@@ -71,6 +71,10 @@ import { LuxoraAIDesigner } from "@/components/repo/luxora-ai-designer";
 import { SinekPanel } from "@/components/repo/sinek-panel";
 import { CrowdSprites } from "@/components/repo/crowd-sprites";
 import { ChromaticErosion } from "@/components/repo/chromatic-erosion";
+import { GrokAI } from "@/components/repo/grok-ai";
+import { LiquidGallery } from "@/components/repo/liquid-gallery";
+import { Portfolio } from "@/components/repo/portfolio";
+import { LuxoraBgRipple, LuxoraBgHeroRipple, LuxoraHeroTextRipple } from "@/components/repo/luxora-bg-ripple";
 
 export interface ComponentEntry {
   id: string;
@@ -175,4 +179,10 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "sinek-panel", name: "Sinek Golden Circle", category: "Interactive", component: SinekPanel, sourceFile: "sinek-panel.tsx", needsFullscreen: true, exportName: "SinekPanel" },
   { id: "crowd-sprites", name: "Crowd Sprites", category: "Animations", component: CrowdSprites, sourceFile: "crowd-sprites.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "CrowdSprites" },
   { id: "chromatic-erosion", name: "Chromatic Erosion", category: "Shaders & Effects", component: ChromaticErosion, sourceFile: "chromatic-erosion.tsx", needsFullscreen: true, exportName: "ChromaticErosion" },
+  { id: "grok-ai", name: "Grok AI", category: "Heroes & Sections", component: GrokAI, sourceFile: "grok-ai.tsx", needsFullscreen: true, exportName: "GrokAI" },
+  { id: "liquid-gallery", name: "Liquid Gallery", category: "Interactive", component: LiquidGallery, sourceFile: "liquid-gallery.tsx", needsFullscreen: true, exportName: "LiquidGallery" },
+  { id: "portfolio", name: "Architecture Portfolio", category: "Heroes & Sections", component: Portfolio, sourceFile: "portfolio.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "Portfolio" },
+  { id: "luxora-bg-ripple", name: "Luxora BG Ripple", category: "Shaders & Effects", component: LuxoraBgRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraBgRipple" },
+  { id: "luxora-bg-hero-ripple", name: "Luxora BG+Hero Ripple", category: "Shaders & Effects", component: LuxoraBgHeroRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraBgHeroRipple" },
+  { id: "luxora-hero-text-ripple", name: "Luxora Hero Text Ripple", category: "Shaders & Effects", component: LuxoraHeroTextRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraHeroTextRipple" },
 ];
