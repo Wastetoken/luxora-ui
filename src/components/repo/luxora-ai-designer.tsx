@@ -2,6 +2,13 @@
 
 import React, { useEffect, useRef } from "react";
 
+const fontLink = document.createElement('link');
+fontLink.rel = 'stylesheet';
+fontLink.href = 'https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap';
+if (!document.head.querySelector(`link[href="${fontLink.href}"]`)) {
+  document.head.appendChild(fontLink);
+}
+
 const styles = `
   .luxora-ai-noise {
     position: absolute;
