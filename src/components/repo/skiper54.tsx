@@ -120,7 +120,7 @@ const Carousel_006 = ({
                 delay: 2000,
                 stopOnInteraction: true,
                 stopOnMouseEnter: true,
-              }),
+              }) as any,
             ]
           : []
       }
