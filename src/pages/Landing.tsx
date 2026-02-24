@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ShaderBackground from "@/components/landing/ShaderBackground";
+import LiquidRipple from "@/components/landing/LiquidRipple";
 import LiquidCursor from "@/components/landing/LiquidCursor";
 
 const Landing = () => {
@@ -19,6 +20,7 @@ const Landing = () => {
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-black text-white font-satoshi">
       <ShaderBackground />
+      <LiquidRipple />
 
       {/* Noise overlay */}
       <div
