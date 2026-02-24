@@ -4,7 +4,7 @@ const VERT = `
   attribute vec2 a_pos;
   varying vec2 v_uv;
   void main() {
-    v_uv = a_pos * 0.5 + 0.5;
+    v_uv = vec2(a_pos.x * 0.5 + 0.5, 0.5 - a_pos.y * 0.5);
     gl_Position = vec4(a_pos, 0.0, 1.0);
   }
 `;
@@ -230,7 +230,7 @@ export default function PerlinHoverText({ text }: Props) {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
     stateRef.current.mouseX = (e.clientX - rect.left) / rect.width;
-    stateRef.current.mouseY = 1.0 - (e.clientY - rect.top) / rect.height;
+    stateRef.current.mouseY = (e.clientY - rect.top) / rect.height;
     stateRef.current.hover = true;
   };
   const onLeave = () => { stateRef.current.hover = false; };
