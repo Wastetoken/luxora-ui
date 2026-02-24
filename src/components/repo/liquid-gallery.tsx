@@ -333,20 +333,21 @@ export const LiquidGallery = () => {
     if (!state) return Promise.reject(new Error("No state"));
     if (state.texCache.has(url)) return Promise.resolve(state.texCache.get(url)!);
     return new Promise((resolve, reject) => {
-      state.loader.load(
-        url,
-        (tex) => {
-          tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-          tex.minFilter = THREE.LinearFilter;
-          state.texCache.set(url, tex);
-          resolve(tex);
-        },
-        undefined,
-        (err) => {
-          console.error("LiquidGallery: Failed to load texture", url, err);
-          reject(err);
-        }
-      );
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        const tex = new THREE.Texture(img);
+        tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+        tex.minFilter = THREE.LinearFilter;
+        tex.needsUpdate = true;
+        state.texCache.set(url, tex);
+        resolve(tex);
+      };
+      img.onerror = (err) => {
+        console.error("LiquidGallery: Failed to load texture", url, err);
+        reject(err);
+      };
+      img.src = url;
     });
   }, []);
 
@@ -442,8 +443,7 @@ export const LiquidGallery = () => {
     const camera = new THREE.Camera();
     camera.position.z = 1;
 
-    const loader = new THREE.TextureLoader();
-    loader.crossOrigin = "anonymous";
+    // Using manual Image loading via getOrLoadTexture instead of THREE.TextureLoader
 
     const uniforms: Record<string, { value: any }> = {
       u_time: { value: 0 },
@@ -468,7 +468,7 @@ export const LiquidGallery = () => {
       renderer,
       uniforms,
       texCache: new Map(),
-      loader,
+      loader: null as any,
       transitioning: false,
     };
 
@@ -511,25 +511,18 @@ export const LiquidGallery = () => {
     const cursorMove = (e: MouseEvent) => { cx = e.clientX; cy = e.clientY; };
     document.addEventListener("mousemove", cursorMove);
 
-    // Load first image
-    loader.load(IMAGE_URLS[0], (tex) => {
-      tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-      tex.minFilter = THREE.LinearFilter;
-      threeRef.current!.texCache.set(IMAGE_URLS[0], tex);
+    // Load first image via manual Image loading
+    getOrLoadTexture(IMAGE_URLS[0]).then((tex) => {
       uniforms.u_texture.value = tex;
       uniforms.u_texPrev.value = tex;
       uniforms.u_transition.value = 1.0;
-    }, undefined, (err) => {
+    }).catch((err) => {
       console.error("LiquidGallery: Failed to load initial texture", err);
     });
 
     // Preload next few
     for (let i = 1; i <= 5; i++) {
-      loader.load(IMAGE_URLS[i], (tex) => {
-        tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-        tex.minFilter = THREE.LinearFilter;
-        threeRef.current?.texCache.set(IMAGE_URLS[i], tex);
-      });
+      getOrLoadTexture(IMAGE_URLS[i]).catch(() => {});
     }
 
     // Render loop
@@ -585,7 +578,7 @@ export const LiquidGallery = () => {
       container.removeChild(renderer.domElement);
       threeRef.current = null;
     };
-  }, [switchTo]);
+  }, [switchTo, getOrLoadTexture]);
 
   return (
     <>
