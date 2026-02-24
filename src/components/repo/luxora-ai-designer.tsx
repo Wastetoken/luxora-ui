@@ -91,7 +91,7 @@ export const LuxoraAIDesigner = () => {
   return (
     <>
       <style>{styles}</style>
-      <div className="luxora-ai-aurora relative min-h-screen w-full text-white overflow-x-hidden selection:bg-white/40 selection:text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <div className="luxora-ai-aurora relative min-h-screen w-full text-white overflow-hidden selection:bg-white/40 selection:text-black" style={{ fontFamily: "'Inter', sans-serif" }}>
         {/* Noise */}
         <div className="luxora-ai-noise" />
 
