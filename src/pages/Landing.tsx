@@ -51,10 +51,10 @@ const Landing = () => {
 
         {/* Hero Text */}
         <div className="flex-1 flex flex-col justify-center items-center relative z-20">
-          <h1 className="font-clash font-bold text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
-            FAVORITE
+          <h1 className="font-bold text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
+            <span style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400 }}>FAVORITE</span>
             <br />
-            <span className="italic font-thin opacity-80 backdrop-blur-sm">COMPONENTS</span>
+            <span className="font-clash italic font-thin opacity-80 backdrop-blur-sm">COMPONENTS</span>
           </h1>
           <p className="mt-4 sm:mt-8 text-center max-w-md text-xs sm:text-sm md:text-base text-white/50 leading-relaxed font-light px-4">
             A collection of react components.
