@@ -63,7 +63,6 @@ export const CrowdSprites = () => {
     const crowd: Peep[] = [];
 
     const img = new Image();
-    img.crossOrigin = "anonymous";
     img.src = SPRITE_CONFIG.src;
 
     const resetPeep = (peep: Peep) => {
