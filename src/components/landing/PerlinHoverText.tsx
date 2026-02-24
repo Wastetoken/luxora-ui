@@ -65,16 +65,16 @@ const FRAG = `
       diff.x *= aspect;
       float dist = length(diff);
       
-      float radius = 0.25;
+      float radius = 0.35;
       float influence = smoothstep(radius, 0.0, dist);
       
       // Perlin noise distortion
-      float t = u_time * 0.6;
-      vec2 noiseCoord = uv * 6.0 + t;
-      float nx = fbm(noiseCoord + vec2(0.0, 0.0));
-      float ny = fbm(noiseCoord + vec2(5.2, 1.3));
+      float t = u_time * 0.8;
+      vec2 noiseCoord = uv * 4.0;
+      float nx = fbm(noiseCoord + vec2(t, 0.0));
+      float ny = fbm(noiseCoord + vec2(5.2, t * 0.7));
       
-      float strength = 0.035 * influence * u_hover;
+      float strength = 0.12 * influence * u_hover;
       uv += vec2(nx, ny) * strength;
     }
     
