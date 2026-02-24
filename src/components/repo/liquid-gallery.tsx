@@ -408,7 +408,19 @@ export const LiquidGallery = () => {
 
     const STRIP_W = 96;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    } catch (e) {
+      console.error("LiquidGallery: WebGL context creation failed", e);
+      return;
+    }
+    const gl = renderer.getContext();
+    if (!gl) {
+      console.error("LiquidGallery: No WebGL context available");
+      renderer.dispose();
+      return;
+    }
     renderer.domElement.style.cssText = "display:block;width:100%;height:100%;";
     container.appendChild(renderer.domElement);
 
@@ -435,7 +447,8 @@ export const LiquidGallery = () => {
       fragmentShader,
     });
 
-    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+    scene.add(mesh);
 
     threeRef.current = {
       renderer,
@@ -444,6 +457,13 @@ export const LiquidGallery = () => {
       loader,
       transitioning: false,
     };
+
+    // Force initial compile to catch shader errors
+    renderer.compile(scene, camera);
+    const programs = renderer.info.programs;
+    if (programs && programs.length > 0) {
+      console.log("LiquidGallery: Shader compiled successfully");
+    }
 
     function resize() {
       const w = window.innerWidth - STRIP_W;
@@ -485,6 +505,8 @@ export const LiquidGallery = () => {
       uniforms.u_texture.value = tex;
       uniforms.u_texPrev.value = tex;
       uniforms.u_transition.value = 1.0;
+    }, undefined, (err) => {
+      console.error("LiquidGallery: Failed to load initial texture", err);
     });
 
     // Preload next few
