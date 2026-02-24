@@ -15,43 +15,70 @@ const Skiper26 = () => {
   const [gifUrl, setGifUrl] = useState<string>(
     "https://media.giphy.com/media/KBbr4hHl9DSahKvInO/giphy.gif?cid=790b76112m5eeeydoe7et0cr3j3ekb1erunxozyshuhxx2vl&ep=v1_stickers_search&rid=giphy.gif&ct=s",
   );
+  const [isDark, setIsDark] = useState(false);
+
+  const handleToggle = () => {
+    setIsDark(!isDark);
+  };
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center min-h-[600px] text-white">
+    <div className={`relative flex h-full w-full flex-col items-center justify-center min-h-[600px] transition-colors duration-500 ${isDark ? 'bg-black text-white' : 'bg-[#f5f4f3] text-black'}`}>
       <div className="mx-auto max-w-lg space-y-5">
         <h2 className="mt-36 text-4xl font-medium tracking-tight">
           07.09.2025 <br />
           Skiper ui is live now
         </h2>
-        <p>
+        <p className={isDark ? 'text-white/70' : 'text-black/70'}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, ex
           eligendi veniam praesentium temporibus natus quae laborum nemo
           repellendus cum!
         </p>
-        <p>
+        <p className={isDark ? 'text-white/70' : 'text-black/70'}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, ex
           eligendi veniam praesentium temporibus natus quae laborum nemo
           repellendus cum!
         </p>
-        <p>
+        <p className={isDark ? 'text-white/70' : 'text-black/70'}>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, ex
           eligendi veniam praesentium temporibus natus quae laborum nemo
           repellendus cum!
         </p>
       </div>
 
-      <div className="text-foreground grid content-start justify-items-center gap-6 py-20 text-center">
-        <span className="after:from-background after:to-foreground relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:content-['']">
+      <div className="grid content-start justify-items-center gap-6 py-20 text-center">
+        <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40">
           Click to toggle the theme
         </span>
+        <p className="text-xs opacity-60">
+          Current: <strong>{variant}</strong> variant, <strong>{start}</strong> start{blur ? ', blur on' : ''}
+        </p>
       </div>
 
-      <ThemeToggleButton
-        variant={variant}
-        start={start}
-        blur={blur}
-        gifUrl={gifUrl}
-      />
+      <button
+        type="button"
+        className={cn(
+          "size-10 cursor-pointer rounded-full p-0 transition-all duration-300 active:scale-95 border",
+          isDark ? "bg-white border-black/20" : "bg-black border-white/20",
+        )}
+        onClick={handleToggle}
+        aria-label="Toggle theme"
+      >
+        <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <motion.g
+            animate={{ rotate: isDark ? -180 : 0 }}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
+          >
+            <path d="M120 67.5C149.25 67.5 172.5 90.75 172.5 120C172.5 149.25 149.25 172.5 120 172.5" fill={isDark ? "black" : "white"} />
+            <path d="M120 67.5C90.75 67.5 67.5 90.75 67.5 120C67.5 149.25 90.75 172.5 120 172.5" fill={isDark ? "white" : "black"} />
+          </motion.g>
+          <motion.path
+            animate={{ rotate: isDark ? 180 : 0 }}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
+            d="M120 3.75C55.5 3.75 3.75 55.5 3.75 120C3.75 184.5 55.5 236.25 120 236.25C184.5 236.25 236.25 184.5 236.25 120C236.25 55.5 184.5 3.75 120 3.75ZM120 214.5V172.5C90.75 172.5 67.5 149.25 67.5 120C67.5 90.75 90.75 67.5 120 67.5V25.5C172.5 25.5 214.5 67.5 214.5 120C214.5 172.5 172.5 214.5 120 214.5Z"
+            fill={isDark ? "black" : "white"}
+          />
+        </svg>
+      </button>
       <Options
         variant={variant}
         start={start}

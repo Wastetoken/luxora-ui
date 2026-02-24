@@ -153,7 +153,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper30", name: "Skiper 30", category: "Skiper Collection", component: Skiper30, sourceFile: "skiper30.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper30" },
   { id: "skiper31", name: "Skiper 31", category: "Skiper Collection", component: Skiper31, sourceFile: "skiper31.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper31" },
   { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper34" },
-  { id: "skiper37", name: "Skiper 37", category: "Skiper Collection", component: Skiper37, sourceFile: "skiper37.tsx", dependencies: ["framer-motion", "@number-flow/react", "react-intersection-observer"], exportName: "Skiper37" },
+  { id: "skiper37", name: "Skiper 37", category: "Skiper Collection", component: Skiper37, sourceFile: "skiper37.tsx", needsFullscreen: true, dependencies: ["framer-motion", "@number-flow/react", "react-intersection-observer"], exportName: "Skiper37" },
   { id: "skiper39", name: "Skiper 39", category: "Skiper Collection", component: Skiper39, sourceFile: "skiper39.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "Skiper39" },
   { id: "skiper40", name: "Skiper 40", category: "Skiper Collection", component: Skiper40, sourceFile: "skiper40.tsx", exportName: "Skiper40" },
   { id: "skiper41", name: "Skiper 41", category: "Skiper Collection", component: Skiper41, sourceFile: "skiper41.tsx", needsFullscreen: true, exportName: "Skiper41" },
