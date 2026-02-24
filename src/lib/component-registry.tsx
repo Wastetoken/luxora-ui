@@ -90,6 +90,8 @@ export interface ComponentEntry {
   exportName: string;
   /** True if the component uses `export default` instead of named export */
   isDefaultExport?: boolean;
+  /** Local files this component depends on (e.g. carousel.tsx) */
+  localDeps?: string[];
 }
 
 export const componentRegistry: ComponentEntry[] = [
@@ -112,11 +114,11 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx", exportName: "CircleAnimationsGrid" },
   { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx", exportName: "CircleAnimationsGrid" },
   { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "ContainerScroll, GalleryContainer, GalleryCol" },
+  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "ContainerScroll, GalleryContainer, GalleryCol" },
 
   // Text Effects
   { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx", dependencies: ["framer-motion"], exportName: "TextRoll" },
-  { id: "wavy-text-block", name: "Wavy Text Block", category: "Text Effects", component: WavyTextDemo, sourceFile: "wavy-text-block.tsx", dependencies: ["framer-motion"], exportName: "WavyBlock, WavyBlockItem" },
+  { id: "wavy-text-block", name: "Wavy Text Block", category: "Text Effects", component: WavyTextDemo, sourceFile: "wavy-text-block.tsx", dependencies: ["motion"], exportName: "WavyBlock, WavyBlockItem" },
   { id: "parallax-text", name: "Parallax Text", category: "Text Effects", component: VelocityText, sourceFile: "parallax-scrolling-text-effect.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "VelocityText" },
   { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper31" },
 
@@ -127,7 +129,6 @@ export const componentRegistry: ComponentEntry[] = [
 
   // Cursors
   { id: "lazer-cursor", name: "Lazer Cursor", category: "Cursors", component: LazerCursorDemo, sourceFile: "lazer-cursor.tsx", needsFullscreen: true, exportName: "LazerCursor" },
-  
   { id: "liquid-gl-cursor", name: "Liquid GL Cursor", category: "Cursors", component: LiquidGLCursorDemo, sourceFile: "liquid-gl-cursor.tsx", needsFullscreen: true, exportName: "LiquidGLCursor" },
   { id: "electric-cursor", name: "Electric Cursor", category: "Cursors", component: ElectricCursorDemo, sourceFile: "electric-cursor.tsx", needsFullscreen: true, exportName: "ElectricCursor" },
   { id: "feather-cursor", name: "Feather Cursor", category: "Cursors", component: FeatherCursorDemo, sourceFile: "feather-cursor.tsx", needsFullscreen: true, exportName: "FeatherCursor" },
@@ -145,7 +146,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper3", name: "Skiper 3", category: "Skiper Collection", component: Skiper3, sourceFile: "skiper3.tsx", dependencies: ["framer-motion"], exportName: "Skiper3" },
   { id: "skiper4", name: "Skiper 4", category: "Skiper Collection", component: Skiper4, sourceFile: "skiper4.tsx", dependencies: ["framer-motion"], exportName: "Skiper4" },
   { id: "skiper16", name: "Skiper 16", category: "Skiper Collection", component: Skiper16, sourceFile: "skiper16.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper16" },
-  { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx", needsFullscreen: true, dependencies: ["gsap", "lenis"], exportName: "Skiper17" },
+  { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx", needsFullscreen: true, dependencies: ["gsap", "@gsap/react", "lenis"], exportName: "Skiper17" },
   { id: "skiper25", name: "Skiper 25", category: "Skiper Collection", component: Skiper25, sourceFile: "skiper25.tsx", dependencies: ["framer-motion", "use-sound"], exportName: "Skiper25" },
   { id: "skiper26", name: "Skiper 26", category: "Skiper Collection", component: Skiper26, sourceFile: "skiper26.tsx", dependencies: ["framer-motion"], exportName: "Skiper26" },
   { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper28" },
@@ -163,7 +164,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper51", name: "Skiper 51", category: "Skiper Collection", component: Skiper51, sourceFile: "skiper51.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper51" },
   { id: "skiper52", name: "Skiper 52", category: "Skiper Collection", component: Skiper52, sourceFile: "skiper52.tsx", dependencies: ["framer-motion"], exportName: "Skiper52" },
   { id: "skiper53", name: "Skiper 53", category: "Skiper Collection", component: Skiper53, sourceFile: "skiper53.tsx", dependencies: ["framer-motion"], exportName: "Skiper53" },
-  { id: "skiper54", name: "Skiper 54", category: "Skiper Collection", component: Skiper54, sourceFile: "skiper54.tsx", dependencies: ["framer-motion", "embla-carousel-autoplay"], exportName: "Skiper54" },
+  { id: "skiper54", name: "Skiper 54", category: "Skiper Collection", component: Skiper54, sourceFile: "skiper54.tsx", dependencies: ["framer-motion", "embla-carousel-autoplay", "embla-carousel-react"], exportName: "Skiper54", localDeps: ["carousel.tsx"] },
   { id: "skiper58", name: "Skiper 58", category: "Skiper Collection", component: Skiper58, sourceFile: "skiper58.tsx", dependencies: ["framer-motion"], exportName: "Skiper58" },
   { id: "skiper61", name: "Skiper 61", category: "Skiper Collection", component: Skiper61, sourceFile: "skiper61.tsx", dependencies: ["framer-motion"], exportName: "Skiper61" },
   { id: "skiper62", name: "Skiper 62", category: "Skiper Collection", component: Skiper62, sourceFile: "skiper62.tsx", dependencies: ["framer-motion"], exportName: "Skiper62" },
@@ -172,7 +173,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper65", name: "Skiper 65", category: "Skiper Collection", component: Skiper65, sourceFile: "skiper65.tsx", exportName: "Skiper65" },
   { id: "skiper66", name: "Skiper 66", category: "Skiper Collection", component: Skiper66, sourceFile: "skiper66.tsx", exportName: "Skiper66" },
   { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: Skiper67, sourceFile: "skiper67.tsx", dependencies: ["media-chrome", "framer-motion"], exportName: "Skiper67" },
-  { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx", exportName: "Skiper87" },
+  { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx", exportName: "Skiper87", localDeps: ["scroll-area.tsx"] },
 
   // Luxora Collection
   { id: "luxora-ai-designer", name: "Luxora AI Designer", category: "Heroes & Sections", component: LuxoraAIDesigner, sourceFile: "luxora-ai-designer.tsx", needsFullscreen: true, exportName: "LuxoraAIDesigner" },
@@ -180,7 +181,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "crowd-sprites", name: "Crowd Sprites", category: "Animations", component: CrowdSprites, sourceFile: "crowd-sprites.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "CrowdSprites" },
   { id: "chromatic-erosion", name: "Chromatic Erosion", category: "Shaders & Effects", component: ChromaticErosion, sourceFile: "chromatic-erosion.tsx", needsFullscreen: true, exportName: "ChromaticErosion" },
   { id: "grok-ai", name: "Grok AI", category: "Heroes & Sections", component: GrokAI, sourceFile: "grok-ai.tsx", needsFullscreen: true, exportName: "GrokAI" },
-  { id: "liquid-gallery", name: "Liquid Gallery", category: "Interactive", component: LiquidGallery, sourceFile: "liquid-gallery.tsx", needsFullscreen: true, exportName: "LiquidGallery" },
+  { id: "liquid-gallery", name: "Liquid Gallery", category: "Interactive", component: LiquidGallery, sourceFile: "liquid-gallery.tsx", needsFullscreen: true, dependencies: ["three"], exportName: "LiquidGallery" },
   { id: "portfolio", name: "Architecture Portfolio", category: "Heroes & Sections", component: Portfolio, sourceFile: "portfolio.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "Portfolio" },
   { id: "luxora-bg-ripple", name: "Luxora BG Ripple", category: "Shaders & Effects", component: LuxoraBgRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraBgRipple" },
   

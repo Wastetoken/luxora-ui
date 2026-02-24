@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { X, Copy, Code, ClipboardCheck } from "lucide-react";
+import { X, Copy, Code, ClipboardCheck, Terminal, FileCode } from "lucide-react";
 import type { ComponentEntry } from "@/lib/component-registry";
 
 interface CodeViewerProps {
@@ -16,8 +16,6 @@ const highlightSyntax = (code: string): string => {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  // Token-based approach: replace matches with placeholders to prevent
-  // later regexes from corrupting already-highlighted spans
   const tokens: string[] = [];
   const store = (html: string): string => {
     const idx = tokens.length;
@@ -25,7 +23,7 @@ const highlightSyntax = (code: string): string => {
     return `\x00T${idx}T\x00`;
   };
 
-  // Comments (must run before strings/keywords so they take priority)
+  // Comments
   text = text.replace(/(\/\/.*$)/gm, (m) => store(`<span style="color:#6a737d">${m}</span>`));
   text = text.replace(/(\/\*[\s\S]*?\*\/)/g, (m) => store(`<span style="color:#6a737d">${m}</span>`));
 
@@ -66,32 +64,37 @@ const useCopyToClipboard = () => {
   return { copied, copy };
 };
 
+// Generate the npm/bun install command
+const generateInstallCommand = (entry: ComponentEntry): string | null => {
+  if (!entry.dependencies || entry.dependencies.length === 0) return null;
+  return `npm install ${entry.dependencies.join(" ")}`;
+};
+
 // Generate correct, working usage snippet for a component
 const generateUsageCode = (entry: ComponentEntry): string => {
   const baseName = entry.sourceFile.replace(".tsx", "");
-  const importPath = `@/components/ui/${baseName}`;
+  const importPath = `@/components/${baseName}`;
 
   if (entry.isDefaultExport) {
     return `import ${entry.exportName} from "${importPath}";
 
-const DemoOne = () => {
+const Demo = () => {
   return <${entry.exportName} />;
 };
 
-export { DemoOne };`;
+export default Demo;`;
   }
 
-  // For multi-export components, use the first export as the main component
   const exports = entry.exportName.split(",").map(e => e.trim());
   const mainExport = exports[0];
 
   return `import { ${entry.exportName} } from "${importPath}";
 
-const DemoOne = () => {
+const Demo = () => {
   return <${mainExport} />;
 };
 
-export { DemoOne };`;
+export default Demo;`;
 };
 
 // Generate a copy-paste prompt for AI assistants
@@ -100,19 +103,25 @@ const generatePrompt = (entry: ComponentEntry): string => {
   const deps = entry.dependencies?.length
     ? `\nRequired dependencies: ${entry.dependencies.join(", ")}`
     : "";
-  return `Create a page using the ${entry.name} component from "@/components/ui/${baseName}".${deps}\n\nImport: ${entry.isDefaultExport ? `import ${entry.exportName} from "@/components/ui/${baseName}"` : `import { ${entry.exportName} } from "@/components/ui/${baseName}"`}`;
+  const localDeps = entry.localDeps?.length
+    ? `\nAlso requires local files: ${entry.localDeps.join(", ")}`
+    : "";
+  return `Create a page using the ${entry.name} component from "@/components/${baseName}".${deps}${localDeps}\n\nImport: ${entry.isDefaultExport ? `import ${entry.exportName} from "@/components/${baseName}"` : `import { ${entry.exportName} } from "@/components/${baseName}"`}`;
 };
 
 export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
   const [sourceCode, setSourceCode] = useState<string>("");
+  const [localDepSources, setLocalDepSources] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [showSource, setShowSource] = useState(false);
-  const [activeTab, setActiveTab] = useState<"demo" | "source">("demo");
+  const [activeTab, setActiveTab] = useState<"demo" | "source" | string>("demo");
   const { copied, copy } = useCopyToClipboard();
 
   useEffect(() => {
     const loadSource = async () => {
       setLoading(true);
+      
+      // Load main source
       const sourceKey = `/src/components/repo/${entry.sourceFile}`;
       if (repoModules[sourceKey]) {
         const content = await repoModules[sourceKey]() as string;
@@ -120,10 +129,25 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
       } else {
         setSourceCode(`// Source: src/components/repo/${entry.sourceFile}\n// File not found`);
       }
+
+      // Load local dependencies
+      if (entry.localDeps?.length) {
+        const depSources: Record<string, string> = {};
+        for (const dep of entry.localDeps) {
+          const depKey = `/src/components/repo/${dep}`;
+          if (repoModules[depKey]) {
+            depSources[dep] = await repoModules[depKey]() as string;
+          }
+        }
+        setLocalDepSources(depSources);
+      } else {
+        setLocalDepSources({});
+      }
+
       setLoading(false);
     };
     loadSource();
-  }, [entry.sourceFile]);
+  }, [entry.sourceFile, entry.localDeps]);
 
   // Reset tab when switching components
   useEffect(() => {
@@ -133,6 +157,7 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
 
   const usageCode = generateUsageCode(entry);
   const prompt = generatePrompt(entry);
+  const installCmd = generateInstallCommand(entry);
 
   if (loading) {
     return (
@@ -183,19 +208,76 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-border bg-secondary/50 text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 >
                   <Code className="w-3 h-3" />
-                  {"</>"} View code
+                  {"</>"} View source
                 </button>
               </div>
 
+              {/* Install command */}
+              {installCmd && (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Terminal className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-xs font-medium text-muted-foreground">1. Install dependencies</span>
+                  </div>
+                  <div className="rounded-md bg-secondary/60 border border-border overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-2">
+                      <pre className="text-sm font-mono text-foreground/90">
+                        <code>{installCmd}</code>
+                      </pre>
+                      <button
+                        onClick={() => copy(installCmd, "install")}
+                        className="p-1 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground flex-shrink-0"
+                        title="Copy install command"
+                      >
+                        {copied === "install" ? <ClipboardCheck className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Local dependencies note */}
+              {entry.localDeps && entry.localDeps.length > 0 && (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileCode className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {installCmd ? "2." : "1."} Copy required local files
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {entry.localDeps.map((dep) => (
+                      <span
+                        key={dep}
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-md bg-accent/20 text-accent-foreground border border-accent/30"
+                      >
+                        {dep}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground mt-1.5">
+                    These files are included in the source tab below. Copy them alongside the main component.
+                  </p>
+                </div>
+              )}
+
               {/* Usage code snippet */}
-              <div className="rounded-md bg-secondary/60 border border-border overflow-hidden">
-                <pre className="p-4 text-sm leading-relaxed font-mono overflow-x-auto">
-                  <code dangerouslySetInnerHTML={{ __html: highlightSyntax(usageCode) }} />
-                </pre>
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Code className="w-3.5 h-3.5 text-muted-foreground" />
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {installCmd ? (entry.localDeps?.length ? "3." : "2.") : "1."} Add to your project
+                  </span>
+                </div>
+                <div className="rounded-md bg-secondary/60 border border-border overflow-hidden">
+                  <pre className="p-4 text-sm leading-relaxed font-mono overflow-x-auto">
+                    <code dangerouslySetInnerHTML={{ __html: highlightSyntax(usageCode) }} />
+                  </pre>
+                </div>
               </div>
             </div>
 
-            {/* Dependencies */}
+            {/* Dependencies list */}
             {entry.dependencies && entry.dependencies.length > 0 && (
               <div>
                 <h3 className="text-sm font-semibold text-foreground mb-3">Dependencies</h3>
@@ -206,7 +288,6 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
                       className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono rounded-md bg-destructive/15 text-destructive border border-destructive/20"
                     >
                       {dep}
-                      <span className="text-[10px] font-bold bg-destructive/20 rounded px-1">N</span>
                     </span>
                   ))}
                 </div>
@@ -231,7 +312,10 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
                 </button>
               </div>
               <button
-                onClick={() => copy(activeTab === "demo" ? usageCode : sourceCode, "source")}
+                onClick={() => {
+                  const content = activeTab === "demo" ? usageCode : (activeTab === "source" ? sourceCode : (localDepSources[activeTab] || ""));
+                  copy(content, "source");
+                }}
                 className="p-1.5 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
                 title="Copy source code"
               >
@@ -239,11 +323,11 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
               </button>
             </div>
 
-            {/* Tabs — always show demo.tsx + component file */}
-            <div className="flex border-b border-border">
+            {/* Tabs */}
+            <div className="flex border-b border-border overflow-x-auto">
               <button
                 onClick={() => setActiveTab("demo")}
-                className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 ${
+                className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 whitespace-nowrap ${
                   activeTab === "demo"
                     ? "border-primary text-primary"
                     : "border-transparent text-muted-foreground hover:text-foreground"
@@ -253,7 +337,7 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
               </button>
               <button
                 onClick={() => setActiveTab("source")}
-                className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 ${
+                className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 whitespace-nowrap ${
                   activeTab === "source"
                     ? "border-primary text-primary"
                     : "border-transparent text-muted-foreground hover:text-foreground"
@@ -261,6 +345,19 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
               >
                 {entry.sourceFile}
               </button>
+              {entry.localDeps?.map((dep) => (
+                <button
+                  key={dep}
+                  onClick={() => setActiveTab(dep)}
+                  className={`px-4 py-2 text-xs font-medium transition-colors border-b-2 whitespace-nowrap ${
+                    activeTab === dep
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {dep}
+                </button>
+              ))}
             </div>
 
             {/* Source code content */}
@@ -269,7 +366,11 @@ export const CodeViewer = ({ entry, onClose }: CodeViewerProps) => {
                 <code
                   dangerouslySetInnerHTML={{
                     __html: highlightSyntax(
-                      activeTab === "demo" ? usageCode : sourceCode
+                      activeTab === "demo"
+                        ? usageCode
+                        : activeTab === "source"
+                        ? sourceCode
+                        : (localDepSources[activeTab] || `// ${activeTab} source not found`)
                     ),
                   }}
                 />
