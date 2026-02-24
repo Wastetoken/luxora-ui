@@ -85,11 +85,6 @@ const Landing = () => {
             </div>
           </div>
 
-          <div className="flex justify-center sm:justify-end">
-            <Link to="/showcase" className="text-2xl sm:text-3xl animate-bounce opacity-50">
-              ↓
-            </Link>
-          </div>
         </footer>
       </div>
     </div>
