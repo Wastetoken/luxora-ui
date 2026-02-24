@@ -69,14 +69,7 @@ export default function PerlinHoverText({ text }: Props) {
     const time = timeRef.current;
 
     if (!active) {
-      // No hover — draw clean text with glow
-      ctx.shadowColor = "rgba(255,255,255,0.5)";
-      ctx.shadowBlur = 40;
       ctx.fillText(text, w / 2, h / 2);
-      ctx.shadowBlur = 80;
-      ctx.shadowColor = "rgba(255,255,255,0.25)";
-      ctx.fillText(text, w / 2, h / 2);
-      ctx.shadowBlur = 0;
     } else {
       // Draw each character with localized distortion near cursor
       const metrics = ctx.measureText(text);
@@ -85,8 +78,7 @@ export default function PerlinHoverText({ text }: Props) {
       const cy = h / 2;
       const radius = 120;
 
-      ctx.shadowColor = "rgba(255,255,255,0.5)";
-      ctx.shadowBlur = 40;
+      ctx.textAlign = "left";
       ctx.textAlign = "left";
 
       for (let i = 0; i < text.length; i++) {
