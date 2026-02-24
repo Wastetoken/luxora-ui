@@ -19,10 +19,12 @@ const ProgressiveBlur = ({
 
   return (
     <div
-      className={`pointer-events-none absolute left-0 w-full select-none ${className}`}
+      className={`pointer-events-none sticky left-0 w-full select-none z-10 ${className}`}
       style={{
         [isTop ? "top" : "bottom"]: 0,
         height,
+        marginBottom: isTop ? `-${height}` : undefined,
+        marginTop: !isTop ? `-${height}` : undefined,
         background: isTop
           ? `linear-gradient(to top, transparent, ${backgroundColor})`
           : `linear-gradient(to bottom, transparent, ${backgroundColor})`,
@@ -41,10 +43,7 @@ const ProgressiveBlur = ({
 const Skiper41 = () => {
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#f5f4f3] text-black/40">
-      <ProgressiveBlur position="top" backgroundColor="#f5f4f3" />
-      <ProgressiveBlur position="bottom" backgroundColor="#f5f4f3" />
-
-      <div className="flex h-full w-full flex-col items-center overflow-auto">
+      <div className="relative flex h-full w-full flex-col items-center overflow-auto">
         <div className="mt-42 grid content-start justify-items-center gap-6 text-center text-black pt-20">
           <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-white after:to-black after:content-['']">
             Scroll down to see the effect
@@ -78,6 +77,8 @@ const Skiper41 = () => {
             </div>
           ))}
         </div>
+        <ProgressiveBlur position="top" backgroundColor="#f5f4f3" />
+        <ProgressiveBlur position="bottom" backgroundColor="#f5f4f3" />
       </div>
     </div>
   );

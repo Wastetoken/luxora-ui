@@ -141,10 +141,14 @@ export const Skiper67 = () => {
 
   return (
     <section className="relative flex h-full w-full items-center justify-center bg-[#f5f4f3]">
-      <div className="absolute top-1/4 grid content-start justify-items-center gap-6 text-center">
-        <span className="after:to-foreground relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-transparent after:content-['']">
-          Click the video to play
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 grid content-start justify-items-center gap-3 text-center z-10">
+        <span className="text-xs uppercase leading-tight text-black/50 tracking-widest">
+          Hover over the video below
         </span>
+        <span className="text-xs text-black/30">
+          Click to expand and play
+        </span>
+        <div className="w-px h-12 bg-gradient-to-b from-black/30 to-transparent mx-auto" />
       </div>
       <AnimatePresence>
         {showVideoPopOver && (
@@ -157,7 +161,7 @@ export const Skiper67 = () => {
           opacity.set(0);
         }}
         onClick={() => setShowVideoPopOver(true)}
-        className="size-45"
+        className="relative w-80 h-52 rounded-2xl overflow-hidden cursor-pointer shadow-lg border border-black/10 hover:shadow-2xl transition-shadow"
       >
         <motion.div
           style={{ x, y, opacity }}

@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 
 const Skiper37 = () => {
   return (
-    <section className="relative h-[calc(100vh-1rem)] w-full snap-y snap-mandatory overflow-y-scroll bg-[#f5f4f3]">
+    <section className="relative h-full min-h-screen w-full snap-y snap-mandatory overflow-y-scroll bg-[#f5f4f3]">
       <div className="snap-start">
         <AnimatedNumber_001 />
       </div>
