@@ -201,46 +201,6 @@ const RND_F_BG = `
   }
 `;
 
-// ── Render shader (Pass B) for BG+Hero ripple - with mask protecting non-hero text ──
-const RND_F_MASKED = `
-  precision highp float;
-  varying vec2 v_uv;
-  uniform sampler2D u_wave;
-  uniform sampler2D u_mask;
-  uniform vec2 u_wTexel;
-
-  float H(vec2 uv) { return texture2D(u_wave, uv).r; }
-
-  void main() {
-    float masked = texture2D(u_mask, vec2(v_uv.x, 1.0 - v_uv.y)).r;
-    if (masked > 0.5) {
-      gl_FragColor = vec4(0.0);
-      return;
-    }
-
-    float hL = H(v_uv - vec2(u_wTexel.x, 0.0));
-    float hR = H(v_uv + vec2(u_wTexel.x, 0.0));
-    float hD = H(v_uv - vec2(0.0, u_wTexel.y));
-    float hU = H(v_uv + vec2(0.0, u_wTexel.y));
-    vec3  N  = normalize(vec3(hL - hR, hD - hU, 0.08));
-
-    float h       = H(v_uv);
-    float lap     = hL + hR + hD + hU - 4.0 * h;
-    float caustic = pow(clamp(-lap * 8.0, 0.0, 1.0), 1.8);
-
-    vec3  L    = normalize(vec3(0.3, 0.5, 1.0));
-    vec3  Hv   = normalize(L + vec3(0.0, 0.0, 1.0));
-    float spec = pow(max(dot(N, Hv), 0.0), 48.0);
-
-    vec3  color = vec3(spec * 0.6);
-    float alpha = clamp(spec * 0.7 + caustic * 0.15, 0.0, 0.55);
-
-    vec2 c = v_uv * 2.0 - 1.0;
-    alpha *= 1.0 - dot(c, c) * 0.25;
-
-    gl_FragColor = vec4(color, alpha);
-  }
-`;
 
 // ── Render shader (Pass B) for Hero Text Only - distorts only within hero bounding box ──
 const RND_F_HERO = `
@@ -419,7 +379,7 @@ function initLiquidShader(lCanvas: HTMLCanvasElement, renderFragSrc: string) {
 }
 
 // ── Shared UI component ──
-function LuxoraUI({ timeRef, heroRef }: { timeRef?: React.RefObject<HTMLDivElement | null>; heroRef?: React.RefObject<HTMLHeadingElement | null> }) {
+function LuxoraUI({ timeRef, heroRef, hideHero }: { timeRef?: React.RefObject<HTMLDivElement | null>; heroRef?: React.RefObject<HTMLHeadingElement | null>; hideHero?: boolean }) {
   return (
     <div className="lbgr-content" style={{ padding: "2rem 3.5rem" }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -437,7 +397,7 @@ function LuxoraUI({ timeRef, heroRef }: { timeRef?: React.RefObject<HTMLDivEleme
       </div>
 
       <div className="hero" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 20 }}>
-        <h1 ref={heroRef as any} className="lbgr-font-clash" style={{ fontWeight: 500, fontSize: "10vw", lineHeight: 0.85, textAlign: "center", letterSpacing: "-0.025em", mixBlendMode: "difference" }}>
+        <h1 ref={heroRef as any} className="lbgr-font-clash" style={{ fontWeight: 500, fontSize: "10vw", lineHeight: 0.85, textAlign: "center", letterSpacing: "-0.025em", mixBlendMode: "difference", visibility: hideHero ? "hidden" : "visible" }}>
           CREATE<br />
           <span style={{ fontStyle: "italic", fontWeight: 300, opacity: 0.8 }}>ANYTHING</span>
         </h1>
@@ -632,187 +592,6 @@ export const LuxoraBgRipple = () => {
   );
 };
 
-// ════════════════════════════════════════════════════════════════
-// VARIANT 2: BG + Hero Ripple (distortion everywhere except protected text)
-// Uses a mask canvas to protect header/footer/subtitle
-// ════════════════════════════════════════════════════════════════
-export const LuxoraBgHeroRipple = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const liquidRef = useRef<HTMLCanvasElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const timeRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const lCanvas = liquidRef.current;
-    if (!canvas || !lCanvas) return;
-
-    const shader = initFractalShader(canvas);
-    if (!shader) return;
-    const { gl, program, posLoc, iResLoc, iTimeLoc, buf } = shader;
-
-    function resizeFractal() {
-      canvas!.width = window.innerWidth;
-      canvas!.height = window.innerHeight;
-      gl.viewport(0, 0, canvas!.width, canvas!.height);
-    }
-    window.addEventListener("resize", resizeFractal);
-    resizeFractal();
-
-    const liquid = initLiquidShader(lCanvas, RND_F_MASKED);
-
-    function resizeLiquid() {
-      lCanvas!.width = window.innerWidth;
-      lCanvas!.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resizeLiquid);
-    resizeLiquid();
-
-    // Mask canvas for protecting non-hero text
-    const maskCanvas = document.createElement("canvas");
-    const maskCtx = maskCanvas.getContext("2d")!;
-    let maskTex: WebGLTexture | null = null;
-    if (liquid) {
-      maskTex = liquid.makeRGBATex();
-    }
-
-    const PROTECTED_SELECTORS = ["header", "#time-display", ".hero-subtitle", "footer"];
-
-    function buildMask() {
-      const w = window.innerWidth, h = window.innerHeight;
-      maskCanvas.width = w; maskCanvas.height = h;
-      maskCtx.clearRect(0, 0, w, h);
-      maskCtx.fillStyle = "#fff";
-      PROTECTED_SELECTORS.forEach(sel => {
-        document.querySelectorAll(sel).forEach(el => {
-          const r = el.getBoundingClientRect();
-          maskCtx.fillRect(r.left - 8, r.top - 8, r.width + 16, r.height + 16);
-        });
-      });
-    }
-
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    let pX = mouseX, pY = mouseY;
-    let mX = -1, mY = -1, moved = false, held = false;
-    const cursor = cursorRef.current;
-
-    function setPos(cx: number, cy: number) {
-      const nx = cx / window.innerWidth;
-      const ny = 1.0 - cy / window.innerHeight;
-      if (Math.abs(nx - mX) > 0.001 || Math.abs(ny - mY) > 0.001) moved = true;
-      mX = nx; mY = ny;
-    }
-
-    const onMove = (e: MouseEvent) => { mouseX = e.clientX; mouseY = e.clientY; setPos(e.clientX, e.clientY); if (cursor) cursor.style.opacity = "1"; };
-    const onLeave = () => { if (cursor) cursor.style.opacity = "0"; mX = -1; mY = -1; };
-    const onDown = () => { held = true; };
-    const onUp = () => { held = false; };
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseleave", onLeave);
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("mouseup", onUp);
-
-    const startTime = Date.now();
-    const t0 = performance.now();
-    let animId: number;
-
-    function render(ts: number) {
-      const currentTime = (Date.now() - startTime) / 1000;
-      const t = (ts - t0) / 1000.0;
-
-      gl.useProgram(program);
-      gl.uniform3f(iResLoc, canvas!.width, canvas!.height, 1.0);
-      gl.uniform1f(iTimeLoc, currentTime);
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.enableVertexAttribArray(posLoc);
-      gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-
-      if (liquid && maskTex) {
-        const { lg, simProg, rndProg, S, R, TX, TY, SW, SH, drawQuad } = liquid;
-
-        // Build mask
-        buildMask();
-        lg.activeTexture(lg.TEXTURE1);
-        lg.bindTexture(lg.TEXTURE_2D, maskTex);
-        lg.texImage2D(lg.TEXTURE_2D, 0, lg.RGBA, lg.RGBA, lg.UNSIGNED_BYTE, maskCanvas);
-
-        // Pass A
-        lg.viewport(0, 0, SW, SH);
-        lg.bindFramebuffer(lg.FRAMEBUFFER, liquid.fboB);
-        lg.useProgram(simProg);
-        lg.activeTexture(lg.TEXTURE0);
-        lg.bindTexture(lg.TEXTURE_2D, liquid.texA);
-        lg.uniform1i(S.state, 0);
-        lg.uniform2f(S.texel, TX, TY);
-        lg.uniform2f(S.mouse, mX, mY);
-        lg.uniform1f(S.imp, ((moved || held) && mX >= 0) ? 1.0 : 0.0);
-        moved = false;
-        drawQuad(S.aPos);
-
-        let tmp: any;
-        tmp = liquid.texA; liquid.texA = liquid.texB; liquid.texB = tmp;
-        tmp = liquid.fboA; liquid.fboA = liquid.fboB; liquid.fboB = tmp;
-
-        // Pass B
-        lg.viewport(0, 0, lCanvas!.width, lCanvas!.height);
-        lg.bindFramebuffer(lg.FRAMEBUFFER, null);
-        lg.enable(lg.BLEND);
-        lg.blendFunc(lg.SRC_ALPHA, lg.ONE_MINUS_SRC_ALPHA);
-        lg.clearColor(0.0, 0.0, 0.0, 0.0);
-        lg.clear(lg.COLOR_BUFFER_BIT);
-        lg.useProgram(rndProg);
-        lg.activeTexture(lg.TEXTURE0);
-        lg.bindTexture(lg.TEXTURE_2D, liquid.texA);
-        lg.uniform1i(R.wave as WebGLUniformLocation, 0);
-        lg.activeTexture(lg.TEXTURE1);
-        lg.bindTexture(lg.TEXTURE_2D, maskTex);
-        lg.uniform1i(R.mask as WebGLUniformLocation, 1);
-        lg.uniform2f(R.wTexel as WebGLUniformLocation, TX, TY);
-        drawQuad(R.aPos as number);
-      }
-
-      pX += (mouseX - pX) * 0.1;
-      pY += (mouseY - pY) * 0.1;
-      if (cursor) { cursor.style.left = pX + "px"; cursor.style.top = pY + "px"; }
-
-      animId = requestAnimationFrame(render);
-    }
-    animId = requestAnimationFrame(render);
-
-    const timeInterval = setInterval(() => {
-      if (timeRef.current) {
-        const now = new Date();
-        timeRef.current.textContent = now.toLocaleTimeString("en-US", { hour12: false }) + " LOCAL";
-      }
-    }, 1000);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      clearInterval(timeInterval);
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseleave", onLeave);
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("mouseup", onUp);
-      window.removeEventListener("resize", resizeFractal);
-      window.removeEventListener("resize", resizeLiquid);
-    };
-  }, []);
-
-  return (
-    <>
-      <style>{styles}</style>
-      <link href="https://api.fontshare.com/v2/css?f[]=clash-display@300,400,500,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
-      <div className="lbgr-wrap">
-        <canvas ref={canvasRef} className="lbgr-canvas" />
-        <canvas ref={liquidRef} className="lbgr-canvas-liquid" />
-        <div className="lbgr-noise" />
-        <div ref={cursorRef} className="lbgr-cursor"><div className="lbgr-cursor-effect" /></div>
-        <LuxoraUI timeRef={timeRef} />
-      </div>
-    </>
-  );
-};
 
 // ════════════════════════════════════════════════════════════════
 // VARIANT 3: Hero Text Only Ripple (distorts only the hero h1 text)
@@ -1007,7 +786,7 @@ export const LuxoraHeroTextRipple = () => {
         <canvas ref={liquidRef} className="lbgr-canvas-liquid" />
         <div className="lbgr-noise" />
         <div ref={cursorRef} className="lbgr-cursor"><div className="lbgr-cursor-effect" /></div>
-        <LuxoraUI timeRef={timeRef} heroRef={heroRef} />
+        <LuxoraUI timeRef={timeRef} heroRef={heroRef} hideHero={true} />
       </div>
     </>
   );
