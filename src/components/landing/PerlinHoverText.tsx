@@ -246,9 +246,9 @@ export default function PerlinHoverText({ text }: Props) {
       className="relative inline-block pointer-events-auto"
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      style={{ cursor: "default" }}
+      style={{ cursor: "default", padding: "0.15em 0" }}
     >
-      <span className="invisible" style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400 }}>{text}</span>
+      <span className="invisible block" style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400, lineHeight: 1.3 }}>{text}</span>
       <canvas
         ref={glCanvasRef}
         className="absolute inset-0"
