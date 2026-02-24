@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import ShaderBackground from "@/components/landing/ShaderBackground";
 import LiquidRipple from "@/components/landing/LiquidRipple";
@@ -51,8 +51,25 @@ const Landing = () => {
 
         {/* Hero Text */}
         <div className="flex-1 flex flex-col justify-center items-center relative z-20">
+          {/* SVG Perlin noise filter — animated */}
+          <svg className="absolute w-0 h-0" aria-hidden="true">
+            <defs>
+              <filter id="perlin-text" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.015"
+                  numOctaves="3"
+                  seed="0"
+                  result="noise"
+                >
+                  <animate attributeName="seed" from="0" to="100" dur="8s" repeatCount="indefinite" />
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
+            </defs>
+          </svg>
           <h1 className="font-bold text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
-            <span style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400, textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3), 0 0 120px rgba(255,255,255,0.15)' }}>FAVORITE</span>
+            <span style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400, textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3), 0 0 120px rgba(255,255,255,0.15)', filter: 'url(#perlin-text)' }}>FAVORITE</span>
             <br />
             <span className="font-clash italic font-thin opacity-80">COMPONENTS</span>
           </h1>
