@@ -54,7 +54,7 @@ const Landing = () => {
           <h1 className="font-bold text-[14vw] sm:text-[12vw] md:text-[10vw] leading-[0.85] text-center tracking-tight mix-blend-difference select-none">
             <span style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400, textShadow: '0 0 40px rgba(255,255,255,0.6), 0 0 80px rgba(255,255,255,0.3), 0 0 120px rgba(255,255,255,0.15)' }}>FAVORITE</span>
             <br />
-            <span className="font-clash italic font-thin opacity-80 backdrop-blur-sm">COMPONENTS</span>
+            <span className="font-clash italic font-thin opacity-80">COMPONENTS</span>
           </h1>
           <p className="mt-4 sm:mt-8 text-center max-w-md text-xs sm:text-sm md:text-base text-white/50 leading-relaxed font-light px-4">
             A collection of react components.
