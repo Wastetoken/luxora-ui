@@ -330,15 +330,23 @@ export const LiquidGallery = () => {
 
   const getOrLoadTexture = useCallback((url: string): Promise<THREE.Texture> => {
     const state = threeRef.current;
-    if (!state) return Promise.reject();
+    if (!state) return Promise.reject(new Error("No state"));
     if (state.texCache.has(url)) return Promise.resolve(state.texCache.get(url)!);
-    return new Promise((resolve) => {
-      state.loader.load(url, (tex) => {
-        tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-        tex.minFilter = THREE.LinearFilter;
-        state.texCache.set(url, tex);
-        resolve(tex);
-      });
+    return new Promise((resolve, reject) => {
+      state.loader.load(
+        url,
+        (tex) => {
+          tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+          tex.minFilter = THREE.LinearFilter;
+          state.texCache.set(url, tex);
+          resolve(tex);
+        },
+        undefined,
+        (err) => {
+          console.error("LiquidGallery: Failed to load texture", url, err);
+          reject(err);
+        }
+      );
     });
   }, []);
 
@@ -386,19 +394,25 @@ export const LiquidGallery = () => {
     // Scroll thumb into view
     thumbRefs.current[idx]?.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
-    const [fromTex, toTex] = await Promise.all([
-      state.uniforms.u_texture.value
-        ? Promise.resolve(state.uniforms.u_texture.value)
-        : getOrLoadTexture(IMAGE_URLS[prevIdx]),
-      getOrLoadTexture(IMAGE_URLS[idx]),
-    ]);
+    try {
+      const [fromTex, toTex] = await Promise.all([
+        state.uniforms.u_texture.value
+          ? Promise.resolve(state.uniforms.u_texture.value)
+          : getOrLoadTexture(IMAGE_URLS[prevIdx]),
+        getOrLoadTexture(IMAGE_URLS[idx]),
+      ]);
 
-    await runTransition(fromTex, toTex, dir);
+      await runTransition(fromTex, toTex, dir);
+    } catch (e) {
+      console.warn("LiquidGallery: Transition failed, skipping", e);
+      // Still allow future transitions
+      state.transitioning = false;
+    }
 
-    // Preload neighbors
+    // Preload neighbors (don't await, fire-and-forget)
     for (let d = 1; d <= 3; d++) {
-      getOrLoadTexture(IMAGE_URLS[(idx + d) % IMAGE_URLS.length]);
-      getOrLoadTexture(IMAGE_URLS[((idx - d) + IMAGE_URLS.length) % IMAGE_URLS.length]);
+      getOrLoadTexture(IMAGE_URLS[(idx + d) % IMAGE_URLS.length]).catch(() => {});
+      getOrLoadTexture(IMAGE_URLS[((idx - d) + IMAGE_URLS.length) % IMAGE_URLS.length]).catch(() => {});
     }
   }, [getOrLoadTexture, runTransition]);
 
