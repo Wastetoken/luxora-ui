@@ -58,7 +58,7 @@ const FRAG = `
   void main() {
     vec2 uv = v_uv;
     
-    if (u_hover > 0.5) {
+    if (u_hover > 0.001) {
       // Distance from cursor in aspect-corrected space
       float aspect = u_resolution.x / u_resolution.y;
       vec2 diff = uv - u_mouse;
@@ -74,7 +74,7 @@ const FRAG = `
       float nx = fbm(noiseCoord + vec2(0.0, 0.0));
       float ny = fbm(noiseCoord + vec2(5.2, 1.3));
       
-      float strength = 0.035 * influence;
+      float strength = 0.035 * influence * u_hover;
       uv += vec2(nx, ny) * strength;
     }
     
@@ -94,6 +94,7 @@ export default function PerlinHoverText({ text }: Props) {
     mouseX: -1, mouseY: -1, hover: false,
     animId: 0, textTex: null as WebGLTexture | null,
     needsTextUpdate: true,
+    hoverAmount: 0,
   });
 
   useEffect(() => {
@@ -189,7 +190,10 @@ export default function PerlinHoverText({ text }: Props) {
       if (stateRef.current.needsTextUpdate) updateTextTexture();
 
       const t = (performance.now() - t0) / 1000;
-      const { hover, mouseX, mouseY } = stateRef.current;
+      const st = stateRef.current;
+      const target = st.hover ? 1.0 : 0.0;
+      st.hoverAmount += (target - st.hoverAmount) * 0.04;
+      if (Math.abs(st.hoverAmount) < 0.001) st.hoverAmount = 0;
 
       gl!.viewport(0, 0, glCanvas!.width, glCanvas!.height);
       gl!.clearColor(0, 0, 0, 0);
@@ -201,8 +205,9 @@ export default function PerlinHoverText({ text }: Props) {
       gl!.activeTexture(gl!.TEXTURE0);
       gl!.bindTexture(gl!.TEXTURE_2D, tex);
       gl!.uniform1i(uTex, 0);
-      gl!.uniform2f(uMouse, mouseX, mouseY);
-      gl!.uniform1f(uHover, hover ? 1.0 : 0.0);
+      gl!.uniform2f(uMouse, st.mouseX, st.mouseY);
+      gl!.uniform1f(uHover, st.hoverAmount);
+      gl!.uniform1f(uTime, t);
       gl!.uniform1f(uTime, t);
       gl!.uniform2f(uRes, glCanvas!.width, glCanvas!.height);
 
