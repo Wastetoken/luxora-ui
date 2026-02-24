@@ -1,139 +1,251 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect } from "react";
 
-// Simple 2D Perlin-style noise
-function noise2D(x: number, y: number): number {
-  const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
-  return (n - Math.floor(n)) * 2 - 1;
-}
-
-function smoothNoise(x: number, y: number): number {
-  const ix = Math.floor(x), iy = Math.floor(y);
-  const fx = x - ix, fy = y - iy;
-  const ux = fx * fx * (3 - 2 * fx), uy = fy * fy * (3 - 2 * fy);
-  const a = noise2D(ix, iy), b = noise2D(ix + 1, iy);
-  const c = noise2D(ix, iy + 1), d = noise2D(ix + 1, iy + 1);
-  return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
-}
-
-function fbm(x: number, y: number, octaves = 3): number {
-  let val = 0, amp = 0.5, freq = 1;
-  for (let i = 0; i < octaves; i++) {
-    val += amp * smoothNoise(x * freq, y * freq);
-    amp *= 0.5;
-    freq *= 2;
+const VERT = `
+  attribute vec2 a_pos;
+  varying vec2 v_uv;
+  void main() {
+    v_uv = a_pos * 0.5 + 0.5;
+    gl_Position = vec4(a_pos, 0.0, 1.0);
   }
-  return val;
-}
+`;
+
+const FRAG = `
+  precision highp float;
+  varying vec2 v_uv;
+  uniform sampler2D u_tex;
+  uniform vec2 u_mouse;    // normalized 0-1
+  uniform float u_hover;   // 0 or 1
+  uniform float u_time;
+  uniform vec2 u_resolution;
+
+  // Classic 2D Perlin-style noise
+  vec3 mod289(vec3 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+  vec2 mod289(vec2 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+  vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+  float snoise(vec2 v) {
+    const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                       -0.577350269189626, 0.024390243902439);
+    vec2 i  = floor(v + dot(v, C.yy));
+    vec2 x0 = v - i + dot(i, C.xx);
+    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    vec4 x12 = x0.xyxy + C.xxzz;
+    x12.xy -= i1;
+    i = mod289(i);
+    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+    m = m*m; m = m*m;
+    vec3 x_ = 2.0 * fract(p * C.www) - 1.0;
+    vec3 h = abs(x_) - 0.5;
+    vec3 ox = floor(x_ + 0.5);
+    vec3 a0 = x_ - ox;
+    m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+    vec3 g;
+    g.x = a0.x * x0.x + h.x * x0.y;
+    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+    return 130.0 * dot(m, g);
+  }
+
+  float fbm(vec2 p) {
+    float f = 0.0;
+    f += 0.5000 * snoise(p); p *= 2.02;
+    f += 0.2500 * snoise(p); p *= 2.03;
+    f += 0.1250 * snoise(p); p *= 2.01;
+    f += 0.0625 * snoise(p);
+    return f;
+  }
+
+  void main() {
+    vec2 uv = v_uv;
+    
+    if (u_hover > 0.5) {
+      // Distance from cursor in aspect-corrected space
+      float aspect = u_resolution.x / u_resolution.y;
+      vec2 diff = uv - u_mouse;
+      diff.x *= aspect;
+      float dist = length(diff);
+      
+      float radius = 0.25;
+      float influence = smoothstep(radius, 0.0, dist);
+      
+      // Perlin noise distortion
+      float t = u_time * 0.6;
+      vec2 noiseCoord = uv * 6.0 + t;
+      float nx = fbm(noiseCoord + vec2(0.0, 0.0));
+      float ny = fbm(noiseCoord + vec2(5.2, 1.3));
+      
+      float strength = 0.035 * influence;
+      uv += vec2(nx, ny) * strength;
+    }
+    
+    vec4 color = texture2D(u_tex, uv);
+    gl_FragColor = color;
+  }
+`;
 
 interface Props {
   text: string;
 }
 
 export default function PerlinHoverText({ text }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const mouseRef = useRef({ x: -9999, y: -9999, active: false });
-  const animRef = useRef(0);
-  const timeRef = useRef(0);
-
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-    
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const rect = container.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
-    
-    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + "px";
-      canvas.style.height = h + "px";
-    }
-    
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-
-    const fontSize = w / text.length * 1.45;
-    ctx.font = `400 ${fontSize}px 'Cinzel Decorative', serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "#fff";
-
-    const { x: mx, y: my, active } = mouseRef.current;
-    const time = timeRef.current;
-
-    if (!active) {
-      ctx.fillText(text, w / 2, h / 2);
-    } else {
-      // Draw each character with localized distortion near cursor
-      const metrics = ctx.measureText(text);
-      const totalW = metrics.width;
-      let xPos = w / 2 - totalW / 2;
-      const cy = h / 2;
-      const radius = 120;
-
-      ctx.textAlign = "left";
-      ctx.textAlign = "left";
-
-      for (let i = 0; i < text.length; i++) {
-        const charW = ctx.measureText(text[i]).width;
-        const charCenterX = xPos + charW / 2;
-        const charCenterY = cy;
-
-        const dx = charCenterX - mx;
-        const dy = charCenterY - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const influence = Math.max(0, 1 - dist / radius);
-        const eased = influence * influence * (3 - 2 * influence); // smoothstep
-
-        const noiseScale = 0.04;
-        const offsetX = fbm(charCenterX * noiseScale + time * 0.8, charCenterY * noiseScale, 3) * 12 * eased;
-        const offsetY = fbm(charCenterX * noiseScale, charCenterY * noiseScale + time * 0.8, 3) * 12 * eased;
-
-        ctx.fillText(text[i], xPos + offsetX, cy + offsetY);
-        xPos += charW;
-      }
-      ctx.shadowBlur = 0;
-    }
-
-    timeRef.current += 0.06;
-    animRef.current = requestAnimationFrame(draw);
-  }, [text]);
+  const glCanvasRef = useRef<HTMLCanvasElement>(null);
+  const stateRef = useRef({
+    mouseX: -1, mouseY: -1, hover: false,
+    animId: 0, textTex: null as WebGLTexture | null,
+    needsTextUpdate: true,
+  });
 
   useEffect(() => {
-    animRef.current = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(animRef.current);
-  }, [draw]);
+    const container = containerRef.current;
+    const glCanvas = glCanvasRef.current;
+    if (!container || !glCanvas) return;
 
-  const onEnter = () => { mouseRef.current.active = true; };
-  const onLeave = () => { mouseRef.current = { x: -9999, y: -9999, active: false }; };
+    const gl = glCanvas.getContext("webgl", { alpha: true, premultipliedAlpha: false });
+    if (!gl) return;
+
+    // Compile shaders
+    function compile(type: number, src: string) {
+      const s = gl!.createShader(type)!;
+      gl!.shaderSource(s, src);
+      gl!.compileShader(s);
+      if (!gl!.getShaderParameter(s, gl!.COMPILE_STATUS)) {
+        console.error(gl!.getShaderInfoLog(s));
+        gl!.deleteShader(s);
+        return null;
+      }
+      return s;
+    }
+    const vs = compile(gl.VERTEX_SHADER, VERT);
+    const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
+
+    const prog = gl.createProgram()!;
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+
+    const aPos = gl.getAttribLocation(prog, "a_pos");
+    const uTex = gl.getUniformLocation(prog, "u_tex");
+    const uMouse = gl.getUniformLocation(prog, "u_mouse");
+    const uHover = gl.getUniformLocation(prog, "u_hover");
+    const uTime = gl.getUniformLocation(prog, "u_time");
+    const uRes = gl.getUniformLocation(prog, "u_resolution");
+
+    const quad = gl.createBuffer()!;
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+
+    // Text texture
+    const textCanvas = document.createElement("canvas");
+    const textCtx = textCanvas.getContext("2d")!;
+    const tex = gl.createTexture()!;
+    stateRef.current.textTex = tex;
+
+    function updateTextTexture() {
+      const rect = container!.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const w = Math.ceil(rect.width * dpr);
+      const h = Math.ceil(rect.height * dpr);
+      if (w === 0 || h === 0) return;
+
+      textCanvas.width = w;
+      textCanvas.height = h;
+      textCtx.clearRect(0, 0, w, h);
+
+      const fontSize = (rect.width / text.length) * 1.45 * dpr;
+      textCtx.font = `400 ${fontSize}px 'Cinzel Decorative', serif`;
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.fillStyle = "#fff";
+      textCtx.fillText(text, w / 2, h / 2);
+
+      gl!.bindTexture(gl!.TEXTURE_2D, tex);
+      gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MIN_FILTER, gl!.LINEAR);
+      gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_MAG_FILTER, gl!.LINEAR);
+      gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_S, gl!.CLAMP_TO_EDGE);
+      gl!.texParameteri(gl!.TEXTURE_2D, gl!.TEXTURE_WRAP_T, gl!.CLAMP_TO_EDGE);
+      gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, textCanvas);
+      stateRef.current.needsTextUpdate = false;
+    }
+
+    function resize() {
+      const rect = container!.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      glCanvas!.width = Math.ceil(rect.width * dpr);
+      glCanvas!.height = Math.ceil(rect.height * dpr);
+      glCanvas!.style.width = rect.width + "px";
+      glCanvas!.style.height = rect.height + "px";
+      stateRef.current.needsTextUpdate = true;
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    const t0 = performance.now();
+
+    function render() {
+      if (stateRef.current.needsTextUpdate) updateTextTexture();
+
+      const t = (performance.now() - t0) / 1000;
+      const { hover, mouseX, mouseY } = stateRef.current;
+
+      gl!.viewport(0, 0, glCanvas!.width, glCanvas!.height);
+      gl!.clearColor(0, 0, 0, 0);
+      gl!.clear(gl!.COLOR_BUFFER_BIT);
+      gl!.enable(gl!.BLEND);
+      gl!.blendFunc(gl!.SRC_ALPHA, gl!.ONE_MINUS_SRC_ALPHA);
+
+      gl!.useProgram(prog);
+      gl!.activeTexture(gl!.TEXTURE0);
+      gl!.bindTexture(gl!.TEXTURE_2D, tex);
+      gl!.uniform1i(uTex, 0);
+      gl!.uniform2f(uMouse, mouseX, mouseY);
+      gl!.uniform1f(uHover, hover ? 1.0 : 0.0);
+      gl!.uniform1f(uTime, t);
+      gl!.uniform2f(uRes, glCanvas!.width, glCanvas!.height);
+
+      gl!.bindBuffer(gl!.ARRAY_BUFFER, quad);
+      gl!.enableVertexAttribArray(aPos);
+      gl!.vertexAttribPointer(aPos, 2, gl!.FLOAT, false, 0, 0);
+      gl!.drawArrays(gl!.TRIANGLES, 0, 6);
+
+      stateRef.current.animId = requestAnimationFrame(render);
+    }
+
+    // Wait for font to load
+    document.fonts.ready.then(() => {
+      stateRef.current.needsTextUpdate = true;
+      stateRef.current.animId = requestAnimationFrame(render);
+    });
+
+    return () => {
+      cancelAnimationFrame(stateRef.current.animId);
+      window.removeEventListener("resize", resize);
+    };
+  }, [text]);
+
   const onMove = (e: React.MouseEvent) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
-    mouseRef.current.x = e.clientX - rect.left;
-    mouseRef.current.y = e.clientY - rect.top;
-    mouseRef.current.active = true;
+    stateRef.current.mouseX = (e.clientX - rect.left) / rect.width;
+    stateRef.current.mouseY = 1.0 - (e.clientY - rect.top) / rect.height;
+    stateRef.current.hover = true;
   };
+  const onLeave = () => { stateRef.current.hover = false; };
 
   return (
     <div
       ref={containerRef}
       className="relative inline-block pointer-events-auto"
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
       onMouseMove={onMove}
+      onMouseLeave={onLeave}
       style={{ cursor: "default" }}
     >
-      {/* Invisible text for sizing */}
       <span className="invisible" style={{ fontFamily: "'Cinzel Decorative', serif", fontWeight: 400 }}>{text}</span>
       <canvas
-        ref={canvasRef}
+        ref={glCanvasRef}
         className="absolute inset-0"
         style={{ pointerEvents: "none" }}
       />
