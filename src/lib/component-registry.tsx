@@ -92,6 +92,8 @@ export interface ComponentEntry {
   isDefaultExport?: boolean;
   /** Local files this component depends on (e.g. carousel.tsx) */
   localDeps?: string[];
+  /** Native theme of the component: "light" or "dark". Defaults to "dark". */
+  nativeTheme?: "light" | "dark";
 }
 
 export const componentRegistry: ComponentEntry[] = [
@@ -149,20 +151,20 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper17", name: "Skiper 17", category: "Skiper Collection", component: Skiper17, sourceFile: "skiper17.tsx", needsFullscreen: true, dependencies: ["gsap", "@gsap/react", "lenis"], exportName: "Skiper17" },
   { id: "skiper25", name: "Skiper 25", category: "Skiper Collection", component: Skiper25, sourceFile: "skiper25.tsx", dependencies: ["framer-motion", "use-sound"], exportName: "Skiper25" },
   { id: "skiper26", name: "Skiper 26", category: "Skiper Collection", component: Skiper26, sourceFile: "skiper26.tsx", dependencies: ["framer-motion"], exportName: "Skiper26" },
-  { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper28" },
+  { id: "skiper28", name: "Skiper 28", category: "Skiper Collection", component: Skiper28, sourceFile: "skiper28.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper28", nativeTheme: "light" },
   { id: "skiper30", name: "Skiper 30", category: "Skiper Collection", component: Skiper30, sourceFile: "skiper30.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper30" },
   { id: "skiper31", name: "Skiper 31", category: "Skiper Collection", component: Skiper31, sourceFile: "skiper31.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper31" },
-  { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper34" },
+  { id: "skiper34", name: "Skiper 34", category: "Skiper Collection", component: Skiper34, sourceFile: "skiper34.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper34", nativeTheme: "light" },
   { id: "skiper37", name: "Skiper 37", category: "Skiper Collection", component: Skiper37, sourceFile: "skiper37.tsx", needsFullscreen: true, dependencies: ["framer-motion", "@number-flow/react", "react-intersection-observer"], exportName: "Skiper37" },
   { id: "skiper39", name: "Skiper 39", category: "Skiper Collection", component: Skiper39, sourceFile: "skiper39.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "Skiper39" },
   { id: "skiper40", name: "Skiper 40", category: "Skiper Collection", component: Skiper40, sourceFile: "skiper40.tsx", exportName: "Skiper40" },
-  { id: "skiper41", name: "Skiper 41", category: "Skiper Collection", component: Skiper41, sourceFile: "skiper41.tsx", needsFullscreen: true, exportName: "Skiper41" },
+  { id: "skiper41", name: "Skiper 41", category: "Skiper Collection", component: Skiper41, sourceFile: "skiper41.tsx", needsFullscreen: true, exportName: "Skiper41", nativeTheme: "light" },
   { id: "skiper47", name: "Skiper 47", category: "Skiper Collection", component: Skiper47, sourceFile: "skiper47.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper47" },
   { id: "skiper48", name: "Skiper 48", category: "Skiper Collection", component: Skiper48, sourceFile: "skiper48.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper48" },
   { id: "skiper49", name: "Skiper 49", category: "Skiper Collection", component: Skiper49, sourceFile: "skiper49.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper49" },
   { id: "skiper50", name: "Skiper 50", category: "Skiper Collection", component: Skiper50, sourceFile: "skiper50.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper50" },
   { id: "skiper51", name: "Skiper 51", category: "Skiper Collection", component: Skiper51, sourceFile: "skiper51.tsx", dependencies: ["framer-motion", "swiper"], exportName: "Skiper51" },
-  { id: "skiper52", name: "Skiper 52", category: "Skiper Collection", component: Skiper52, sourceFile: "skiper52.tsx", dependencies: ["framer-motion"], exportName: "Skiper52" },
+  { id: "skiper52", name: "Skiper 52", category: "Skiper Collection", component: Skiper52, sourceFile: "skiper52.tsx", dependencies: ["framer-motion"], exportName: "Skiper52", nativeTheme: "light" },
   { id: "skiper53", name: "Skiper 53", category: "Skiper Collection", component: Skiper53, sourceFile: "skiper53.tsx", dependencies: ["framer-motion"], exportName: "Skiper53" },
   { id: "skiper54", name: "Skiper 54", category: "Skiper Collection", component: Skiper54, sourceFile: "skiper54.tsx", dependencies: ["framer-motion", "embla-carousel-autoplay", "embla-carousel-react"], exportName: "Skiper54", localDeps: ["carousel.tsx"] },
   { id: "skiper58", name: "Skiper 58", category: "Skiper Collection", component: Skiper58, sourceFile: "skiper58.tsx", dependencies: ["framer-motion"], exportName: "Skiper58" },

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Code, Eye, ArrowLeft } from "lucide-react";
+import { Code, Eye, ArrowLeft, Sun, Moon } from "lucide-react";
 import { Sidebar, MobileHeader } from "@/components/showcase/Sidebar";
 import { ComponentDisplay } from "@/components/showcase/ComponentDisplay";
 import { CodeViewer } from "@/components/showcase/CodeViewer";
@@ -12,6 +12,7 @@ const Index = () => {
   const [showCode, setShowCode] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [fullscreenTheme, setFullscreenTheme] = useState<"light" | "dark">("dark");
   const isMobile = useIsMobile();
 
   const selectedComponent = useMemo(
@@ -27,12 +28,21 @@ const Index = () => {
     [searchQuery]
   );
 
+  // Reset fullscreen theme when selecting a new component
+  useEffect(() => {
+    if (selectedComponent) {
+      setFullscreenTheme(selectedComponent.nativeTheme || "dark");
+    }
+  }, [selectedComponent]);
+
   // Scroll to top when entering fullscreen mode
   useEffect(() => {
     if (selectedComponent?.needsFullscreen && !showCode) {
       window.scrollTo(0, 0);
     }
   }, [selectedComponent, showCode]);
+
+  const isFullscreenDark = fullscreenTheme === "dark";
 
   // Fullscreen rendering for scroll/3D components
   if (selectedComponent?.needsFullscreen && !showCode) {
@@ -54,6 +64,13 @@ const Index = () => {
           <span className="text-xs font-medium text-white/90 px-2 border-l border-white/10 hidden sm:inline">
             {selectedComponent.name}
           </span>
+          <button
+            onClick={() => setFullscreenTheme(isFullscreenDark ? "light" : "dark")}
+            className="flex items-center gap-1 px-2 py-1 text-xs text-white/70 hover:text-white transition-colors rounded-full hover:bg-white/10 border-l border-white/10"
+            title={`Switch to ${isFullscreenDark ? "light" : "dark"} preview`}
+          >
+            {isFullscreenDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+          </button>
           <button
             onClick={() => setShowCode(true)}
             className="flex items-center gap-1 px-2 py-1 text-xs text-white/70 hover:text-white transition-colors rounded-full hover:bg-white/10 border-l border-white/10"
