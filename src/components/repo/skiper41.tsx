@@ -19,18 +19,20 @@ const ProgressiveBlur = ({
 
   return (
     <div
-      className={`pointer-events-none sticky left-0 w-full select-none z-10 ${className}`}
+      aria-hidden
+      className={`pointer-events-none absolute inset-x-0 z-20 select-none ${className}`}
       style={{
         [isTop ? "top" : "bottom"]: 0,
         height,
-        marginBottom: isTop ? `-${height}` : undefined,
-        marginTop: !isTop ? `-${height}` : undefined,
         background: isTop
-          ? `linear-gradient(to top, transparent, ${backgroundColor})`
-          : `linear-gradient(to bottom, transparent, ${backgroundColor})`,
+          ? `linear-gradient(to bottom, ${backgroundColor}, transparent)`
+          : `linear-gradient(to top, ${backgroundColor}, transparent)`,
         maskImage: isTop
-          ? `linear-gradient(to bottom, ${backgroundColor} 50%, transparent)`
-          : `linear-gradient(to top, ${backgroundColor} 50%, transparent)`,
+          ? "linear-gradient(to bottom, black, transparent)"
+          : "linear-gradient(to top, black, transparent)",
+        WebkitMaskImage: isTop
+          ? "linear-gradient(to bottom, black, transparent)"
+          : "linear-gradient(to top, black, transparent)",
         WebkitBackdropFilter: `blur(${blurAmount})`,
         backdropFilter: `blur(${blurAmount})`,
         WebkitUserSelect: "none",
@@ -42,15 +44,15 @@ const ProgressiveBlur = ({
 
 const Skiper41 = () => {
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#f5f4f3] text-black/40">
-      <div className="relative flex h-full w-full flex-col items-center overflow-auto">
-        <div className="mt-42 grid content-start justify-items-center gap-6 text-center text-black pt-20">
+    <div className="relative flex h-screen w-full flex-col overflow-hidden bg-[#f5f4f3] text-black/40">
+      <div className="relative h-full w-full overflow-y-auto">
+        <div className="mt-20 grid content-start justify-items-center gap-6 px-5 text-center text-black">
           <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-white after:to-black after:content-['']">
             Scroll down to see the effect
           </span>
         </div>
 
-        <div className="mt-24 w-full max-w-lg space-y-20 px-5 text-justify text-neutral-600 pb-20">
+        <div className="mx-auto mt-24 w-full max-w-lg space-y-20 px-5 pb-36 text-justify text-neutral-600">
           {Array.from({ length: 10 }).map((_, index) => (
             <div key={index}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -77,9 +79,14 @@ const Skiper41 = () => {
             </div>
           ))}
         </div>
-        <ProgressiveBlur position="top" backgroundColor="#f5f4f3" />
-        <ProgressiveBlur position="bottom" backgroundColor="#f5f4f3" />
       </div>
+
+      <ProgressiveBlur
+        position="bottom"
+        backgroundColor="#f5f4f3"
+        height="180px"
+        blurAmount="8px"
+      />
     </div>
   );
 };
