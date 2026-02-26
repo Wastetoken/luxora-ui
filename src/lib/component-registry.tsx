@@ -127,6 +127,12 @@ import OsmoStackingImageTrail from "@/components/repo/stacking-image-trail";
 import OsmoStickyFeatures from "@/components/repo/sticky-features";
 import OsmoTextBlurReveal from "@/components/repo/text-blur-reveal";
 import OsmoTextGradientAnimation from "@/components/repo/text-gradient-animation";
+import OsmoTextRevealLines from "@/components/repo/text-reveal-lines";
+import OsmoTextScramble from "@/components/repo/text-scramble";
+import OsmoTextSplitHover from "@/components/repo/text-split-hover";
+import Osmo3DImageCarousel from "@/components/repo/three-d-image-carousel";
+import OsmoTypewriterCursor from "@/components/repo/typewriter-cursor";
+import OsmoVariableFontWeightHover from "@/components/repo/variable-font-weight-hover";
 
 export interface ComponentEntry {
   id: string;
@@ -292,4 +298,10 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "sticky-features", name: "Sticky Features", category: "Scroll Effects", component: OsmoStickyFeatures, sourceFile: "sticky-features.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoStickyFeatures", isDefaultExport: true },
   { id: "text-blur-reveal", name: "Text Blur Reveal", category: "Scroll Effects", component: OsmoTextBlurReveal, sourceFile: "text-blur-reveal.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoTextBlurReveal", isDefaultExport: true },
   { id: "text-gradient-animation", name: "Text Gradient Animation", category: "Text Effects", component: OsmoTextGradientAnimation, sourceFile: "text-gradient-animation.tsx", dependencies: ["motion"], exportName: "OsmoTextGradientAnimation", isDefaultExport: true },
+  { id: "text-reveal-lines", name: "Text Reveal Lines", category: "Scroll Effects", component: OsmoTextRevealLines, sourceFile: "text-reveal-lines.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoTextRevealLines", isDefaultExport: true },
+  { id: "text-scramble", name: "Text Scramble", category: "Text Effects", component: OsmoTextScramble, sourceFile: "text-scramble.tsx", dependencies: ["gsap"], exportName: "OsmoTextScramble", isDefaultExport: true },
+  { id: "text-split-hover", name: "Text Split Hover", category: "Text Effects", component: OsmoTextSplitHover, sourceFile: "text-split-hover.tsx", dependencies: ["motion"], exportName: "OsmoTextSplitHover", isDefaultExport: true },
+  { id: "three-d-image-carousel", name: "3D Image Carousel", category: "Interactive", component: Osmo3DImageCarousel, sourceFile: "three-d-image-carousel.tsx", dependencies: ["gsap"], exportName: "Osmo3DImageCarousel", isDefaultExport: true },
+  { id: "typewriter-cursor", name: "Typewriter Cursor", category: "Text Effects", component: OsmoTypewriterCursor, sourceFile: "typewriter-cursor.tsx", dependencies: ["motion"], exportName: "OsmoTypewriterCursor", isDefaultExport: true },
+  { id: "variable-font-weight-hover", name: "Variable Font Weight Hover", category: "Text Effects", component: OsmoVariableFontWeightHover, sourceFile: "variable-font-weight-hover.tsx", exportName: "OsmoVariableFontWeightHover", isDefaultExport: true },
 ];
