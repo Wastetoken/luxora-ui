@@ -87,6 +87,16 @@ import OsmoCSSMarquee from "@/components/repo/css-marquee";
 import OsmoCursorGlowEffect from "@/components/repo/cursor-glow-effect";
 import OsmoCursorSpotlight from "@/components/repo/cursor-spotlight";
 import OsmoDirectionalListHover from "@/components/repo/directional-list-hover";
+import OsmoDownloadButton from "@/components/repo/download-button";
+import OsmoDraggableMarquee from "@/components/repo/draggable-marquee";
+import OsmoDroppingCardsStack from "@/components/repo/dropping-cards-stack";
+import OsmoFalling2DObjects from "@/components/repo/falling-2d-objects";
+import OsmoFallingTextGravity from "@/components/repo/falling-text-gravity";
+import OsmoFooterParallaxEffect from "@/components/repo/footer-parallax-effect";
+import OsmoGlowingDotsGrid from "@/components/repo/glowing-dots-grid";
+import OsmoGridHoverEffect from "@/components/repo/grid-hover-effect";
+import OsmoHighlightTextOnScroll from "@/components/repo/highlight-text-on-scroll";
+import OsmoHorizontalScrollingSections from "@/components/repo/horizontal-scrolling-sections";
 
 export interface ComponentEntry {
   id: string;
@@ -212,4 +222,14 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "cursor-glow-effect", name: "Cursor Glow Effect", category: "Cursors", component: OsmoCursorGlowEffect, sourceFile: "cursor-glow-effect.tsx", dependencies: ["motion"], exportName: "OsmoCursorGlowEffect", isDefaultExport: true },
   { id: "cursor-spotlight", name: "Cursor Spotlight", category: "Cursors", component: OsmoCursorSpotlight, sourceFile: "cursor-spotlight.tsx", dependencies: ["motion"], exportName: "OsmoCursorSpotlight", isDefaultExport: true },
   { id: "directional-list-hover", name: "Directional List Hover", category: "Interactive", component: OsmoDirectionalListHover, sourceFile: "directional-list-hover.tsx", dependencies: ["gsap"], exportName: "OsmoDirectionalListHover", isDefaultExport: true },
+  { id: "download-button", name: "Download Button", category: "Interactive", component: OsmoDownloadButton, sourceFile: "download-button.tsx", exportName: "OsmoDownloadButton", isDefaultExport: true },
+  { id: "draggable-marquee", name: "Draggable Marquee", category: "Text Effects", component: OsmoDraggableMarquee, sourceFile: "draggable-marquee.tsx", dependencies: ["gsap"], exportName: "OsmoDraggableMarquee", isDefaultExport: true },
+  { id: "dropping-cards-stack", name: "Dropping Cards Stack", category: "Cards & Layout", component: OsmoDroppingCardsStack, sourceFile: "dropping-cards-stack.tsx", dependencies: ["gsap"], exportName: "OsmoDroppingCardsStack", isDefaultExport: true },
+  { id: "falling-2d-objects", name: "Falling 2D Objects", category: "Animations", component: OsmoFalling2DObjects, sourceFile: "falling-2d-objects.tsx", dependencies: ["matter-js"], exportName: "OsmoFalling2DObjects", isDefaultExport: true },
+  { id: "falling-text-gravity", name: "Falling Text Gravity", category: "Text Effects", component: OsmoFallingTextGravity, sourceFile: "falling-text-gravity.tsx", dependencies: ["gsap"], exportName: "OsmoFallingTextGravity", isDefaultExport: true },
+  { id: "footer-parallax-effect", name: "Footer Parallax", category: "Scroll Effects", component: OsmoFooterParallaxEffect, sourceFile: "footer-parallax-effect.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoFooterParallaxEffect", isDefaultExport: true },
+  { id: "glowing-dots-grid", name: "Glowing Dots Grid", category: "Interactive", component: OsmoGlowingDotsGrid, sourceFile: "glowing-dots-grid.tsx", exportName: "OsmoGlowingDotsGrid", isDefaultExport: true },
+  { id: "grid-hover-effect", name: "Grid Hover Effect", category: "Interactive", component: OsmoGridHoverEffect, sourceFile: "grid-hover-effect.tsx", dependencies: ["motion"], exportName: "OsmoGridHoverEffect", isDefaultExport: true },
+  { id: "highlight-text-on-scroll", name: "Highlight Text Scroll", category: "Scroll Effects", component: OsmoHighlightTextOnScroll, sourceFile: "highlight-text-on-scroll.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoHighlightTextOnScroll", isDefaultExport: true },
+  { id: "horizontal-scrolling-sections", name: "Horizontal Scroll Sections", category: "Scroll Effects", component: OsmoHorizontalScrollingSections, sourceFile: "horizontal-scrolling-sections.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoHorizontalScrollingSections", isDefaultExport: true },
 ];
