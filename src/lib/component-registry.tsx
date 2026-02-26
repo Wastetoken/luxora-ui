@@ -117,6 +117,16 @@ import OsmoRotatingText from "@/components/repo/rotating-text";
 import OsmoScalingHamburgerNavigation from "@/components/repo/scaling-hamburger-navigation";
 import OsmoScrollFadeGallery from "@/components/repo/scroll-fade-gallery";
 import OsmoScrollMorphHeader from "@/components/repo/scroll-morph-header";
+import OsmoScrollProgressCircle from "@/components/repo/scroll-progress-circle";
+import OsmoScrollSnapGallery from "@/components/repo/scroll-snap-gallery";
+import OsmoScrollTicker from "@/components/repo/scroll-ticker";
+import OsmoSlideInNavigation from "@/components/repo/slide-in-navigation";
+import OsmoStackingCardsParallax from "@/components/repo/stacking-cards-parallax";
+import OsmoStackingCardsSlider from "@/components/repo/stacking-cards-slider";
+import OsmoStackingImageTrail from "@/components/repo/stacking-image-trail";
+import OsmoStickyFeatures from "@/components/repo/sticky-features";
+import OsmoTextBlurReveal from "@/components/repo/text-blur-reveal";
+import OsmoTextGradientAnimation from "@/components/repo/text-gradient-animation";
 
 export interface ComponentEntry {
   id: string;
@@ -272,4 +282,14 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "scaling-hamburger-navigation", name: "Scaling Hamburger Nav", category: "Navigation", component: OsmoScalingHamburgerNavigation, sourceFile: "scaling-hamburger-navigation.tsx", dependencies: ["gsap"], exportName: "OsmoScalingHamburgerNavigation", isDefaultExport: true },
   { id: "scroll-fade-gallery", name: "Scroll Fade Gallery", category: "Scroll Effects", component: OsmoScrollFadeGallery, sourceFile: "scroll-fade-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoScrollFadeGallery", isDefaultExport: true },
   { id: "scroll-morph-header", name: "Scroll Morph Header", category: "Navigation", component: OsmoScrollMorphHeader, sourceFile: "scroll-morph-header.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoScrollMorphHeader", isDefaultExport: true },
+  { id: "scroll-progress-circle", name: "Scroll Progress Circle", category: "Scroll Effects", component: OsmoScrollProgressCircle, sourceFile: "scroll-progress-circle.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoScrollProgressCircle", isDefaultExport: true },
+  { id: "scroll-snap-gallery", name: "Scroll Snap Gallery", category: "Scroll Effects", component: OsmoScrollSnapGallery, sourceFile: "scroll-snap-gallery.tsx", dependencies: ["motion"], exportName: "OsmoScrollSnapGallery", isDefaultExport: true },
+  { id: "scroll-ticker", name: "Scroll Ticker", category: "Text Effects", component: OsmoScrollTicker, sourceFile: "scroll-ticker.tsx", dependencies: ["motion"], exportName: "OsmoScrollTicker", isDefaultExport: true },
+  { id: "slide-in-navigation", name: "Slide-In Navigation", category: "Navigation", component: OsmoSlideInNavigation, sourceFile: "slide-in-navigation.tsx", dependencies: ["motion"], exportName: "OsmoSlideInNavigation", isDefaultExport: true },
+  { id: "stacking-cards-parallax", name: "Stacking Cards Parallax", category: "Scroll Effects", component: OsmoStackingCardsParallax, sourceFile: "stacking-cards-parallax.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoStackingCardsParallax", isDefaultExport: true },
+  { id: "stacking-cards-slider", name: "Stacking Cards Slider", category: "Scroll Effects", component: OsmoStackingCardsSlider, sourceFile: "stacking-cards-slider.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoStackingCardsSlider", isDefaultExport: true },
+  { id: "stacking-image-trail", name: "Stacking Image Trail", category: "Cursors", component: OsmoStackingImageTrail, sourceFile: "stacking-image-trail.tsx", dependencies: ["gsap"], exportName: "OsmoStackingImageTrail", isDefaultExport: true },
+  { id: "sticky-features", name: "Sticky Features", category: "Scroll Effects", component: OsmoStickyFeatures, sourceFile: "sticky-features.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoStickyFeatures", isDefaultExport: true },
+  { id: "text-blur-reveal", name: "Text Blur Reveal", category: "Scroll Effects", component: OsmoTextBlurReveal, sourceFile: "text-blur-reveal.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoTextBlurReveal", isDefaultExport: true },
+  { id: "text-gradient-animation", name: "Text Gradient Animation", category: "Text Effects", component: OsmoTextGradientAnimation, sourceFile: "text-gradient-animation.tsx", dependencies: ["motion"], exportName: "OsmoTextGradientAnimation", isDefaultExport: true },
 ];
