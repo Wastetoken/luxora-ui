@@ -76,6 +76,18 @@ import { LiquidGallery } from "@/components/repo/liquid-gallery";
 import { Portfolio } from "@/components/repo/portfolio";
 import { LuxoraBgRipple, LuxoraHeroTextRipple } from "@/components/repo/luxora-bg-ripple";
 
+// Osmo Collection
+import OsmoAnimatedBackgroundGrid from "@/components/repo/animated-background-grid";
+import OsmoAppleDockNavigation from "@/components/repo/apple-dock-navigation";
+import OsmoBeforeAfterSplitSlider from "@/components/repo/before-after-split-slider";
+import OsmoBlobCursor from "@/components/repo/blob-cursor";
+import OsmoBoldFullscreenNavigation from "@/components/repo/bold-fullscreen-navigation";
+import OsmoColorTransitionScroll from "@/components/repo/color-transition-scroll";
+import OsmoCSSMarquee from "@/components/repo/css-marquee";
+import OsmoCursorGlowEffect from "@/components/repo/cursor-glow-effect";
+import OsmoCursorSpotlight from "@/components/repo/cursor-spotlight";
+import OsmoDirectionalListHover from "@/components/repo/directional-list-hover";
+
 export interface ComponentEntry {
   id: string;
   name: string;
@@ -188,4 +200,16 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "luxora-bg-ripple", name: "Luxora BG Ripple", category: "Shaders & Effects", component: LuxoraBgRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraBgRipple" },
   
   { id: "luxora-hero-text-ripple", name: "Luxora Hero Text Ripple", category: "Shaders & Effects", component: LuxoraHeroTextRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraHeroTextRipple" },
+
+  // Osmo Collection
+  { id: "animated-background-grid", name: "Animated Background Grid", category: "Animations", component: OsmoAnimatedBackgroundGrid, sourceFile: "animated-background-grid.tsx", dependencies: ["motion"], exportName: "OsmoAnimatedBackgroundGrid", isDefaultExport: true },
+  { id: "apple-dock-navigation", name: "Apple Dock Navigation", category: "Interactive", component: OsmoAppleDockNavigation, sourceFile: "apple-dock-navigation.tsx", exportName: "OsmoAppleDockNavigation", isDefaultExport: true },
+  { id: "before-after-split-slider", name: "Before/After Slider", category: "Interactive", component: OsmoBeforeAfterSplitSlider, sourceFile: "before-after-split-slider.tsx", exportName: "OsmoBeforeAfterSplitSlider", isDefaultExport: true },
+  { id: "blob-cursor", name: "Blob Cursor", category: "Cursors", component: OsmoBlobCursor, sourceFile: "blob-cursor.tsx", dependencies: ["motion"], exportName: "OsmoBlobCursor", isDefaultExport: true },
+  { id: "bold-fullscreen-navigation", name: "Bold Fullscreen Nav", category: "Interactive", component: OsmoBoldFullscreenNavigation, sourceFile: "bold-fullscreen-navigation.tsx", dependencies: ["gsap"], exportName: "OsmoBoldFullscreenNavigation", isDefaultExport: true },
+  { id: "color-transition-scroll", name: "Color Transition Scroll", category: "Scroll Effects", component: OsmoColorTransitionScroll, sourceFile: "color-transition-scroll.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoColorTransitionScroll", isDefaultExport: true },
+  { id: "css-marquee", name: "CSS Marquee", category: "Text Effects", component: OsmoCSSMarquee, sourceFile: "css-marquee.tsx", exportName: "OsmoCSSMarquee", isDefaultExport: true },
+  { id: "cursor-glow-effect", name: "Cursor Glow Effect", category: "Cursors", component: OsmoCursorGlowEffect, sourceFile: "cursor-glow-effect.tsx", dependencies: ["motion"], exportName: "OsmoCursorGlowEffect", isDefaultExport: true },
+  { id: "cursor-spotlight", name: "Cursor Spotlight", category: "Cursors", component: OsmoCursorSpotlight, sourceFile: "cursor-spotlight.tsx", dependencies: ["motion"], exportName: "OsmoCursorSpotlight", isDefaultExport: true },
+  { id: "directional-list-hover", name: "Directional List Hover", category: "Interactive", component: OsmoDirectionalListHover, sourceFile: "directional-list-hover.tsx", dependencies: ["gsap"], exportName: "OsmoDirectionalListHover", isDefaultExport: true },
 ];
