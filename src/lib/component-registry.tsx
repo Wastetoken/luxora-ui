@@ -97,6 +97,16 @@ import OsmoGlowingDotsGrid from "@/components/repo/glowing-dots-grid";
 import OsmoGridHoverEffect from "@/components/repo/grid-hover-effect";
 import OsmoHighlightTextOnScroll from "@/components/repo/highlight-text-on-scroll";
 import OsmoHorizontalScrollingSections from "@/components/repo/horizontal-scrolling-sections";
+import OsmoHoverExpandImage from "@/components/repo/hover-expand-image";
+import OsmoHoverLiftCard from "@/components/repo/hover-lift-card";
+import OsmoHoverTiltCard from "@/components/repo/hover-tilt-card";
+import OsmoHoverZoomGallery from "@/components/repo/hover-zoom-gallery";
+import OsmoImageRevealSlider from "@/components/repo/image-reveal-slider";
+import OsmoImageToBackgroundZoom from "@/components/repo/image-to-background-zoom";
+import OsmoInfiniteLogoSlider from "@/components/repo/infinite-logo-slider";
+import OsmoInteractivePixelGrid from "@/components/repo/interactive-pixel-grid";
+import OsmoLineRevealTestimonials from "@/components/repo/line-reveal-testimonials";
+import OsmoMagneticCursor from "@/components/repo/magnetic-cursor";
 
 export interface ComponentEntry {
   id: string;
@@ -232,4 +242,14 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "grid-hover-effect", name: "Grid Hover Effect", category: "Interactive", component: OsmoGridHoverEffect, sourceFile: "grid-hover-effect.tsx", dependencies: ["motion"], exportName: "OsmoGridHoverEffect", isDefaultExport: true },
   { id: "highlight-text-on-scroll", name: "Highlight Text Scroll", category: "Scroll Effects", component: OsmoHighlightTextOnScroll, sourceFile: "highlight-text-on-scroll.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoHighlightTextOnScroll", isDefaultExport: true },
   { id: "horizontal-scrolling-sections", name: "Horizontal Scroll Sections", category: "Scroll Effects", component: OsmoHorizontalScrollingSections, sourceFile: "horizontal-scrolling-sections.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoHorizontalScrollingSections", isDefaultExport: true },
+  { id: "hover-expand-image", name: "Hover Expand Image", category: "Interactive", component: OsmoHoverExpandImage, sourceFile: "hover-expand-image.tsx", dependencies: ["motion"], exportName: "OsmoHoverExpandImage", isDefaultExport: true },
+  { id: "hover-lift-card", name: "Hover Lift Card", category: "Cards & Layout", component: OsmoHoverLiftCard, sourceFile: "hover-lift-card.tsx", dependencies: ["motion"], exportName: "OsmoHoverLiftCard", isDefaultExport: true },
+  { id: "hover-tilt-card", name: "Hover Tilt Card", category: "Cards & Layout", component: OsmoHoverTiltCard, sourceFile: "hover-tilt-card.tsx", dependencies: ["motion"], exportName: "OsmoHoverTiltCard", isDefaultExport: true },
+  { id: "hover-zoom-gallery", name: "Hover Zoom Gallery", category: "Interactive", component: OsmoHoverZoomGallery, sourceFile: "hover-zoom-gallery.tsx", dependencies: ["motion"], exportName: "OsmoHoverZoomGallery", isDefaultExport: true },
+  { id: "image-reveal-slider", name: "Image Reveal Slider", category: "Interactive", component: OsmoImageRevealSlider, sourceFile: "image-reveal-slider.tsx", dependencies: ["motion"], exportName: "OsmoImageRevealSlider", isDefaultExport: true },
+  { id: "image-to-background-zoom", name: "Image Background Zoom", category: "Interactive", component: OsmoImageToBackgroundZoom, sourceFile: "image-to-background-zoom.tsx", dependencies: ["gsap"], exportName: "OsmoImageToBackgroundZoom", isDefaultExport: true },
+  { id: "infinite-logo-slider", name: "Infinite Logo Slider", category: "Text Effects", component: OsmoInfiniteLogoSlider, sourceFile: "infinite-logo-slider.tsx", dependencies: ["motion"], exportName: "OsmoInfiniteLogoSlider", isDefaultExport: true },
+  { id: "interactive-pixel-grid", name: "Interactive Pixel Grid", category: "Interactive", component: OsmoInteractivePixelGrid, sourceFile: "interactive-pixel-grid.tsx", exportName: "OsmoInteractivePixelGrid", isDefaultExport: true },
+  { id: "line-reveal-testimonials", name: "Line Reveal Testimonials", category: "Scroll Effects", component: OsmoLineRevealTestimonials, sourceFile: "line-reveal-testimonials.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoLineRevealTestimonials", isDefaultExport: true },
+  { id: "magnetic-cursor", name: "Magnetic Cursor", category: "Cursors", component: OsmoMagneticCursor, sourceFile: "magnetic-cursor.tsx", dependencies: ["gsap"], exportName: "OsmoMagneticCursor", isDefaultExport: true },
 ];
