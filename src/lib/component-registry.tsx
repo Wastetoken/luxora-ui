@@ -107,6 +107,16 @@ import OsmoInfiniteLogoSlider from "@/components/repo/infinite-logo-slider";
 import OsmoInteractivePixelGrid from "@/components/repo/interactive-pixel-grid";
 import OsmoLineRevealTestimonials from "@/components/repo/line-reveal-testimonials";
 import OsmoMagneticCursor from "@/components/repo/magnetic-cursor";
+import OsmoMaskedTextReveal from "@/components/repo/masked-text-reveal";
+import OsmoParallaxCards from "@/components/repo/parallax-cards";
+import OsmoParallaxImageGallery from "@/components/repo/parallax-image-gallery";
+import OsmoPixelatedImageReveal from "@/components/repo/pixelated-image-reveal";
+import OsmoRippleEffect from "@/components/repo/ripple-effect";
+import OsmoRotatingImageTrail from "@/components/repo/rotating-image-trail";
+import OsmoRotatingText from "@/components/repo/rotating-text";
+import OsmoScalingHamburgerNavigation from "@/components/repo/scaling-hamburger-navigation";
+import OsmoScrollFadeGallery from "@/components/repo/scroll-fade-gallery";
+import OsmoScrollMorphHeader from "@/components/repo/scroll-morph-header";
 
 export interface ComponentEntry {
   id: string;
@@ -252,4 +262,14 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "interactive-pixel-grid", name: "Interactive Pixel Grid", category: "Interactive", component: OsmoInteractivePixelGrid, sourceFile: "interactive-pixel-grid.tsx", exportName: "OsmoInteractivePixelGrid", isDefaultExport: true },
   { id: "line-reveal-testimonials", name: "Line Reveal Testimonials", category: "Scroll Effects", component: OsmoLineRevealTestimonials, sourceFile: "line-reveal-testimonials.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoLineRevealTestimonials", isDefaultExport: true },
   { id: "magnetic-cursor", name: "Magnetic Cursor", category: "Cursors", component: OsmoMagneticCursor, sourceFile: "magnetic-cursor.tsx", dependencies: ["gsap"], exportName: "OsmoMagneticCursor", isDefaultExport: true },
+  { id: "masked-text-reveal", name: "Masked Text Reveal", category: "Scroll Effects", component: OsmoMaskedTextReveal, sourceFile: "masked-text-reveal.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoMaskedTextReveal", isDefaultExport: true },
+  { id: "parallax-cards", name: "Parallax Cards", category: "Cards & Layout", component: OsmoParallaxCards, sourceFile: "parallax-cards.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoParallaxCards", isDefaultExport: true },
+  { id: "parallax-image-gallery", name: "Parallax Image Gallery", category: "Scroll Effects", component: OsmoParallaxImageGallery, sourceFile: "parallax-image-gallery.tsx", needsFullscreen: true, dependencies: ["gsap"], exportName: "OsmoParallaxImageGallery", isDefaultExport: true },
+  { id: "pixelated-image-reveal", name: "Pixelated Image Reveal", category: "Scroll Effects", component: OsmoPixelatedImageReveal, sourceFile: "pixelated-image-reveal.tsx", dependencies: ["gsap"], exportName: "OsmoPixelatedImageReveal", isDefaultExport: true },
+  { id: "ripple-effect", name: "Ripple Effect", category: "Interactive", component: OsmoRippleEffect, sourceFile: "ripple-effect.tsx", dependencies: ["motion"], exportName: "OsmoRippleEffect", isDefaultExport: true },
+  { id: "rotating-image-trail", name: "Rotating Image Trail", category: "Cursors", component: OsmoRotatingImageTrail, sourceFile: "rotating-image-trail.tsx", dependencies: ["gsap"], exportName: "OsmoRotatingImageTrail", isDefaultExport: true },
+  { id: "rotating-text", name: "Rotating Text", category: "Text Effects", component: OsmoRotatingText, sourceFile: "rotating-text.tsx", dependencies: ["gsap"], exportName: "OsmoRotatingText", isDefaultExport: true },
+  { id: "scaling-hamburger-navigation", name: "Scaling Hamburger Nav", category: "Navigation", component: OsmoScalingHamburgerNavigation, sourceFile: "scaling-hamburger-navigation.tsx", dependencies: ["gsap"], exportName: "OsmoScalingHamburgerNavigation", isDefaultExport: true },
+  { id: "scroll-fade-gallery", name: "Scroll Fade Gallery", category: "Scroll Effects", component: OsmoScrollFadeGallery, sourceFile: "scroll-fade-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoScrollFadeGallery", isDefaultExport: true },
+  { id: "scroll-morph-header", name: "Scroll Morph Header", category: "Navigation", component: OsmoScrollMorphHeader, sourceFile: "scroll-morph-header.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "OsmoScrollMorphHeader", isDefaultExport: true },
 ];
