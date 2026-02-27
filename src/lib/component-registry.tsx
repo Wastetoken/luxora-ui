@@ -30,6 +30,7 @@ import LiquidGLCursorDemo from "@/components/demos/LiquidGLCursorDemo";
 import ElectricCursorDemo from "@/components/demos/ElectricCursorDemo";
 import FeatherCursorDemo from "@/components/demos/FeatherCursorDemo";
 import ReptileCursorDemo from "@/components/demos/ReptileCursorDemo";
+import FluidInversionCursorDemo from "@/components/demos/FluidInversionCursorDemo";
 import { Skiper67 } from "@/components/repo/skiper67";
 // Skiper collection
 import { Skiper3 } from "@/components/repo/skiper3";
@@ -223,6 +224,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "electric-cursor", name: "Electric Cursor", category: "Cursors", component: ElectricCursorDemo, sourceFile: "electric-cursor.tsx", needsFullscreen: true, exportName: "ElectricCursor" },
   { id: "feather-cursor", name: "Feather Cursor", category: "Cursors", component: FeatherCursorDemo, sourceFile: "feather-cursor.tsx", needsFullscreen: true, exportName: "FeatherCursor" },
   { id: "reptile-cursor", name: "Reptile Cursor", category: "Cursors", component: ReptileCursorDemo, sourceFile: "reptile-cursor.tsx", needsFullscreen: true, exportName: "ReptileCursor" },
+  { id: "fluid-inversion-cursor", name: "Fluid Inversion Cursor", category: "Cursors", component: FluidInversionCursorDemo, sourceFile: "fluid-inversion-cursor.tsx", needsFullscreen: true, exportName: "FluidInversionCursor", nativeTheme: "light" },
 
   // Interactive
   { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "Component" },
