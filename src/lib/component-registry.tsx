@@ -62,6 +62,15 @@ import { Skiper64 } from "@/components/repo/skiper64";
 import { Skiper65 } from "@/components/repo/skiper65";
 import { Skiper66 } from "@/components/repo/skiper66";
 import { Skiper87 } from "@/components/repo/skiper87";
+import { Skiper12 } from "@/components/repo/skiper12";
+import { Skiper13 } from "@/components/repo/skiper13";
+import { Skiper14 } from "@/components/repo/skiper14";
+import { Skiper32 } from "@/components/repo/skiper32";
+import { Skiper33 } from "@/components/repo/skiper33";
+import { Skiper79 } from "@/components/repo/skiper79";
+import { Skiper88 } from "@/components/repo/skiper88";
+import { Skiper94 } from "@/components/repo/skiper94";
+import { Skiper95 } from "@/components/repo/skiper95";
 import { SingularityPreview } from "@/components/repo/singularity";
 import { AttractorPreview } from "@/components/repo/attractor";
 import { MorphogenPreview } from "@/components/repo/morphogen";
@@ -246,6 +255,15 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "skiper66", name: "Skiper 66", category: "Skiper Collection", component: Skiper66, sourceFile: "skiper66.tsx", exportName: "Skiper66" },
   { id: "skiper67", name: "Skiper 67", category: "Skiper Collection", component: Skiper67, sourceFile: "skiper67.tsx", dependencies: ["media-chrome", "framer-motion"], exportName: "Skiper67" },
   { id: "skiper87", name: "Skiper 87", category: "Skiper Collection", component: Skiper87, sourceFile: "skiper87.tsx", exportName: "Skiper87", localDeps: ["scroll-area.tsx"] },
+  { id: "skiper12", name: "Skiper 12", category: "Skiper Collection", component: Skiper12, sourceFile: "skiper12.tsx", needsFullscreen: true, dependencies: ["three", "lucide-react"], exportName: "Skiper12" },
+  { id: "skiper13", name: "Skiper 13", category: "Skiper Collection", component: Skiper13, sourceFile: "skiper13.tsx", dependencies: ["framer-motion", "usehooks-ts"], exportName: "Skiper13" },
+  { id: "skiper14", name: "Skiper 14", category: "Skiper Collection", component: Skiper14, sourceFile: "skiper14.tsx", needsFullscreen: true, dependencies: ["three"], exportName: "Skiper14" },
+  { id: "skiper32", name: "Skiper 32", category: "Skiper Collection", component: Skiper32, sourceFile: "skiper32.tsx", needsFullscreen: true, dependencies: ["framer-motion", "gsap", "lenis"], exportName: "Skiper32" },
+  { id: "skiper33", name: "Skiper 33", category: "Skiper Collection", component: Skiper33, sourceFile: "skiper33.tsx", needsFullscreen: true, dependencies: ["framer-motion", "gsap", "lenis"], exportName: "Skiper33" },
+  { id: "skiper79", name: "Skiper 79", category: "Skiper Collection", component: Skiper79, sourceFile: "skiper79.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "Skiper79" },
+  { id: "skiper88", name: "Skiper 88", category: "Skiper Collection", component: Skiper88, sourceFile: "skiper88.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "Skiper88" },
+  { id: "skiper94", name: "Skiper 94", category: "Skiper Collection", component: Skiper94, sourceFile: "skiper94.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "Skiper94" },
+  { id: "skiper95", name: "Skiper 95", category: "Skiper Collection", component: Skiper95, sourceFile: "skiper95.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "Skiper95" },
 
   // Luxora Collection
   { id: "luxora-ai-designer", name: "Luxora AI Designer", category: "Heroes & Sections", component: LuxoraAIDesigner, sourceFile: "luxora-ai-designer.tsx", needsFullscreen: true, exportName: "LuxoraAIDesigner" },

@@ -10,22 +10,64 @@ import {
   Pagination,
 } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css";
+import "swiper/css/effect-cards";
 
 import { cn } from "@/lib/utils";
 
 const Skiper49 = () => {
   const images = [
-    { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png", alt: "Blue and black glass" },
-    { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png", alt: "Central purple glass" },
-    { src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/47-fractal-phantom-gradient-stripes.jpg", alt: "Phantom gradient stripes" },
-    { src: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/48-cool-tone-spatial-gradient.jpg", alt: "Cool tone spatial gradient" },
-    { src: "https://pub-391b349e64bf41c79cbb737e77691d35.r2.dev/Blue-Energy-Beam.jpg", alt: "Blue energy beam" },
-    { src: "https://pub-391b349e64bf41c79cbb737e77691d35.r2.dev/Dusk-Amber-Gradient.png", alt: "Dusk amber gradient" },
+    {
+      src: "/images/x.com/13.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/32.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/20.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/21.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/19.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/1.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/2.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/3.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/4.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/5.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
+    {
+      src: "/images/x.com/6.jpeg",
+      alt: "Illustrations by my fav AarzooAly",
+    },
   ];
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-[#f5f4f3] min-h-[500px]">
-      <span className="absolute top-6 z-10 text-[10px] uppercase tracking-widest text-black/30">Click and Drag</span>
+    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-[#f5f4f3]">
       <Carousel_003 className="" images={images} showPagination loop />
     </div>
   );
@@ -138,10 +180,10 @@ const Carousel_003 = ({
           {showNavigation && (
             <div>
               <div className="swiper-button-next after:hidden">
-                <ChevronRightIcon className="h-6 w-6 text-black" />
+                <ChevronRightIcon className="h-6 w-6 text-white" />
               </div>
               <div className="swiper-button-prev after:hidden">
-                <ChevronLeftIcon className="h-6 w-6 text-black" />
+                <ChevronLeftIcon className="h-6 w-6 text-white" />
               </div>
             </div>
           )}
@@ -152,3 +194,20 @@ const Carousel_003 = ({
 };
 
 export { Carousel_003 };
+
+/**
+ * Skiper 49 Carousel_003 — React + Swiper
+ * Built with Swiper.js - Read docs to learn more https://swiperjs.com/
+ * Illustrations by AarzooAly - https://x.com/AarzooAly
+ *
+ * License & Usage:
+ * - Free to use and modify in both personal and commercial projects.
+ * - Attribution to Skiper UI is required when using the free version.
+ * - No attribution required with Skiper UI Pro.
+ *
+ * Feedback and contributions are welcome.
+ *
+ * Author: @gurvinder-singh02
+ * Website: https://gxuri.in
+ * Twitter: https://x.com/Gur__vi
+ */
