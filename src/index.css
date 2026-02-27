@@ -49,6 +49,16 @@
     --code-bg: 225 16% 5%;
     --showcase-surface: 225 14% 9%;
     --showcase-border: 225 12% 14%;
+
+    /* Aurora background CSS vars */
+    --white: #fff;
+    --black: #000;
+    --transparent: transparent;
+    --blue-500: #3b82f6;
+    --indigo-300: #a5b4fc;
+    --blue-300: #93c5fd;
+    --violet-200: #ddd6fe;
+    --blue-400: #60a5fa;
   }
 
   .dark {

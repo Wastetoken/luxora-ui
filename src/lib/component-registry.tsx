@@ -134,6 +134,18 @@ import Osmo3DImageCarousel from "@/components/repo/three-d-image-carousel";
 import OsmoTypewriterCursor from "@/components/repo/typewriter-cursor";
 import OsmoVariableFontWeightHover from "@/components/repo/variable-font-weight-hover";
 
+// Aceternity Collection
+import AceternityHeroParallax from "@/components/repo/hero-parallax";
+import AceternityLampEffect from "@/components/repo/lamp-effect";
+import AceternityLens from "@/components/repo/lens";
+import AceternityMeteors from "@/components/repo/meteors";
+import AceternityMovingBorder from "@/components/repo/moving-border";
+import NoiseBackgroundWrapper from "@/components/repo/noise-background";
+import AceternityAuroraBackground from "@/components/repo/aurora-background";
+import AceternityBackgroundGradient from "@/components/repo/background-gradient-animation";
+import BackgroundRippleEffectWrapper from "@/components/repo/background-ripple-effect";
+import CometCardWrapper from "@/components/repo/comet-card";
+
 export interface ComponentEntry {
   id: string;
   name: string;
@@ -304,4 +316,16 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "three-d-image-carousel", name: "3D Image Carousel", category: "Interactive", component: Osmo3DImageCarousel, sourceFile: "three-d-image-carousel.tsx", dependencies: ["gsap"], exportName: "Osmo3DImageCarousel", isDefaultExport: true },
   { id: "typewriter-cursor", name: "Typewriter Cursor", category: "Text Effects", component: OsmoTypewriterCursor, sourceFile: "typewriter-cursor.tsx", dependencies: ["motion"], exportName: "OsmoTypewriterCursor", isDefaultExport: true },
   { id: "variable-font-weight-hover", name: "Variable Font Weight Hover", category: "Text Effects", component: OsmoVariableFontWeightHover, sourceFile: "variable-font-weight-hover.tsx", exportName: "OsmoVariableFontWeightHover", isDefaultExport: true },
+
+  // Aceternity Collection
+  { id: "hero-parallax", name: "Hero Parallax", category: "Heroes & Sections", component: AceternityHeroParallax, sourceFile: "hero-parallax.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "AceternityHeroParallaxWrapper", isDefaultExport: true },
+  { id: "lamp-effect", name: "Lamp Effect", category: "Shaders & Effects", component: AceternityLampEffect, sourceFile: "lamp-effect.tsx", dependencies: ["motion"], exportName: "AceternityLampEffect", isDefaultExport: true },
+  { id: "lens", name: "Lens Zoom", category: "Interactive", component: AceternityLens, sourceFile: "lens.tsx", dependencies: ["motion"], exportName: "AceternityLensWrapper", isDefaultExport: true },
+  { id: "meteors", name: "Meteors", category: "Animations", component: AceternityMeteors, sourceFile: "meteors.tsx", exportName: "AceternityMeteorsWrapper", isDefaultExport: true },
+  { id: "moving-border", name: "Moving Border", category: "Interactive", component: AceternityMovingBorder, sourceFile: "moving-border.tsx", dependencies: ["motion"], exportName: "AceternityMovingBorderWrapper", isDefaultExport: true },
+  { id: "noise-background", name: "Noise Background", category: "Shaders & Effects", component: NoiseBackgroundWrapper, sourceFile: "noise-background.tsx", dependencies: ["motion"], exportName: "NoiseBackgroundWrapper", isDefaultExport: true },
+  { id: "aurora-background", name: "Aurora Background", category: "Shaders & Effects", component: AceternityAuroraBackground, sourceFile: "aurora-background.tsx", exportName: "AceternityAuroraBackgroundWrapper", isDefaultExport: true },
+  { id: "background-gradient-animation", name: "Background Gradient Animation", category: "Shaders & Effects", component: AceternityBackgroundGradient, sourceFile: "background-gradient-animation.tsx", exportName: "AceternityBackgroundGradientWrapper", isDefaultExport: true },
+  { id: "background-ripple-effect", name: "Background Ripple Grid", category: "Interactive", component: BackgroundRippleEffectWrapper, sourceFile: "background-ripple-effect.tsx", exportName: "BackgroundRippleEffectWrapper", isDefaultExport: true },
+  { id: "comet-card", name: "Comet Card", category: "Cards & Layout", component: CometCardWrapper, sourceFile: "comet-card.tsx", dependencies: ["motion"], exportName: "CometCardWrapper", isDefaultExport: true },
 ];
