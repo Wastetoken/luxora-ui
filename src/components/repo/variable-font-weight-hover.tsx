@@ -22,7 +22,6 @@ export default function OsmoVariableFontWeightHover({
       if (!containerRef.current) return
 
       const chars = containerRef.current.querySelectorAll<HTMLSpanElement>(".vf-char")
-      const rect = containerRef.current.getBoundingClientRect()
 
       chars.forEach((char) => {
         const charRect = char.getBoundingClientRect()
@@ -32,13 +31,13 @@ export default function OsmoVariableFontWeightHover({
         const distX = e.clientX - charCenterX
         const distY = e.clientY - charCenterY
         const distance = Math.sqrt(distX * distX + distY * distY)
-        const maxDist = rect.width * 0.3
+        const maxDist = 150
 
         const proximity = Math.max(0, 1 - distance / maxDist)
         const weight = minWeight + (maxWeight - minWeight) * proximity
 
-        char.style.fontWeight = String(Math.round(weight))
-        char.style.transition = "font-weight 0.1s ease"
+        char.style.fontVariationSettings = `"wght" ${Math.round(weight)}`
+        char.style.transition = "font-variation-settings 0.15s ease"
       })
     },
     [minWeight, maxWeight]
@@ -48,49 +47,55 @@ export default function OsmoVariableFontWeightHover({
     if (!containerRef.current) return
     const chars = containerRef.current.querySelectorAll<HTMLSpanElement>(".vf-char")
     chars.forEach((char) => {
-      char.style.fontWeight = String(minWeight)
-      char.style.transition = "font-weight 0.5s ease"
+      char.style.fontVariationSettings = `"wght" ${minWeight}`
+      char.style.transition = "font-variation-settings 0.5s ease"
     })
   }, [minWeight])
 
   return (
-    <div
-      ref={containerRef}
-      className={className}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "3rem",
-        cursor: "default",
-        userSelect: "none",
-      }}
-    >
+    <>
+      {/* Load a variable font that supports weight axis */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+      `}</style>
       <div
+        ref={containerRef}
+        className={className}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         style={{
-          fontSize: "clamp(2rem, 6vw, 5rem)",
-          lineHeight: 1.1,
-          letterSpacing: "-0.02em",
-          fontFamily: "'Inter', system-ui, sans-serif",
-          fontVariationSettings: `"wght" ${minWeight}`,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "3rem",
+          cursor: "default",
+          userSelect: "none",
         }}
       >
-        {text.split("").map((char, i) => (
-          <span
-            key={i}
-            className="vf-char"
-            style={{
-              display: char === " " ? "inline" : "inline-block",
-              fontWeight: minWeight,
-              willChange: "font-weight",
-            }}
-          >
-            {char === " " ? "\u00A0" : char}
-          </span>
-        ))}
+        <div
+          style={{
+            fontSize: "clamp(2rem, 6vw, 5rem)",
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            fontFamily: "'Inter', system-ui, sans-serif",
+          }}
+        >
+          {text.split("").map((char, i) => (
+            <span
+              key={i}
+              className="vf-char"
+              style={{
+                display: char === " " ? "inline" : "inline-block",
+                fontVariationSettings: `"wght" ${minWeight}`,
+                willChange: "font-variation-settings",
+                color: "white",
+              }}
+            >
+              {char === " " ? "\u00A0" : char}
+            </span>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
