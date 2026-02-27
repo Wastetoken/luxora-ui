@@ -31,26 +31,41 @@ export default function OsmoParallaxCards({
   )
 }
 
-function ParallaxCard({
-  card,
-  index,
-}: {
+interface ParallaxCardProps {
   card: { title: string; description: string; color: string }
   index: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
+}
+
+const ParallaxCard = React.forwardRef<HTMLDivElement, ParallaxCardProps>(function ParallaxCard(
+  { card, index },
+  forwardedRef
+) {
+  const internalRef = useRef<HTMLDivElement>(null)
+
+  const setRefs = (node: HTMLDivElement | null) => {
+    internalRef.current = node
+
+    if (!forwardedRef) return
+    if (typeof forwardedRef === 'function') {
+      forwardedRef(node)
+    } else {
+      forwardedRef.current = node
+    }
+  }
+
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: internalRef,
     offset: ['start end', 'end start'],
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], [50 * (index % 2 === 0 ? 1 : -1), -50 * (index % 2 === 0 ? 1 : -1)])
-  const rotate = useTransform(scrollYProgress, [0, 1], [index % 2 === 0 ? 2 : -2, index % 2 === 0 ? -2 : 2])
+  const direction = index % 2 === 0 ? 1 : -1
+  const y = useTransform(scrollYProgress, [0, 1], [50 * direction, -50 * direction])
+  const rotate = useTransform(scrollYProgress, [0, 1], [2 * direction, -2 * direction])
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95])
 
   return (
     <motion.div
-      ref={ref}
+      ref={setRefs}
       style={{ y, rotate, scale }}
       className="relative overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 p-8"
     >
@@ -68,4 +83,4 @@ function ParallaxCard({
       <p className="text-white/60 text-sm leading-relaxed">{card.description}</p>
     </motion.div>
   )
-}
+})

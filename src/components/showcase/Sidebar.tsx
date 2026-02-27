@@ -1,3 +1,4 @@
+import React from "react";
 import { Search, ArrowLeft, Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
@@ -25,16 +26,19 @@ const categoryOrder = [
   "Skiper Collection",
 ];
 
-export const Sidebar = ({
-  components,
-  selectedId,
-  onSelect,
-  onDeselect,
-  searchQuery,
-  onSearch,
-  mobileOpen = false,
-  onMobileToggle,
-}: SidebarProps) => {
+export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(function Sidebar(
+  {
+    components,
+    selectedId,
+    onSelect,
+    onDeselect,
+    searchQuery,
+    onSearch,
+    mobileOpen = false,
+    onMobileToggle,
+  },
+  _ref
+) {
   const isMobile = useIsMobile();
 
   const grouped = components.reduce<Record<string, typeof components>>(
@@ -128,20 +132,15 @@ export const Sidebar = ({
     </aside>
   );
 
-  // Mobile: overlay drawer
   if (isMobile) {
     return (
       <>
-        {/* Mobile hamburger button - rendered by parent via MobileHeader */}
-        {/* Overlay */}
         {mobileOpen && (
           <div className="fixed inset-0 z-50 flex">
-            {/* Backdrop */}
             <div
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={onMobileToggle}
             />
-            {/* Drawer */}
             <div className="relative z-10 w-[280px] h-full animate-in slide-in-from-left duration-200">
               {sidebarContent}
             </div>
@@ -151,24 +150,22 @@ export const Sidebar = ({
     );
   }
 
-  // Desktop: fixed sidebar
   return sidebarContent;
-};
+});
 
-// Mobile header bar with hamburger
-export const MobileHeader = ({
-  title,
-  onMenuToggle,
-  onBack,
-  showBack,
-  rightContent,
-}: {
+export const MobileHeader = React.forwardRef<HTMLDivElement, {
   title?: string;
   onMenuToggle: () => void;
   onBack?: () => void;
   showBack?: boolean;
   rightContent?: React.ReactNode;
-}) => {
+}>(function MobileHeader({
+  title,
+  onMenuToggle,
+  onBack,
+  showBack,
+  rightContent,
+}, _ref) {
   return (
     <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background md:hidden">
       <div className="flex items-center gap-2">
@@ -196,4 +193,4 @@ export const MobileHeader = ({
       {rightContent && <div className="flex items-center gap-1">{rightContent}</div>}
     </div>
   );
-};
+});
