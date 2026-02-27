@@ -17,7 +17,7 @@ export interface OsmoMaskedTextRevealProps {
 
 export default function OsmoMaskedTextReveal({
   text = "REVEAL",
-  image = "https://picsum.photos/seed/masked/1200/600",
+  image = "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png",
   speed = 1,
   className,
 }: OsmoMaskedTextRevealProps) {

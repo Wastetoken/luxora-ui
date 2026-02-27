@@ -11,12 +11,12 @@ export interface OsmoRotatingImageTrailProps {
 }
 
 const defaultImages = [
-  "https://picsum.photos/seed/trail1/200/200",
-  "https://picsum.photos/seed/trail2/200/200",
-  "https://picsum.photos/seed/trail3/200/200",
-  "https://picsum.photos/seed/trail4/200/200",
-  "https://picsum.photos/seed/trail5/200/200",
-  "https://picsum.photos/seed/trail6/200/200",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWithWhiteHighlight.png",
 ]
 
 export default function OsmoRotatingImageTrail({

@@ -15,11 +15,11 @@ export interface OsmoDirectionalListHoverProps {
 }
 
 const defaultItems: DirectionalItem[] = [
-  { title: "Project Alpha", image: "https://picsum.photos/seed/dir1/400/300", link: "#" },
-  { title: "Project Beta", image: "https://picsum.photos/seed/dir2/400/300", link: "#" },
-  { title: "Project Gamma", image: "https://picsum.photos/seed/dir3/400/300", link: "#" },
-  { title: "Project Delta", image: "https://picsum.photos/seed/dir4/400/300", link: "#" },
-  { title: "Project Epsilon", image: "https://picsum.photos/seed/dir5/400/300", link: "#" },
+  { title: "Project Alpha", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png", link: "#" },
+  { title: "Project Beta", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png", link: "#" },
+  { title: "Project Gamma", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png", link: "#" },
+  { title: "Project Delta", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png", link: "#" },
+  { title: "Project Epsilon", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png", link: "#" },
 ]
 
 export default function OsmoDirectionalListHover({

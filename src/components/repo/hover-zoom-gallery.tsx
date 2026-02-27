@@ -11,12 +11,12 @@ export interface OsmoHoverZoomGalleryProps {
 }
 
 const defaultImages = [
-  { src: 'https://picsum.photos/seed/zoom1/600/400', alt: 'Image 1', title: 'Aurora Borealis' },
-  { src: 'https://picsum.photos/seed/zoom2/600/400', alt: 'Image 2', title: 'Coastal Cliffs' },
-  { src: 'https://picsum.photos/seed/zoom3/600/400', alt: 'Image 3', title: 'Cherry Blossom' },
-  { src: 'https://picsum.photos/seed/zoom4/600/400', alt: 'Image 4', title: 'Starry Night' },
-  { src: 'https://picsum.photos/seed/zoom5/600/400', alt: 'Image 5', title: 'Autumn Forest' },
-  { src: 'https://picsum.photos/seed/zoom6/600/400', alt: 'Image 6', title: 'Glacier Lake' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png', alt: 'Image 1', title: 'Central Purple' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png', alt: 'Image 2', title: 'Blue & Black' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png', alt: 'Image 3', title: 'Blue & Red' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png', alt: 'Image 4', title: 'Blue Half Dome' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png', alt: 'Image 5', title: 'Liquid Flow' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWhiteAndOrangeLiqiudFlow.png', alt: 'Image 6', title: 'Orange Flow' },
 ]
 
 export default function OsmoHoverZoomGallery({

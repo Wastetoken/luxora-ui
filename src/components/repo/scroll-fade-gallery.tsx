@@ -10,12 +10,12 @@ export interface OsmoScrollFadeGalleryProps {
 }
 
 const defaultImages = [
-  { src: 'https://picsum.photos/seed/fade1/600/400', alt: 'Gallery image 1' },
-  { src: 'https://picsum.photos/seed/fade2/600/400', alt: 'Gallery image 2' },
-  { src: 'https://picsum.photos/seed/fade3/600/400', alt: 'Gallery image 3' },
-  { src: 'https://picsum.photos/seed/fade4/600/400', alt: 'Gallery image 4' },
-  { src: 'https://picsum.photos/seed/fade5/600/400', alt: 'Gallery image 5' },
-  { src: 'https://picsum.photos/seed/fade6/600/400', alt: 'Gallery image 6' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png', alt: 'Gallery image 1' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png', alt: 'Gallery image 2' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png', alt: 'Gallery image 3' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png', alt: 'Gallery image 4' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png', alt: 'Gallery image 5' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWhiteAndOrangeLiqiudFlow.png', alt: 'Gallery image 6' },
 ]
 
 export default function OsmoScrollFadeGallery({
