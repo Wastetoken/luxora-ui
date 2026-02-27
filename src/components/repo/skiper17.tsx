@@ -117,7 +117,7 @@ const StickyCard002 = ({
               src={card.image}
               alt={card.alt || ""}
               className={cn(
-                "rounded-xl absolute h-full w-full object-cover",
+                "rounded-4xl absolute h-full w-full object-cover",
                 imageClassName,
               )}
               ref={(el) => {
@@ -136,33 +136,49 @@ const Skiper17 = () => {
   const defaultCards = [
     {
       id: 1,
-      image: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/18-fractal-glass-hero-bg.jpg",
+      image: "/images/lummi/img14.png",
     },
     {
       id: 2,
-      image: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/17-fractal-glass-texture-light-gradients.jpg",
+      image: "/images/lummi/img15.png",
     },
     {
       id: 3,
-      image: "https://pub-6096620d8a154ad4a488c1600d79206a.r2.dev/13-green-fractal-light-background.jpg",
+      image: "/images/lummi/img29.png",
     },
     {
       id: 4,
-      image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+      image: "/images/lummi/img21.png",
     },
     {
       id: 5,
-      image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+      image: "/images/lummi/img27.png",
     },
   ];
 
   return (
     <ReactLenis root>
-      <div className="min-h-screen w-full">
-        <StickyCard002 cards={defaultCards} className="h-screen" />
+      <div className="h-full w-full">
+        <StickyCard002 cards={defaultCards} />
       </div>
     </ReactLenis>
   );
 };
 
 export { Skiper17, StickyCard002 };
+
+/**
+ * Skiper 17 StickyCard_002 — React + Gsap + scrollTrigger
+ * We respect the original creators. This is an inspired rebuild with our own taste and does not claim any ownership.
+ *
+ * License & Usage:
+ * - Free to use and modify in both personal and commercial projects.
+ * - Attribution to Skiper UI is required when using the free version.
+ * - No attribution required with Skiper UI Pro.
+ *
+ * Feedback and contributions are welcome.
+ *
+ * Author: @gurvinder-singh02
+ * Website: https://gxuri.in
+ * Twitter: https://x.com/Gur__vi
+ */
