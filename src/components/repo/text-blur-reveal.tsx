@@ -50,18 +50,18 @@ export default function OsmoTextBlurReveal({
   )
 }
 
-function BlurWord({
-  word,
-  index,
-  total,
-  scrollYProgress,
-}: {
+interface BlurWordProps {
   word: string
   index: number
   total: number
   scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress']
-}) {
-  const start = index / total * 0.6
+}
+
+const BlurWord = React.forwardRef<HTMLSpanElement, BlurWordProps>(function BlurWord(
+  { word, index, total, scrollYProgress },
+  ref
+) {
+  const start = (index / total) * 0.6
   const end = start + 0.4
 
   const blur = useTransform(scrollYProgress, [start, end], [10, 0])
@@ -70,10 +70,11 @@ function BlurWord({
 
   return (
     <motion.span
+      ref={ref}
       style={{ filter, opacity }}
       className="inline-block"
     >
       {word}
     </motion.span>
   )
-}
+})
