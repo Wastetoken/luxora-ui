@@ -22,20 +22,30 @@ export default function OsmoTextBlurReveal({
   const words = text.split(' ')
 
   return (
-    <div ref={containerRef} className={cn('py-40 px-8', className)}>
-      <div className="max-w-4xl mx-auto">
-        <p className="text-3xl md:text-5xl font-bold leading-tight text-white/90 flex flex-wrap gap-x-3 gap-y-2">
-          {words.map((word, i) => (
-            <BlurWord
-              key={i}
-              word={word}
-              index={i}
-              total={words.length}
-              scrollYProgress={scrollYProgress}
-            />
-          ))}
-        </p>
+    <div ref={containerRef} className={cn('relative', className)}>
+      {/* Pre-spacer */}
+      <div className="h-[40vh] flex items-center justify-center">
+        <p className="text-white/30 text-sm">↓ Scroll to reveal ↓</p>
       </div>
+
+      <div className="py-40 px-8">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-3xl md:text-5xl font-bold leading-tight text-white/90 flex flex-wrap gap-x-3 gap-y-2">
+            {words.map((word, i) => (
+              <BlurWord
+                key={i}
+                word={word}
+                index={i}
+                total={words.length}
+                scrollYProgress={scrollYProgress}
+              />
+            ))}
+          </p>
+        </div>
+      </div>
+
+      {/* Post-spacer */}
+      <div className="h-[40vh]" />
     </div>
   )
 }

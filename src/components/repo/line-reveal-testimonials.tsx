@@ -51,24 +51,34 @@ export default function OsmoLineRevealTestimonials({
   }, [testimonials, speed])
 
   return (
-    <div ref={containerRef} className={className} style={{ display: "flex", flexDirection: "column", gap: "3rem", padding: "2rem 0", maxWidth: "800px", margin: "0 auto" }}>
-      {testimonials.map((t, i) => {
-        const lines = t.quote.match(/[^.!?]+[.!?]+/g) || [t.quote]
-        return (
-          <div key={i} className="testimonial-card" style={{ padding: "2rem 0" }}>
-            <div className="testimonial-divider" style={{ width: "60px", height: "2px", background: "linear-gradient(90deg, #667eea, #764ba2)", marginBottom: "1.5rem", transformOrigin: "left center" }} />
-            <div style={{ overflow: "hidden" }}>
-              {lines.map((line, li) => (
-                <div key={li} className="testimonial-line" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", fontWeight: 400, lineHeight: 1.5, fontStyle: "italic", opacity: 0.9 }}>{line.trim()}</div>
-              ))}
+    <div ref={containerRef} className={className} style={{ position: "relative" }}>
+      {/* Pre-spacer */}
+      <div style={{ height: "40vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p style={{ fontSize: "1rem", opacity: 0.3, color: "#fff" }}>↓ Scroll to reveal testimonials ↓</p>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "3rem", padding: "2rem 2rem 2rem", maxWidth: "800px", margin: "0 auto" }}>
+        {testimonials.map((t, i) => {
+          const lines = t.quote.match(/[^.!?]+[.!?]+/g) || [t.quote]
+          return (
+            <div key={i} className="testimonial-card" style={{ padding: "2rem 0" }}>
+              <div className="testimonial-divider" style={{ width: "60px", height: "2px", background: "linear-gradient(90deg, #667eea, #764ba2)", marginBottom: "1.5rem", transformOrigin: "left center" }} />
+              <div style={{ overflow: "hidden" }}>
+                {lines.map((line, li) => (
+                  <div key={li} className="testimonial-line" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", fontWeight: 400, lineHeight: 1.5, fontStyle: "italic", opacity: 0.9, color: "#fff" }}>{line.trim()}</div>
+                ))}
+              </div>
+              <div className="testimonial-author" style={{ marginTop: "1.5rem" }}>
+                <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#fff" }}>{t.author}</div>
+                <div style={{ fontSize: "0.9rem", opacity: 0.6, color: "#fff" }}>{t.role}</div>
+              </div>
             </div>
-            <div className="testimonial-author" style={{ marginTop: "1.5rem" }}>
-              <div style={{ fontWeight: 700, fontSize: "1.1rem" }}>{t.author}</div>
-              <div style={{ fontSize: "0.9rem", opacity: 0.6 }}>{t.role}</div>
-            </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
+
+      {/* Post-spacer */}
+      <div style={{ height: "30vh" }} />
     </div>
   )
 }

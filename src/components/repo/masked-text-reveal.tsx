@@ -29,12 +29,13 @@ export default function OsmoMaskedTextReveal({
     const ctx = gsap.context(() => {
       const mask = containerRef.current!.querySelector(".mask-overlay")
       const textEl = containerRef.current!.querySelector(".masked-text")
+      const section = containerRef.current!.querySelector(".masked-section")
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 60%",
-          end: "bottom 40%",
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
           scrub: 1 / speed,
         },
       })
@@ -60,48 +61,59 @@ export default function OsmoMaskedTextReveal({
   }, [text, image, speed])
 
   return (
-    <div
-      ref={containerRef}
-      className={className}
-      style={{
-        position: "relative",
-        height: "80vh",
-        minHeight: "500px",
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#000",
-      }}
-    >
+    <div ref={containerRef} className={className} style={{ position: "relative" }}>
+      {/* Pre-scroll spacer */}
+      <div style={{ height: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p style={{ fontSize: "1.25rem", fontWeight: 500, opacity: 0.3, color: "#fff", textAlign: "center" }}>
+          ↓ Scroll to reveal ↓
+        </p>
+      </div>
+
+      {/* Main reveal section */}
       <div
-        className="mask-overlay"
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: `url(${image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          clipPath: "inset(50% 50% 50% 50%)",
-          zIndex: 1,
-        }}
-      />
-      <div
-        className="masked-text"
+        className="masked-section"
         style={{
           position: "relative",
-          zIndex: 2,
-          fontSize: "clamp(4rem, 15vw, 12rem)",
-          fontWeight: 900,
-          color: "#fff",
-          mixBlendMode: "difference",
-          letterSpacing: "-0.03em",
-          lineHeight: 1,
-          willChange: "transform",
+          height: "100vh",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#000",
         }}
       >
-        {text}
+        <div
+          className="mask-overlay"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: `url(${image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            clipPath: "inset(50% 50% 50% 50%)",
+            zIndex: 1,
+          }}
+        />
+        <div
+          className="masked-text"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            fontSize: "clamp(4rem, 15vw, 12rem)",
+            fontWeight: 900,
+            color: "#fff",
+            mixBlendMode: "difference",
+            letterSpacing: "-0.03em",
+            lineHeight: 1,
+            willChange: "transform",
+          }}
+        >
+          {text}
+        </div>
       </div>
+
+      {/* Post-scroll spacer */}
+      <div style={{ height: "40vh" }} />
     </div>
   )
 }

@@ -47,8 +47,18 @@ export default function OsmoHighlightTextOnScroll({
   }, [text, highlightColor])
 
   return (
-    <div ref={containerRef} className={className} style={{ padding: "4rem 2rem", maxWidth: "800px", margin: "0 auto" }}>
-      <div className="highlight-text" style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", fontWeight: 600, lineHeight: 1.5, letterSpacing: "-0.01em" }} />
+    <div ref={containerRef} className={className} style={{ position: "relative" }}>
+      {/* Pre-spacer */}
+      <div style={{ height: "50vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p style={{ fontSize: "1rem", opacity: 0.3, color: "#fff" }}>↓ Scroll to highlight ↓</p>
+      </div>
+
+      <div style={{ padding: "4rem 2rem", maxWidth: "800px", margin: "0 auto" }}>
+        <div className="highlight-text" style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", fontWeight: 600, lineHeight: 1.5, letterSpacing: "-0.01em" }} />
+      </div>
+
+      {/* Post-spacer */}
+      <div style={{ height: "50vh" }} />
     </div>
   )
 }
