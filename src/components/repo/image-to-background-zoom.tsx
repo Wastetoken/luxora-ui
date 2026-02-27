@@ -15,10 +15,10 @@ export interface OsmoImageToBackgroundZoomProps {
 }
 
 const defaultImages: ZoomImage[] = [
-  { src: "https://picsum.photos/seed/zoom1/800/500", title: "Mountain Vista" },
-  { src: "https://picsum.photos/seed/zoom2/800/500", title: "Ocean Sunset" },
-  { src: "https://picsum.photos/seed/zoom3/800/500", title: "Forest Path" },
-  { src: "https://picsum.photos/seed/zoom4/800/500", title: "City Lights" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png", title: "Central Purple" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png", title: "Blue & Black" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png", title: "Blue & Red" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png", title: "Blue Half Dome" },
 ]
 
 export default function OsmoImageToBackgroundZoom({

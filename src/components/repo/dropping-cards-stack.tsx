@@ -16,10 +16,10 @@ export interface OsmoDroppingCardsStackProps {
 }
 
 const defaultCards: DroppingCard[] = [
-  { title: "First Card", description: "This is the first card in the stack.", image: "https://picsum.photos/seed/drop1/400/250" },
-  { title: "Second Card", description: "This is the second card in the stack.", image: "https://picsum.photos/seed/drop2/400/250" },
-  { title: "Third Card", description: "This is the third card in the stack.", image: "https://picsum.photos/seed/drop3/400/250" },
-  { title: "Fourth Card", description: "This is the fourth card in the stack.", image: "https://picsum.photos/seed/drop4/400/250" },
+  { title: "First Card", description: "This is the first card in the stack.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png" },
+  { title: "Second Card", description: "This is the second card in the stack.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png" },
+  { title: "Third Card", description: "This is the third card in the stack.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png" },
+  { title: "Fourth Card", description: "This is the fourth card in the stack.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png" },
 ]
 
 export default function OsmoDroppingCardsStack({

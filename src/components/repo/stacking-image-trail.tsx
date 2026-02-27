@@ -10,11 +10,11 @@ export interface OsmoStackingImageTrailProps {
 }
 
 const defaultImages = [
-  "https://picsum.photos/seed/stack1/250/350",
-  "https://picsum.photos/seed/stack2/250/350",
-  "https://picsum.photos/seed/stack3/250/350",
-  "https://picsum.photos/seed/stack4/250/350",
-  "https://picsum.photos/seed/stack5/250/350",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png",
 ]
 
 export default function OsmoStackingImageTrail({

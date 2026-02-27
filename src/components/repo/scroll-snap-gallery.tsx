@@ -10,11 +10,11 @@ export interface OsmoScrollSnapGalleryProps {
 }
 
 const defaultImages = [
-  { src: 'https://picsum.photos/seed/snap1/1200/800', alt: 'Gallery image 1', caption: 'Mountain Vista' },
-  { src: 'https://picsum.photos/seed/snap2/1200/800', alt: 'Gallery image 2', caption: 'Ocean Sunset' },
-  { src: 'https://picsum.photos/seed/snap3/1200/800', alt: 'Gallery image 3', caption: 'Forest Path' },
-  { src: 'https://picsum.photos/seed/snap4/1200/800', alt: 'Gallery image 4', caption: 'Desert Dunes' },
-  { src: 'https://picsum.photos/seed/snap5/1200/800', alt: 'Gallery image 5', caption: 'City Lights' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png', alt: 'Gallery image 1', caption: 'Central Purple' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png', alt: 'Gallery image 2', caption: 'Blue & Black' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png', alt: 'Gallery image 3', caption: 'Blue & Red' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png', alt: 'Gallery image 4', caption: 'Blue Half Dome' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png', alt: 'Gallery image 5', caption: 'Liquid Flow' },
 ]
 
 export default function OsmoScrollSnapGallery({

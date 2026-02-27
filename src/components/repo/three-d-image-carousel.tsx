@@ -16,12 +16,12 @@ export interface Osmo3DImageCarouselProps {
 }
 
 const defaultImages: CarouselImage[] = [
-  { src: "https://picsum.photos/seed/carousel1/400/300", alt: "Slide 1" },
-  { src: "https://picsum.photos/seed/carousel2/400/300", alt: "Slide 2" },
-  { src: "https://picsum.photos/seed/carousel3/400/300", alt: "Slide 3" },
-  { src: "https://picsum.photos/seed/carousel4/400/300", alt: "Slide 4" },
-  { src: "https://picsum.photos/seed/carousel5/400/300", alt: "Slide 5" },
-  { src: "https://picsum.photos/seed/carousel6/400/300", alt: "Slide 6" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png", alt: "Slide 1" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png", alt: "Slide 2" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png", alt: "Slide 3" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png", alt: "Slide 4" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png", alt: "Slide 5" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWithWhiteHighlight.png", alt: "Slide 6" },
 ]
 
 export default function Osmo3DImageCarousel({

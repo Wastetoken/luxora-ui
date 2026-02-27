@@ -10,8 +10,8 @@ export interface OsmoBeforeAfterSplitSliderProps {
 }
 
 export default function OsmoBeforeAfterSplitSlider({
-  beforeImage = "https://picsum.photos/seed/before/800/500?grayscale",
-  afterImage = "https://picsum.photos/seed/after/800/500",
+  beforeImage = "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+  afterImage = "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png",
   initialPosition = 50,
   className,
 }: OsmoBeforeAfterSplitSliderProps) {

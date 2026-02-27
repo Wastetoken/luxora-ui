@@ -16,7 +16,7 @@ export interface OsmoPixelatedImageRevealProps {
 }
 
 export default function OsmoPixelatedImageReveal({
-  image = "https://picsum.photos/seed/pixel/800/500",
+  image = "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWithWhiteHighlight.png",
   pixelSize = 20,
   revealSpeed = 1,
   className,

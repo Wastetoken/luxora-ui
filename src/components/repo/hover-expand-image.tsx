@@ -11,11 +11,11 @@ export interface OsmoHoverExpandImageProps {
 }
 
 const defaultImages = [
-  { src: 'https://picsum.photos/seed/expand1/800/600', alt: 'Image 1', title: 'Mountain' },
-  { src: 'https://picsum.photos/seed/expand2/800/600', alt: 'Image 2', title: 'Ocean' },
-  { src: 'https://picsum.photos/seed/expand3/800/600', alt: 'Image 3', title: 'Forest' },
-  { src: 'https://picsum.photos/seed/expand4/800/600', alt: 'Image 4', title: 'Desert' },
-  { src: 'https://picsum.photos/seed/expand5/800/600', alt: 'Image 5', title: 'City' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png', alt: 'Image 1', title: 'Purple' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png', alt: 'Image 2', title: 'Blue & Black' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png', alt: 'Image 3', title: 'Blue & Red' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png', alt: 'Image 4', title: 'Half Dome' },
+  { src: 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png', alt: 'Image 5', title: 'Liquid Flow' },
 ]
 
 export default function OsmoHoverExpandImage({

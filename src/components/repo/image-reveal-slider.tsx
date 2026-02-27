@@ -12,8 +12,8 @@ export interface OsmoImageRevealSliderProps {
 }
 
 export default function OsmoImageRevealSlider({
-  beforeImage = 'https://picsum.photos/seed/reveal-before/800/500?grayscale',
-  afterImage = 'https://picsum.photos/seed/reveal-after/800/500',
+  beforeImage = 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png',
+  afterImage = 'https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png',
   height = 400,
   className,
 }: OsmoImageRevealSliderProps) {

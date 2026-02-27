@@ -21,12 +21,12 @@ export interface OsmoParallaxImageGalleryProps {
 }
 
 const defaultImages: ParallaxGalleryImage[] = [
-  { src: "https://picsum.photos/seed/pgal1/600/800", alt: "Gallery 1" },
-  { src: "https://picsum.photos/seed/pgal2/600/600", alt: "Gallery 2" },
-  { src: "https://picsum.photos/seed/pgal3/600/900", alt: "Gallery 3" },
-  { src: "https://picsum.photos/seed/pgal4/600/700", alt: "Gallery 4" },
-  { src: "https://picsum.photos/seed/pgal5/600/800", alt: "Gallery 5" },
-  { src: "https://picsum.photos/seed/pgal6/600/600", alt: "Gallery 6" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png", alt: "Gallery 1" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png", alt: "Gallery 2" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png", alt: "Gallery 3" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png", alt: "Gallery 4" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png", alt: "Gallery 5" },
+  { src: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWhiteAndOrangeLiqiudFlow.png", alt: "Gallery 6" },
 ]
 
 export default function OsmoParallaxImageGallery({

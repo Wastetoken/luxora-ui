@@ -20,10 +20,10 @@ export interface OsmoStickyFeaturesProps {
 }
 
 const defaultFeatures: StickyFeature[] = [
-  { title: "Lightning Fast", description: "Built with performance in mind. Every millisecond counts for your users.", image: "https://picsum.photos/seed/feat1/600/400" },
-  { title: "Beautifully Designed", description: "Pixel-perfect interfaces that your users will love to interact with.", image: "https://picsum.photos/seed/feat2/600/400" },
-  { title: "Fully Responsive", description: "Looks great on every screen size, from mobile to ultra-wide displays.", image: "https://picsum.photos/seed/feat3/600/400" },
-  { title: "Secure by Default", description: "Enterprise-grade security built into every layer of the stack.", image: "https://picsum.photos/seed/feat4/600/400" },
+  { title: "Lightning Fast", description: "Built with performance in mind. Every millisecond counts for your users.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png" },
+  { title: "Beautifully Designed", description: "Pixel-perfect interfaces that your users will love to interact with.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png" },
+  { title: "Fully Responsive", description: "Looks great on every screen size, from mobile to ultra-wide displays.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png" },
+  { title: "Secure by Default", description: "Enterprise-grade security built into every layer of the stack.", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png" },
 ]
 
 export default function OsmoStickyFeatures({

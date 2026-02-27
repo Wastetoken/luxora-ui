@@ -16,10 +16,10 @@ export interface OsmoBoldFullscreenNavigationProps {
 }
 
 const defaultItems: NavItem[] = [
-  { label: "Home", href: "#", image: "https://picsum.photos/seed/nav1/800/600" },
-  { label: "Work", href: "#", image: "https://picsum.photos/seed/nav2/800/600" },
-  { label: "About", href: "#", image: "https://picsum.photos/seed/nav3/800/600" },
-  { label: "Contact", href: "#", image: "https://picsum.photos/seed/nav4/800/600" },
+  { label: "Home", href: "#", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png" },
+  { label: "Work", href: "#", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png" },
+  { label: "About", href: "#", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png" },
+  { label: "Contact", href: "#", image: "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png" },
 ]
 
 export default function OsmoBoldFullscreenNavigation({

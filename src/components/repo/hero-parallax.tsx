@@ -163,10 +163,19 @@ export interface AceternityHeroParallaxProps {
   className?: string
 }
 
+const glassImages = [
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/AlmostCentralPurple.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndBlack.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueAndRed.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueHalfDome.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueLiquidFlow.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWhiteAndOrangeLiqiudFlow.png",
+  "https://pub-08da4348c3374e69879a944d84f167a2.r2.dev/Glass-Displacement/BlueWithWhiteHighlight.png",
+]
 const defaultProducts = Array.from({ length: 15 }, (_, i) => ({
   title: `Product ${i + 1}`,
   link: "#",
-  thumbnail: `https://picsum.photos/seed/product${i}/600/400`,
+  thumbnail: glassImages[i % glassImages.length],
 }))
 
 export default function AceternityHeroParallaxWrapper({
