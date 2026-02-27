@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'motion/react'
+import React from 'react'
 import { cn } from '@/lib/utils'
 
 export interface OsmoScrollTickerProps {
@@ -20,31 +19,29 @@ export default function OsmoScrollTicker({
     'Latest Release',
     'Important Announcement',
   ],
-  speed = 300,
+  speed = 30,
   direction = 'left',
   className,
 }: OsmoScrollTickerProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll()
-
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    direction === 'left' ? [0, -speed] : [-speed, 0]
-  )
-
   const separator = ' \u2022 '
-  const repeatedItems = [...items, ...items, ...items]
+  const repeatedItems = [...items, ...items]
+
+  const animationDirection = direction === 'left' ? 'normal' : 'reverse'
 
   return (
     <div
-      ref={containerRef}
       className={cn(
         'w-full overflow-hidden bg-neutral-950 py-5 border-y border-white/10',
         className
       )}
     >
-      <motion.div style={{ x }} className="flex whitespace-nowrap">
+      <div
+        className="flex whitespace-nowrap"
+        style={{
+          animation: `ticker-scroll ${speed}s linear infinite`,
+          animationDirection,
+        }}
+      >
         {repeatedItems.map((item, i) => (
           <span
             key={i}
@@ -54,7 +51,24 @@ export default function OsmoScrollTicker({
             <span className="text-white/30 mx-4">{separator}</span>
           </span>
         ))}
-      </motion.div>
+        {/* Duplicate for seamless loop */}
+        {repeatedItems.map((item, i) => (
+          <span
+            key={`dup-${i}`}
+            className="text-white/80 text-lg font-medium mx-0 flex-shrink-0"
+          >
+            {item}
+            <span className="text-white/30 mx-4">{separator}</span>
+          </span>
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes ticker-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
     </div>
   )
 }

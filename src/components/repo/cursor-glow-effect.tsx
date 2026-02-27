@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef, useEffect, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'motion/react'
+import { motion, useMotionValue, useSpring, useMotionTemplate } from 'motion/react'
 import { cn } from '@/lib/utils'
 
 export interface OsmoCursorGlowEffectProps {
@@ -13,8 +13,8 @@ export interface OsmoCursorGlowEffectProps {
 
 export default function OsmoCursorGlowEffect({
   color = '#06b6d4',
-  size = 300,
-  intensity = 0.6,
+  size = 400,
+  intensity = 0.15,
   className,
 }: OsmoCursorGlowEffectProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -25,6 +25,8 @@ export default function OsmoCursorGlowEffect({
 
   const springX = useSpring(mouseX, { damping: 25, stiffness: 200 })
   const springY = useSpring(mouseY, { damping: 25, stiffness: 200 })
+
+  const background = useMotionTemplate`radial-gradient(${size}px circle at ${springX}px ${springY}px, ${color}${Math.round(intensity * 255).toString(16).padStart(2, '0')}, transparent 80%)`
 
   useEffect(() => {
     const container = containerRef.current
@@ -50,31 +52,34 @@ export default function OsmoCursorGlowEffect({
         className
       )}
     >
+      {/* Card grid to demonstrate the glow on surfaces */}
+      <div className="absolute inset-0 grid grid-cols-3 gap-4 p-6">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <motion.div
+            key={i}
+            className="relative rounded-xl border border-white/10 bg-white/[0.02] overflow-hidden"
+            style={{ background: isHovered ? background : undefined }}
+          >
+            <div className="relative z-10 p-4 h-full flex flex-col justify-end">
+              <div className="h-3 w-16 rounded bg-white/10 mb-2" />
+              <div className="h-2 w-24 rounded bg-white/5" />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Global glow overlay */}
       <motion.div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          x: springX,
-          y: springY,
-          width: size,
-          height: size,
-          marginLeft: -size / 2,
-          marginTop: -size / 2,
-          background: `radial-gradient(circle, ${color}${Math.round(intensity * 255).toString(16).padStart(2, '0')} 0%, transparent 70%)`,
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          mixBlendMode: 'screen',
-        }}
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: isHovered ? background : undefined }}
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
       />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <h3 className="text-2xl font-bold text-white/90">Glow Effect</h3>
-          <p className="text-white/50 text-sm max-w-xs">
-            Move your cursor to see the glow follow
-          </p>
+
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="text-center space-y-2 bg-neutral-950/60 px-6 py-4 rounded-xl backdrop-blur-sm">
+          <h3 className="text-xl font-bold text-white/90">Cursor Glow</h3>
+          <p className="text-white/40 text-sm">Cards illuminate as your cursor passes over</p>
         </div>
       </div>
     </div>

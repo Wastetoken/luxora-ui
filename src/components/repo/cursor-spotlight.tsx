@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef, useEffect, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'motion/react'
+import { motion, useMotionValue, useSpring, useMotionTemplate } from 'motion/react'
 import { cn } from '@/lib/utils'
 
 export interface OsmoCursorSpotlightProps {
@@ -14,7 +14,7 @@ export interface OsmoCursorSpotlightProps {
 export default function OsmoCursorSpotlight({
   size = 250,
   borderColor = '#f59e0b',
-  content = 'Hidden content revealed by spotlight. Move your cursor to explore the darkness.',
+  content = 'Hidden content revealed by spotlight. Move your cursor to explore the darkness and uncover what lies beneath.',
   className,
 }: OsmoCursorSpotlightProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -25,6 +25,8 @@ export default function OsmoCursorSpotlight({
 
   const springX = useSpring(mouseX, { damping: 30, stiffness: 250 })
   const springY = useSpring(mouseY, { damping: 30, stiffness: 250 })
+
+  const maskImage = useMotionTemplate`radial-gradient(circle ${size / 2}px at ${springX}px ${springY}px, transparent 0%, black 100%)`
 
   useEffect(() => {
     const container = containerRef.current
@@ -50,25 +52,35 @@ export default function OsmoCursorSpotlight({
         className
       )}
     >
+      {/* Hidden content underneath */}
       <div className="absolute inset-0 flex items-center justify-center p-12">
-        <p className="text-white/80 text-xl font-medium text-center leading-relaxed max-w-lg">
-          {content}
-        </p>
+        <div className="text-center max-w-lg space-y-4">
+          <h3 className="text-2xl font-bold text-white">🔦 You found it!</h3>
+          <p className="text-white/80 text-lg font-medium leading-relaxed">
+            {content}
+          </p>
+          <div className="flex gap-3 justify-center">
+            <div className="w-20 h-20 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-3xl">✨</div>
+            <div className="w-20 h-20 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-3xl">💎</div>
+            <div className="w-20 h-20 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-3xl">🌟</div>
+          </div>
+        </div>
       </div>
 
+      {/* Dark overlay with spotlight hole */}
       <motion.div
         style={{
           position: 'absolute',
           inset: 0,
           pointerEvents: 'none',
-          background: 'rgba(0,0,0,0.95)',
-          maskImage: `radial-gradient(circle ${size / 2}px at var(--mx) var(--my), transparent 0%, black 100%)`,
-          WebkitMaskImage: `radial-gradient(circle ${size / 2}px at var(--mx) var(--my), transparent 0%, black 100%)`,
+          background: 'rgba(0,0,0,0.97)',
+          maskImage: isActive ? maskImage : undefined,
+          WebkitMaskImage: isActive ? maskImage : undefined,
         }}
-        animate={{ opacity: isActive ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
+        animate={{ opacity: isActive ? 1 : 1 }}
       />
 
+      {/* Spotlight ring */}
       {isActive && (
         <motion.div
           style={{
@@ -90,7 +102,7 @@ export default function OsmoCursorSpotlight({
       )}
 
       {!isActive && (
-        <div className="absolute inset-0 bg-neutral-950 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center z-10">
           <p className="text-white/40 text-lg">Hover to reveal</p>
         </div>
       )}
