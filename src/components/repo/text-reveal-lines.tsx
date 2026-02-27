@@ -25,23 +25,33 @@ export default function OsmoTextRevealLines({
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 0.8', 'start 0.2'],
+    offset: ['start end', 'end start'],
   })
 
   return (
-    <div ref={containerRef} className={cn('py-32 px-8', className)}>
-      <div className="max-w-4xl mx-auto">
-        {lines.map((line, i) => (
-          <RevealLine
-            key={i}
-            line={line}
-            index={i}
-            total={lines.length}
-            scrollYProgress={scrollYProgress}
-            staggerDelay={staggerDelay}
-          />
-        ))}
+    <div ref={containerRef} className={cn('relative', className)}>
+      {/* Pre-spacer */}
+      <div className="h-[50vh] flex items-center justify-center">
+        <p className="text-white/30 text-sm">↓ Scroll to reveal ↓</p>
       </div>
+
+      <div className="py-32 px-8">
+        <div className="max-w-4xl mx-auto">
+          {lines.map((line, i) => (
+            <RevealLine
+              key={i}
+              line={line}
+              index={i}
+              total={lines.length}
+              scrollYProgress={scrollYProgress}
+              staggerDelay={staggerDelay}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Post-spacer */}
+      <div className="h-[50vh]" />
     </div>
   )
 }
@@ -59,8 +69,8 @@ function RevealLine({
   scrollYProgress: ReturnType<typeof useScroll>['scrollYProgress']
   staggerDelay: number
 }) {
-  const start = (index / total) * 0.7
-  const end = start + 0.3
+  const start = (index / total) * 0.5 + 0.1
+  const end = start + 0.25
 
   const y = useTransform(scrollYProgress, [start, end], [40, 0])
   const opacity = useTransform(scrollYProgress, [start, end], [0, 1])

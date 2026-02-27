@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { cn } from '@/lib/utils'
 
@@ -17,16 +17,20 @@ export default function OsmoScrollMorphHeader({
   accentColor = '#8b5cf6',
   className,
 }: OsmoScrollMorphHeaderProps) {
-  const { scrollY } = useScroll()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  })
 
-  const headerHeight = useTransform(scrollY, [0, 200], [120, 60])
-  const titleSize = useTransform(scrollY, [0, 200], [2.5, 1.2])
-  const bgOpacity = useTransform(scrollY, [0, 150], [0, 0.95])
-  const borderOpacity = useTransform(scrollY, [100, 200], [0, 0.2])
-  const padding = useTransform(scrollY, [0, 200], [32, 16])
+  const headerHeight = useTransform(scrollYProgress, [0, 0.15], [120, 60])
+  const titleSize = useTransform(scrollYProgress, [0, 0.15], [2.5, 1.2])
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 0.95])
+  const borderOpacity = useTransform(scrollYProgress, [0.08, 0.15], [0, 0.2])
+  const padding = useTransform(scrollYProgress, [0, 0.15], [32, 16])
 
   return (
-    <div className={cn('relative', className)}>
+    <div ref={containerRef} className={cn('relative', className)}>
       <motion.header
         style={{
           height: headerHeight,
@@ -72,7 +76,7 @@ export default function OsmoScrollMorphHeader({
       </motion.header>
 
       <div className="px-8 py-20 space-y-8">
-        {Array.from({ length: 10 }).map((_, i) => (
+        {Array.from({ length: 15 }).map((_, i) => (
           <div key={i} className="h-32 rounded-xl bg-white/5 border border-white/10" />
         ))}
       </div>
