@@ -31,6 +31,7 @@ import ElectricCursorDemo from "@/components/demos/ElectricCursorDemo";
 import FeatherCursorDemo from "@/components/demos/FeatherCursorDemo";
 import ReptileCursorDemo from "@/components/demos/ReptileCursorDemo";
 import FluidInversionCursorDemo from "@/components/demos/FluidInversionCursorDemo";
+import WaitlistLandingDemo from "@/components/demos/WaitlistLandingDemo";
 import { Skiper67 } from "@/components/repo/skiper67";
 // Skiper collection
 import { Skiper3 } from "@/components/repo/skiper3";
@@ -296,6 +297,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "luxora-bg-ripple", name: "Luxora BG Ripple", category: "Shaders & Effects", component: LuxoraBgRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraBgRipple" },
   
   { id: "luxora-hero-text-ripple", name: "Luxora Hero Text Ripple", category: "Shaders & Effects", component: LuxoraHeroTextRipple, sourceFile: "luxora-bg-ripple.tsx", needsFullscreen: true, exportName: "LuxoraHeroTextRipple" },
+  { id: "waitlist-landing", name: "Waitlist Landing Page", category: "Heroes & Sections", component: WaitlistLandingDemo, sourceFile: "waitlist-landing.tsx", needsFullscreen: true, exportName: "WaitlistLanding", nativeTheme: "dark" },
 
   // Osmo Collection
   { id: "animated-background-grid", name: "Animated Background Grid", category: "Animations", component: OsmoAnimatedBackgroundGrid, sourceFile: "animated-background-grid.tsx", dependencies: ["motion"], exportName: "OsmoAnimatedBackgroundGrid", isDefaultExport: true },
