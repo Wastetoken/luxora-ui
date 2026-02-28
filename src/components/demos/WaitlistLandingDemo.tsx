@@ -1,13 +1,14 @@
+import { forwardRef } from "react";
 import { WaitlistLanding } from "@/components/repo/waitlist-landing";
 
-const WaitlistLandingDemo = () => {
+const WaitlistLandingDemo = forwardRef<HTMLDivElement>((_, ref) => {
   return (
-    <WaitlistLanding
-      brandName="STARLABS"
-      accentColor="#c4f74a"
-      onSubmit={(data) => console.log("Waitlist signup:", data)}
-    />
+    <div ref={ref} className="h-full w-full">
+      <WaitlistLanding />
+    </div>
   );
-};
+});
+
+WaitlistLandingDemo.displayName = "WaitlistLandingDemo";
 
 export default WaitlistLandingDemo;
