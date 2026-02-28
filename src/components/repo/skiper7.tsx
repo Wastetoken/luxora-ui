@@ -178,8 +178,8 @@ const Preloader_001 = () => {
       <div className="absolute inset-0 z-20">
         <video className="h-full w-full object-cover" autoPlay muted playsInline>
           <source
-            src="https://pub-1ae9a3d95ead4a65b5c663c4d43d1de2.r2.dev/InShot_20260227_152123821.mp4"
-            type="video/mp4"
+            src="https://pub-1ae9a3d95ead4a65b5c663c4d43d1de2.r2.dev/TypographyAnimation.webm"
+            type="video/webm"
           />
         </video>
       </div>
