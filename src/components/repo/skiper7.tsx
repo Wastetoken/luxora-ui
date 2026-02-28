@@ -149,7 +149,11 @@ const Main = () => {
         className="absolute bottom-0 z-0 h-[50vh]"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/skiperv1/skiper7/bg.png" alt="" className="size-full object-cover" />
+        <img
+          src="https://pub-6738c828bef548d69b3f13bdd680b5b0.r2.dev/628cf7aba738c720385583.jpg"
+          alt=""
+          className="size-full object-cover"
+        />
       </motion.div>
     </div>
   );
