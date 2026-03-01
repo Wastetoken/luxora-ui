@@ -6,7 +6,9 @@
  * Built with Spline (https://spline.design)
  */
 
-import Spline from '@splinetool/react-spline';
+import { Suspense, lazy } from 'react';
+
+const Spline = lazy(() => import('@splinetool/react-spline'));
 
 interface SplineSceneProps {
   scene?: string;
@@ -19,7 +21,9 @@ export const SplineScene = ({
 }: SplineSceneProps) => {
   return (
     <div className={className ?? "w-full h-screen bg-black"}>
-      <Spline scene={scene} />
+      <Suspense fallback={<div className="w-full h-full flex items-center justify-center bg-black text-white/50 text-sm">Loading 3D scene…</div>}>
+        <Spline scene={scene} />
+      </Suspense>
     </div>
   );
 };
