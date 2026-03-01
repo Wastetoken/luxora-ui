@@ -95,6 +95,7 @@ import { GrokAI } from "@/components/repo/grok-ai";
 import { LiquidGallery } from "@/components/repo/liquid-gallery";
 import { Portfolio } from "@/components/repo/portfolio";
 import { LuxoraBgRipple, LuxoraHeroTextRipple } from "@/components/repo/luxora-bg-ripple";
+import { SplineScene } from "@/components/repo/spline-scene";
 
 // Osmo Collection
 import OsmoAnimatedBackgroundGrid from "@/components/repo/animated-background-grid";
@@ -200,6 +201,9 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "morphogen", name: "Morphogen", category: "Shaders & Effects", component: MorphogenPreview, sourceFile: "morphogen.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "MorphogenPreview" },
   { id: "erosion", name: "Erosion", category: "Shaders & Effects", component: ErosionPreview, sourceFile: "erosion.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "ErosionPreview" },
   { id: "lenia", name: "Lenia", category: "Shaders & Effects", component: LeniaPreview, sourceFile: "lenia.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "LeniaPreview" },
+
+  // 3D
+  { id: "spline-scene", name: "Spline 3D Scene", category: "3D", component: SplineScene, sourceFile: "spline-scene.tsx", needsFullscreen: true, dependencies: ["@splinetool/react-spline"], exportName: "SplineScene", isDefaultExport: true },
 
   // Animations
   { id: "fluid-blob", name: "Fluid Blob", category: "Animations", component: LavaLamp, sourceFile: "fluid-blob.tsx", dependencies: ["three", "@react-three/fiber"], exportName: "LavaLamp" },
