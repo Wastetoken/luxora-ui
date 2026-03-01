@@ -20,10 +20,12 @@ export const SplineScene = ({
   className,
 }: SplineSceneProps) => {
   return (
-    <div className={className ?? "w-full h-screen bg-black"}>
-      <Suspense fallback={<div className="w-full h-full flex items-center justify-center bg-black text-white/50 text-sm">Loading 3D scene…</div>}>
-        <Spline scene={scene} />
+    <div className={className ?? "w-full h-[300vh] bg-black relative"}>
+      <Suspense fallback={<div className="w-full h-screen flex items-center justify-center bg-black text-white/50 text-sm">Loading 3D scene…</div>}>
+        <Spline scene={scene} style={{ width: '100%', height: '100%' }} />
       </Suspense>
+      {/* Gradient overlay to hide Spline watermark */}
+      <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent z-50" />
     </div>
   );
 };
