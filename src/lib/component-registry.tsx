@@ -96,6 +96,7 @@ import { LiquidGallery } from "@/components/repo/liquid-gallery";
 import { Portfolio } from "@/components/repo/portfolio";
 import { LuxoraBgRipple, LuxoraHeroTextRipple } from "@/components/repo/luxora-bg-ripple";
 import { SplineScene } from "@/components/repo/spline-scene";
+import { PoisonLibrary } from "@/components/repo/poison-library";
 
 // Osmo Collection
 import OsmoAnimatedBackgroundGrid from "@/components/repo/animated-background-grid";
