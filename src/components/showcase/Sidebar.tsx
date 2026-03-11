@@ -23,6 +23,7 @@ const categoryOrder = [
   "Scroll Effects",
   "Interactive",
   "Cards & Layout",
+  "Poison Library",
   "Skiper Collection",
 ];
 

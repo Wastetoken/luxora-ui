@@ -96,6 +96,7 @@ import { LiquidGallery } from "@/components/repo/liquid-gallery";
 import { Portfolio } from "@/components/repo/portfolio";
 import { LuxoraBgRipple, LuxoraHeroTextRipple } from "@/components/repo/luxora-bg-ripple";
 import { SplineScene } from "@/components/repo/spline-scene";
+import { PoisonLibrary } from "@/components/repo/poison-library";
 
 // Osmo Collection
 import OsmoAnimatedBackgroundGrid from "@/components/repo/animated-background-grid";
@@ -372,4 +373,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "background-gradient-animation", name: "Background Gradient Animation", category: "Shaders & Effects", component: AceternityBackgroundGradient, sourceFile: "background-gradient-animation.tsx", exportName: "AceternityBackgroundGradientWrapper", isDefaultExport: true },
   { id: "background-ripple-effect", name: "Background Ripple Grid", category: "Interactive", component: BackgroundRippleEffectWrapper, sourceFile: "background-ripple-effect.tsx", exportName: "BackgroundRippleEffectWrapper", isDefaultExport: true },
   { id: "comet-card", name: "Comet Card", category: "Cards & Layout", component: CometCardWrapper, sourceFile: "comet-card.tsx", dependencies: ["motion"], exportName: "CometCardWrapper", isDefaultExport: true },
+
+  // Poison Library Collection
+  { id: "poison-library", name: "Poison Library – DAW UI", category: "Poison Library", component: PoisonLibrary, sourceFile: "poison-library.tsx", needsFullscreen: true, dependencies: ["lucide-react"], exportName: "PoisonLibrary" },
 ];
