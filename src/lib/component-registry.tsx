@@ -208,10 +208,10 @@ export const componentRegistry: ComponentEntry[] = [
 
   // Animations
   { id: "fluid-blob", name: "Fluid Blob", category: "Animations", component: LavaLamp, sourceFile: "fluid-blob.tsx", dependencies: ["three", "@react-three/fiber"], exportName: "LavaLamp" },
-  { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "ContainerScroll, GalleryContainer, GalleryCol" },
+  { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx", exportName: "CircleAnimationsGrid1" },
+  { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx", exportName: "CircleAnimationsGrid3" },
+  { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx", exportName: "CircleAnimationsGrid4" },
+  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "AnimatedGallery" },
 
   // Text Effects
   { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx", dependencies: ["framer-motion"], exportName: "TextRoll" },
