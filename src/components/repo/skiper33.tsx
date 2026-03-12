@@ -124,7 +124,7 @@ const WithFramerMotion = ({ className }: { className?: string }) => {
   };
 
   return (
-    <ReactLenis root>
+    <>
       <div className={cn("relative w-full overflow-hidden", className)}>
         <div ref={mainRef} className="relative w-full overflow-hidden">
           {/* Intro Section */}
