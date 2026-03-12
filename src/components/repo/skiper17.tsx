@@ -156,7 +156,6 @@ const Skiper17 = () => {
   ];
 
   return (
-    <ReactLenis root>
       <div className="h-full w-full">
         <StickyCard002 cards={defaultCards} />
       </div>
