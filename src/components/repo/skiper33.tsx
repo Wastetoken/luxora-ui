@@ -3,7 +3,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import ReactLenis from "lenis/react";
 import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -125,7 +124,7 @@ const WithFramerMotion = ({ className }: { className?: string }) => {
   };
 
   return (
-    <ReactLenis root>
+    <>
       <div className={cn("relative w-full overflow-hidden", className)}>
         <div ref={mainRef} className="relative w-full overflow-hidden">
           {/* Intro Section */}
@@ -158,7 +157,7 @@ const WithFramerMotion = ({ className }: { className?: string }) => {
           </section>
         </div>
       </div>
-    </ReactLenis>
+    </>
   );
 };
 

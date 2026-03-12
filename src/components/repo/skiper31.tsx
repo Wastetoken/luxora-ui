@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import ReactLenis from "lenis/react";
 import React, { useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -148,7 +147,7 @@ const Skiper31 = () => {
   const iconCenterIndex = Math.floor(macIcon.length / 2);
 
   return (
-    <ReactLenis root>
+    <>
       <main className="w-full bg-white">
         <div className="top-22 absolute left-1/2 z-10 grid -translate-x-1/2 content-start justify-items-center gap-6 text-center text-black">
           <span className="relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:from-[#f5f4f3] after:to-black after:content-['']">
@@ -229,7 +228,7 @@ const Skiper31 = () => {
           </div>
         </div>
       </main>
-    </ReactLenis>
+    </>
   );
 };
 

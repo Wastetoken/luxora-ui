@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import ReactLenis from "lenis/react";
 import React, { useRef } from "react";
 
 const projects = [
@@ -72,8 +71,7 @@ const Skiper16 = () => {
   });
 
   return (
-    <ReactLenis root>
-      <main
+    <main
         ref={container}
         className="relative flex w-full flex-col items-center justify-center pb-[100vh] pt-[50vh]"
       >
@@ -98,8 +96,7 @@ const Skiper16 = () => {
             />
           );
         })}
-      </main>
-    </ReactLenis>
+    </main>
   );
 };
 

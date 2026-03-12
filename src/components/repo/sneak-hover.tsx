@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-export const Component = () => {
+export const SneakHover = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sceneInitialized = useRef(false);
 

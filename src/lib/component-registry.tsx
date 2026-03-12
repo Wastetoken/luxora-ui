@@ -2,15 +2,15 @@ import { ComponentType } from "react";
 
 // Real component imports from the repo
 import HorizonHeroDemo from "@/components/demos/HorizonHeroDemo";
-import { Component as HeroSection } from "@/components/repo/hero-section";
+import { HeroSection } from "@/components/repo/hero-section";
 import MilHardware from "@/components/repo/mil-hardware";
 import Bloodlines from "@/components/repo/bloodlines";
 import LiquidChrome from "@/components/repo/liquid-chrome";
 import Waves from "@/components/repo/waves";
 import { LavaLamp } from "@/components/repo/fluid-blob";
 import DisplayCards from "@/components/repo/display-cards";
-import { Component as SneakHover } from "@/components/repo/sneak-hover";
-import { Component as FlybyScroll } from "@/components/repo/flyby-scroll";
+import { SneakHover } from "@/components/repo/sneak-hover";
+import { FlybyScroll } from "@/components/repo/flyby-scroll";
 import { CircleAnimationsGrid as CircleAnimations1 } from "@/components/repo/circle-animations-collection";
 import { CircleAnimationsGrid as CircleAnimations3 } from "@/components/repo/circle-animations-collection-3";
 import { CircleAnimationsGrid as CircleAnimations4 } from "@/components/repo/circle-animations-collection-4";
@@ -191,12 +191,12 @@ export interface ComponentEntry {
 export const componentRegistry: ComponentEntry[] = [
   // Heroes & Sections
   { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx", needsFullscreen: true, dependencies: ["three", "gsap"], exportName: "HorizonHero" },
-  { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx", exportName: "Component" },
+  { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx", exportName: "HeroSection" },
 
   // Shaders & Effects
-  { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "SilkShader", isDefaultExport: true },
-  { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx", exportName: "SilkShader", isDefaultExport: true },
-  { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx", exportName: "SilkShader", isDefaultExport: true },
+  { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "BloodlinesShader", isDefaultExport: true },
+  { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx", exportName: "LiquidChromeShader", isDefaultExport: true },
+  { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx", exportName: "WavesShader", isDefaultExport: true },
   { id: "singularity", name: "Singularity", category: "Shaders & Effects", component: SingularityPreview, sourceFile: "singularity.tsx", needsFullscreen: true, dependencies: ["animejs", "three"], exportName: "SingularityPreview" },
   { id: "attractor", name: "Attractor", category: "Shaders & Effects", component: AttractorPreview, sourceFile: "attractor.tsx", needsFullscreen: true, dependencies: ["animejs", "three"], exportName: "AttractorPreview" },
   { id: "morphogen", name: "Morphogen", category: "Shaders & Effects", component: MorphogenPreview, sourceFile: "morphogen.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "MorphogenPreview" },
@@ -208,10 +208,10 @@ export const componentRegistry: ComponentEntry[] = [
 
   // Animations
   { id: "fluid-blob", name: "Fluid Blob", category: "Animations", component: LavaLamp, sourceFile: "fluid-blob.tsx", dependencies: ["three", "@react-three/fiber"], exportName: "LavaLamp" },
-  { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx", exportName: "CircleAnimationsGrid" },
-  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "ContainerScroll, GalleryContainer, GalleryCol" },
+  { id: "circle-animations-1", name: "Circle Animations 1", category: "Animations", component: CircleAnimations1, sourceFile: "circle-animations-collection.tsx", exportName: "CircleAnimationsGrid1" },
+  { id: "circle-animations-3", name: "Circle Animations 3", category: "Animations", component: CircleAnimations3, sourceFile: "circle-animations-collection-3.tsx", exportName: "CircleAnimationsGrid3" },
+  { id: "circle-animations-4", name: "Circle Animations 4", category: "Animations", component: CircleAnimations4, sourceFile: "circle-animations-collection-4.tsx", exportName: "CircleAnimationsGrid4" },
+  { id: "animated-gallery", name: "Animated Gallery", category: "Animations", component: AnimatedGalleryDemo, sourceFile: "animated-gallery.tsx", needsFullscreen: true, dependencies: ["motion"], exportName: "AnimatedGallery" },
 
   // Text Effects
   { id: "text-roll-navigation", name: "Text Roll Navigation", category: "Text Effects", component: TextRollDemo, sourceFile: "text-roll-navigation.tsx", dependencies: ["framer-motion"], exportName: "TextRoll" },
@@ -220,7 +220,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "text-scroll-animation", name: "Text Scroll Animation", category: "Text Effects", component: Skiper31, sourceFile: "text-scroll-animation.tsx", needsFullscreen: true, dependencies: ["framer-motion", "lenis"], exportName: "Skiper31" },
 
   // Scroll Effects
-  { id: "flyby-scroll", name: "Flyby Scroll", category: "Scroll Effects", component: FlybyScroll, sourceFile: "flyby-scroll.tsx", exportName: "Component" },
+  { id: "flyby-scroll", name: "Flyby Scroll", category: "Scroll Effects", component: FlybyScroll, sourceFile: "flyby-scroll.tsx", exportName: "FlybyScroll" },
   { id: "svg-follow-scroll", name: "SVG Path Scroll", category: "Scroll Effects", component: SvgFollowScroll, sourceFile: "svg-follow-scroll.tsx", needsFullscreen: true, dependencies: ["framer-motion"], exportName: "Skiper19" },
   { id: "image-trail-effect", name: "Image Trail Effect", category: "Scroll Effects", component: ImageTrailDemo, sourceFile: "image-trail-effect.tsx", dependencies: ["gsap"], exportName: "TrailWrapper", isDefaultExport: true },
 
@@ -233,7 +233,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "fluid-inversion-cursor", name: "Fluid Inversion Cursor", category: "Cursors", component: FluidInversionCursorDemo, sourceFile: "fluid-inversion-cursor.tsx", needsFullscreen: true, exportName: "FluidInversionCursor", nativeTheme: "light" },
 
   // Interactive
-  { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "Component" },
+  { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "SneakHover" },
   { id: "menu-animations", name: "Menu Animations", category: "Interactive", component: MenuAnimationsDemo, sourceFile: "menu-animations.tsx", dependencies: ["gsap"], exportName: "MenuAnimation" },
 
   // Cards & Layout

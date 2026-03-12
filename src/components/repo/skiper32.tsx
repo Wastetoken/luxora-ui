@@ -3,7 +3,6 @@
 import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import ReactLenis from "lenis/react";
 import React, { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -29,7 +28,7 @@ const WithFramerMotion = () => {
   });
 
   return (
-    <ReactLenis root>
+    <>
       <div ref={targetRef} className="relative z-0 h-[300vh]">
         <div className="top-22 absolute left-1/2 z-10 grid -translate-x-1/2 content-start justify-items-center gap-6 text-center">
           <span className="after:from-background after:to-foreground relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:content-['']">
@@ -53,7 +52,7 @@ const WithFramerMotion = () => {
           ))}
         </div>
       </div>
-    </ReactLenis>
+    </>
   );
 };
 

@@ -7,7 +7,6 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import ReactLenis from "lenis/react";
 import React, { useEffect, useRef, useState } from "react";
 
 const images = [
@@ -22,7 +21,7 @@ const images = [
 
 const Skiper34 = () => {
   return (
-    <ReactLenis root>
+    <>
       <section className="relative flex w-screen flex-col items-center gap-[10vh] px-4 pt-[50vh] bg-white">
         <div className="absolute left-1/2 top-24 grid -translate-x-1/2 content-start justify-items-center gap-6 text-center text-black">
           <span className="after:from-background after:to-foreground relative max-w-[12ch] text-xs uppercase leading-tight opacity-40 after:absolute after:left-1/2 after:top-full after:h-16 after:w-px after:bg-gradient-to-b after:content-['']">
@@ -33,7 +32,7 @@ const Skiper34 = () => {
           <StickyCard_003 key={idx} imgUrl={img} />
         ))}
       </section>
-    </ReactLenis>
+    </>
   );
 };
 
