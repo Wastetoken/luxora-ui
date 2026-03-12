@@ -53,7 +53,7 @@ const Skiper28 = () => {
           </motion.div>
         </div>
       </div>
-    </ReactLenis>
+    </>
   );
 };
 

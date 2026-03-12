@@ -32,7 +32,7 @@ const Skiper34 = () => {
           <StickyCard_003 key={idx} imgUrl={img} />
         ))}
       </section>
-    </ReactLenis>
+    </>
   );
 };
 

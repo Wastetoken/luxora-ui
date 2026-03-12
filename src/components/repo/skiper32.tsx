@@ -52,7 +52,7 @@ const WithFramerMotion = () => {
           ))}
         </div>
       </div>
-    </ReactLenis>
+    </>
   );
 };
 

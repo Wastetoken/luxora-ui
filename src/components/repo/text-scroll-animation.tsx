@@ -186,7 +186,7 @@ const Skiper31 = () => {
           </div>
         </div>
       </main>
-    </ReactLenis>
+    </>
   );
 };
 

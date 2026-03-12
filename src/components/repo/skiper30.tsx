@@ -35,29 +35,11 @@ const Skiper30 = () => {
   const y3 = useTransform(scrollYProgress, [0, 1], [0, height * 1.25]);
   const y4 = useTransform(scrollYProgress, [0, 1], [0, height * 3]);
 
-  useEffect(() => {
-    const lenis = new Lenis();
-
-    let rafId: number;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    };
-
-    const resize = () => {
+  useState(() => {
+    if (typeof window !== "undefined") {
       setDimension({ width: window.innerWidth, height: window.innerHeight });
-    };
-
-    window.addEventListener("resize", resize);
-    rafId = requestAnimationFrame(raf);
-    resize();
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
+    }
+  });
 
   return (
     <main className="w-full bg-[#eee] text-black">

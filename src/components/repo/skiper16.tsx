@@ -97,8 +97,7 @@ const Skiper16 = () => {
             />
           );
         })}
-      </main>
-    </ReactLenis>
+    </main>
   );
 };
 

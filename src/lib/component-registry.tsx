@@ -233,7 +233,7 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "fluid-inversion-cursor", name: "Fluid Inversion Cursor", category: "Cursors", component: FluidInversionCursorDemo, sourceFile: "fluid-inversion-cursor.tsx", needsFullscreen: true, exportName: "FluidInversionCursor", nativeTheme: "light" },
 
   // Interactive
-  { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "Component" },
+  { id: "sneak-hover", name: "Sneak Hover", category: "Interactive", component: SneakHover, sourceFile: "sneak-hover.tsx", dependencies: ["three"], exportName: "SneakHover" },
   { id: "menu-animations", name: "Menu Animations", category: "Interactive", component: MenuAnimationsDemo, sourceFile: "menu-animations.tsx", dependencies: ["gsap"], exportName: "MenuAnimation" },
 
   // Cards & Layout

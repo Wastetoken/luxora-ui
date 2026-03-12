@@ -157,7 +157,7 @@ const WithFramerMotion = ({ className }: { className?: string }) => {
           </section>
         </div>
       </div>
-    </ReactLenis>
+    </>
   );
 };
 
