@@ -2,7 +2,7 @@ import { ComponentType } from "react";
 
 // Real component imports from the repo
 import HorizonHeroDemo from "@/components/demos/HorizonHeroDemo";
-import { Component as HeroSection } from "@/components/repo/hero-section";
+import { HeroSection } from "@/components/repo/hero-section";
 import MilHardware from "@/components/repo/mil-hardware";
 import Bloodlines from "@/components/repo/bloodlines";
 import LiquidChrome from "@/components/repo/liquid-chrome";
