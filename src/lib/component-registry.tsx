@@ -194,9 +194,9 @@ export const componentRegistry: ComponentEntry[] = [
   { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx", exportName: "HeroSection" },
 
   // Shaders & Effects
-  { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "SilkShader", isDefaultExport: true },
-  { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx", exportName: "SilkShader", isDefaultExport: true },
-  { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx", exportName: "SilkShader", isDefaultExport: true },
+  { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "BloodlinesShader", isDefaultExport: true },
+  { id: "liquid-chrome", name: "Liquid Chrome", category: "Shaders & Effects", component: LiquidChrome, sourceFile: "liquid-chrome.tsx", exportName: "LiquidChromeShader", isDefaultExport: true },
+  { id: "waves", name: "Waves Shader", category: "Shaders & Effects", component: Waves, sourceFile: "waves.tsx", exportName: "WavesShader", isDefaultExport: true },
   { id: "singularity", name: "Singularity", category: "Shaders & Effects", component: SingularityPreview, sourceFile: "singularity.tsx", needsFullscreen: true, dependencies: ["animejs", "three"], exportName: "SingularityPreview" },
   { id: "attractor", name: "Attractor", category: "Shaders & Effects", component: AttractorPreview, sourceFile: "attractor.tsx", needsFullscreen: true, dependencies: ["animejs", "three"], exportName: "AttractorPreview" },
   { id: "morphogen", name: "Morphogen", category: "Shaders & Effects", component: MorphogenPreview, sourceFile: "morphogen.tsx", needsFullscreen: true, dependencies: ["animejs"], exportName: "MorphogenPreview" },
