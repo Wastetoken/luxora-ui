@@ -72,8 +72,7 @@ const Skiper16 = () => {
   });
 
   return (
-    <ReactLenis root>
-      <main
+    <main
         ref={container}
         className="relative flex w-full flex-col items-center justify-center pb-[100vh] pt-[50vh]"
       >
