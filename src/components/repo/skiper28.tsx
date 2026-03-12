@@ -6,7 +6,6 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import ReactLenis from "lenis/react";
 import React, { useRef } from "react";
 
 const Skiper28 = () => {
