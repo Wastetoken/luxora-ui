@@ -191,7 +191,7 @@ export interface ComponentEntry {
 export const componentRegistry: ComponentEntry[] = [
   // Heroes & Sections
   { id: "horizon-hero-section", name: "Horizon Hero", category: "Heroes & Sections", component: HorizonHeroDemo, sourceFile: "horizon-hero-section.tsx", needsFullscreen: true, dependencies: ["three", "gsap"], exportName: "HorizonHero" },
-  { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx", exportName: "Component" },
+  { id: "hero-section", name: "StackPilot Hero", category: "Heroes & Sections", component: HeroSection, sourceFile: "hero-section.tsx", exportName: "HeroSection" },
 
   // Shaders & Effects
   { id: "bloodlines", name: "Bloodlines Shader", category: "Shaders & Effects", component: Bloodlines, sourceFile: "bloodlines.tsx", exportName: "SilkShader", isDefaultExport: true },
