@@ -18,7 +18,7 @@ const Skiper28 = () => {
   const transform = useMotionTemplate`rotateX(30deg) translateY(${yMotionValue}px) translateZ(10px)`;
 
   return (
-    <ReactLenis root>
+    <>
       <div
         ref={targetRef}
         className="relative z-0 h-[300vh] w-screen bg-[#f5f4f3] text-black"
